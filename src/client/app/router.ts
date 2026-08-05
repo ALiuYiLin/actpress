@@ -1,9 +1,15 @@
-import type { Component, InjectionKey } from 'vue'
-import { inject, markRaw, nextTick, reactive, readonly } from 'vue'
+import type { InjectionKey } from 'vue'
+import { markRaw, nextTick, reactive, readonly } from 'actview'
 import type { Awaitable, PageData, PageDataPayload } from '../shared'
 import { notFoundPageData, treatAsHtml } from '../shared'
 import { siteDataRef } from './data'
 import { inBrowser, withBase } from './utils'
+
+/**
+ * 组件类型：md 页面为 ActView defineComponent 产物（{ __setup }）；
+ * 主题（Vue SFC）迁移后全部统一为 ActView 组件。
+ */
+export type Component = Record<string, any> | ((...args: any[]) => any)
 
 export interface Route {
   path: string
@@ -50,6 +56,9 @@ export interface Router {
 }
 
 export const RouterSymbol: InjectionKey<Router> = Symbol()
+
+/** 模块级单例（ActView 无 provide/inject；VitePress app 单实例） */
+let currentRouter: Router | null = null
 
 // we are just using URL to parse the pathname and hash - the base doesn't
 // matter and is only passed to support same-host hrefs
@@ -252,13 +261,15 @@ export function createRouter(
 
   handleHMR(route)
 
+  currentRouter = router
   return router
 }
 
 export function useRouter(): Router {
-  const router = inject(RouterSymbol)
-  if (!router) throw new Error('useRouter() is called without provider.')
-  return router
+  if (!currentRouter) {
+    throw new Error('useRouter() is called without provider.')
+  }
+  return currentRouter
 }
 
 export function useRoute(): Route {
