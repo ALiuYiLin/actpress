@@ -13,8 +13,8 @@
   transition: color 0.25s;
 }
 
-.VPSocialLink > :deep(svg),
-.VPSocialLink > :deep([class^='vpi-social-']) {
+.VPSocialLink > svg,
+.VPSocialLink > [class^='vpi-social-'] {
   width: 20px;
   height: 20px;
   fill: currentColor;

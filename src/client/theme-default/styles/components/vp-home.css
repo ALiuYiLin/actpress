@@ -28,19 +28,19 @@
   }
 }
 
-.vp-doc :deep(.VPHomeSponsors),
-.vp-doc :deep(.VPTeamPage) {
+.vp-doc .VPHomeSponsors,
+.vp-doc .VPTeamPage {
   margin-left: var(--vp-offset, calc(50% - 50vw));
   margin-right: var(--vp-offset, calc(50% - 50vw));
 }
 
-.vp-doc :deep(.VPHomeSponsors h2) {
+.vp-doc .VPHomeSponsors h2 {
   border-top: none;
   letter-spacing: normal;
 }
 
-.vp-doc :deep(.VPHomeSponsors a),
-.vp-doc :deep(.VPTeamPage a) {
+.vp-doc .VPHomeSponsors a,
+.vp-doc .VPTeamPage a {
   text-decoration: none;
 }
 
@@ -374,7 +374,7 @@
   }
 }
 
-:deep(.image-src) {
+.image-src {
   position: absolute;
   top: 50%;
   /*rtl:ignore*/
@@ -389,14 +389,14 @@
 }
 
 @media (min-width: 640px) {
-  :deep(.image-src) {
+  .image-src {
     max-width: 256px;
     max-height: 256px;
   }
 }
 
 @media (min-width: 960px) {
-  :deep(.image-src) {
+  .image-src {
     max-width: 320px;
     max-height: 320px;
   }
@@ -483,7 +483,7 @@
   height: 100%;
 }
 
-.box > :deep(.VPImage) {
+.box > .VPImage {
   margin-bottom: 20px;
 }
 

@@ -237,24 +237,24 @@
   opacity: 1;
 }
 
-.excerpt :deep(*) {
+.excerpt * {
   font-size: 0.8rem !important;
   line-height: 130% !important;
 }
 
-.titles :deep(mark),
-.excerpt :deep(mark) {
+.titles mark,
+.excerpt mark {
   background-color: var(--vp-local-search-highlight-bg);
   color: var(--vp-local-search-highlight-text);
   border-radius: 2px;
   padding: 0 2px;
 }
 
-.excerpt :deep(.vp-code-group) .tabs {
+.excerpt .vp-code-group .tabs {
   display: none;
 }
 
-.excerpt :deep(.vp-code-group) div[class*='language-'] {
+.excerpt .vp-code-group div[class*='language-'] {
   border-radius: 8px !important;
 }
 

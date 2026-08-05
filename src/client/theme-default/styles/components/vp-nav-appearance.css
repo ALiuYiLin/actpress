@@ -14,7 +14,7 @@
   opacity: 1;
 }
 
-.dark .VPSwitchAppearance :deep(.check) {
+.dark .VPSwitchAppearance .check {
   /*rtl:ignore*/
   transform: translateX(18px);
 }

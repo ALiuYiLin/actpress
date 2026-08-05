@@ -56,7 +56,7 @@
   pointer-events: none;
 }
 
-.container :deep(*) {
+.container * {
   pointer-events: auto;
 }
 
@@ -231,7 +231,7 @@
   }
 }
 
-:deep(.logo) {
+.logo {
   margin-right: 8px;
   height: var(--vp-nav-logo-height);
 }

@@ -76,7 +76,7 @@
   outline: 0;
 }
 
-.no-transition :deep(.caret-icon) {
+.no-transition .caret-icon {
   transition: none;
 }
 

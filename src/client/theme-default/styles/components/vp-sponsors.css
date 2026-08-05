@@ -12,12 +12,12 @@
   background-color: var(--vp-carbon-ads-bg-color);
 }
 
-.VPCarbonAds :deep(img) {
+.VPCarbonAds img {
   margin: 0 auto;
   border-radius: 6px;
 }
 
-.VPCarbonAds :deep(.carbon-text) {
+.VPCarbonAds .carbon-text {
   display: block;
   margin: 0 auto;
   padding-top: 12px;
@@ -25,11 +25,11 @@
   transition: color 0.25s;
 }
 
-.VPCarbonAds :deep(.carbon-text:hover) {
+.VPCarbonAds .carbon-text:hover {
   color: var(--vp-carbon-ads-hover-text-color);
 }
 
-.VPCarbonAds :deep(.carbon-poweredby) {
+.VPCarbonAds .carbon-poweredby {
   display: block;
   padding-top: 6px;
   font-size: 11px;
@@ -39,14 +39,14 @@
   transition: color 0.25s;
 }
 
-.VPCarbonAds :deep(.carbon-poweredby:hover) {
+.VPCarbonAds .carbon-poweredby:hover {
   color: var(--vp-carbon-ads-hover-poweredby-color);
 }
 
-.VPCarbonAds :deep(> div) {
+.VPCarbonAds > div {
   display: none;
 }
 
-.VPCarbonAds :deep(> div:first-of-type) {
+.VPCarbonAds > div:first-of-type {
   display: block;
 }
