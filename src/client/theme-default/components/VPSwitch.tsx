@@ -1,18 +1,16 @@
-import { createElement } from '@actview/jsx'
-import { defineComponent } from 'actview'
+export interface VPSwitchProps {
+  children?: any
+  [key: string]: any
+}
 
-export const VPSwitch = defineComponent(function (props: any = {}) {
-  return function () {
-    return createElement(
-      'button',
-      { class: 'VPSwitch', type: 'button', role: 'switch' },
-      createElement(
-        'span',
-        { class: 'check' },
-        props.children != null
-          ? createElement('span', { class: 'icon' }, props.children)
-          : null
-      )
-    )
-  }
-})
+export function VPSwitch(props: VPSwitchProps = {}) {
+  return (
+    <button type="button" role="switch" class="VPSwitch" {...props}>
+      <span class="check">
+        {props.children != null ? (
+          <span class="icon">{props.children}</span>
+        ) : null}
+      </span>
+    </button>
+  )
+}

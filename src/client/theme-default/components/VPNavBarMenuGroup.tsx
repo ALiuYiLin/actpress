@@ -1,5 +1,3 @@
-import { createElement } from '@actview/jsx'
-import { defineComponent } from 'actview'
 import type { DefaultTheme } from 'vitepress/theme'
 import { isActive } from '../../shared'
 import { useData } from '../composables/data'
@@ -9,9 +7,7 @@ export interface VPNavBarMenuGroupProps {
   item: DefaultTheme.NavItemWithChildren
 }
 
-export const VPNavBarMenuGroup = defineComponent(function (
-  props: VPNavBarMenuGroupProps
-) {
+export function VPNavBarMenuGroup(props: VPNavBarMenuGroupProps) {
   const { page } = useData()
 
   const isChildActive = (navItem: DefaultTheme.NavItem): boolean => {
@@ -30,15 +26,16 @@ export const VPNavBarMenuGroup = defineComponent(function (
     return navItem.items.some(isChildActive)
   }
 
-  return function () {
-    const item = props.item
-    const isActiveGroup = item.activeMatch
-      ? isActive(page.value.relativePath, item.activeMatch, true)
-      : isChildActive(item)
-    return createElement(VPFlyout, {
-      class: ['VPNavBarMenuGroup', isActiveGroup ? 'active' : ''].join(' '),
-      button: item.text,
-      items: item.items
-    })
-  }
-})
+  const item = props.item
+  const isActiveGroup = item.activeMatch
+    ? isActive(page.value.relativePath, item.activeMatch, true)
+    : isChildActive(item)
+
+  return (
+    <VPFlyout
+      class={['VPNavBarMenuGroup', isActiveGroup ? 'active' : ''].join(' ')}
+      button={item.text}
+      items={item.items}
+    />
+  )
+}

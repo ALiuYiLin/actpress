@@ -1,5 +1,3 @@
-import { createElement } from '@actview/jsx'
-import { defineComponent } from 'actview'
 import type { DefaultTheme } from 'vitepress/theme'
 import { VPMenuLink } from './VPMenuLink'
 
@@ -12,20 +10,15 @@ export interface VPMenuGroupProps {
   >
 }
 
-export const VPMenuGroup = defineComponent(function (props: VPMenuGroupProps) {
-  return function () {
-    return createElement(
-      'div',
-      { class: 'VPMenuGroup' },
-      props.text ? createElement('p', { class: 'title' }, props.text) : null,
-      props.items.map((item, i) =>
-        'link' in item
-          ? createElement(VPMenuLink, {
-              item: item as DefaultTheme.NavItemWithLink,
-              key: i
-            })
-          : null
-      )
-    )
-  }
-})
+export function VPMenuGroup(props: VPMenuGroupProps) {
+  return (
+    <div class="VPMenuGroup">
+      {props.text ? <p class="title">{props.text}</p> : null}
+      {props.items.map((item, i) =>
+        'link' in item ? (
+          <VPMenuLink key={i} item={item as DefaultTheme.NavItemWithLink} />
+        ) : null
+      )}
+    </div>
+  )
+}

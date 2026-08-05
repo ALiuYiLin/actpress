@@ -1,9 +1,8 @@
-import { createElement, Fragment } from '@actview/jsx'
-import { defineComponent, ref, watch } from 'actview'
+import { ref, watch } from 'actview'
 import { useRoute } from 'vitepress'
 import { useData } from '../composables/data'
 
-export const VPSkipLink = defineComponent(function (props: any) {
+export function VPSkipLink() {
   const { theme } = useData()
   const route = useRoute()
   const backToTop = ref<HTMLElement | undefined>(undefined)
@@ -13,16 +12,12 @@ export const VPSkipLink = defineComponent(function (props: any) {
     () => backToTop.value?.focus()
   )
 
-  return function () {
-    return createElement(
-      Fragment,
-      null,
-      createElement('span', { ref: backToTop, tabindex: '-1' }),
-      createElement(
-        'a',
-        { href: '#VPContent', class: 'VPSkipLink visually-hidden' },
-        theme.value.skipToContentLabel || 'Skip to content'
-      )
-    )
-  }
-})
+  return (
+    <>
+      <span ref={backToTop} tabindex="-1" />
+      <a href="#VPContent" class="VPSkipLink visually-hidden">
+        {theme.value.skipToContentLabel || 'Skip to content'}
+      </a>
+    </>
+  )
+}

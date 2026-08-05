@@ -1,5 +1,3 @@
-import { createElement } from '@actview/jsx'
-import { defineComponent } from 'actview'
 import type { DefaultTheme } from 'vitepress/theme'
 import { isActive } from '../../shared'
 import { useData } from '../composables/data'
@@ -10,30 +8,26 @@ export interface VPMenuLinkProps {
   rel?: string
 }
 
-export const VPMenuLink = defineComponent(function (props: VPMenuLinkProps) {
+export function VPMenuLink(props: VPMenuLinkProps) {
   const { page } = useData()
 
-  return function () {
-    const item = props.item
-    const href =
-      typeof item.link === 'function' ? item.link(page.value) : item.link
-    const isActiveLink = isActive(page.value.relativePath, href)
+  const item = props.item
+  const href =
+    typeof item.link === 'function' ? item.link(page.value) : item.link
+  const isActiveLink = isActive(page.value.relativePath, href)
 
-    return createElement(
-      'div',
-      { class: 'VPMenuLink' },
-      createElement(
-        VPLink,
-        {
-          class: isActiveLink ? 'active' : undefined,
-          href,
-          target: item.target,
-          rel: props.rel ?? item.rel,
-          noIcon: item.noIcon
-        },
-        // 原 v-html：ActView 无 innerHTML，文本渲染（item.text 通常为纯文本）
-        createElement('span', null, item.text ?? '')
-      )
-    )
-  }
-})
+  return (
+    <div class="VPMenuLink">
+      <VPLink
+        class={isActiveLink ? 'active' : undefined}
+        href={href}
+        target={item.target}
+        rel={props.rel ?? item.rel}
+        noIcon={item.noIcon}
+      >
+        {/* 原 v-html：ActView 无 innerHTML，文本渲染（item.text 通常为纯文本） */}
+        <span>{item.text ?? ''}</span>
+      </VPLink>
+    </div>
+  )
+}
