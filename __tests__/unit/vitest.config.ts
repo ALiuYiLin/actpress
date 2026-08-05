@@ -14,6 +14,31 @@ export default defineConfig({
       { find: 'node', replacement: resolve(dir, '../../src/node') },
       { find: 'shared', replacement: resolve(dir, '../../src/shared') },
       {
+        find: 'actview',
+        replacement: resolve(
+          dir,
+          'E:/code3/JSX-Demo/packages/actview/src/index.ts'
+        )
+      },
+      {
+        find: '@actview/core',
+        replacement: resolve(
+          dir,
+          'E:/code3/JSX-Demo/packages/core/src/index.ts'
+        )
+      },
+      {
+        find: '@actview/jsx',
+        replacement: resolve(dir, 'E:/code3/JSX-Demo/packages/jsx/src/index.ts')
+      },
+      {
+        find: '@actview/router',
+        replacement: resolve(
+          dir,
+          'E:/code3/JSX-Demo/packages/router/src/index.ts'
+        )
+      },
+      {
         find: /^vitepress$/,
         replacement: resolve(dir, '../../src/client/index.js')
       },
