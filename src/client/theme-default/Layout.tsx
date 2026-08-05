@@ -1,188 +1,115 @@
 // ============================================================
-// Layout — ActView 版渲染主干（Layout.vue 迁移的中间态）
+// Layout — ActView 版渲染主干（Layout.vue 完整迁移）
 //
-// B 阶段：最小可用结构（顶栏导航 + 侧边栏开关 + Content + 页脚），
-// 保证 dev 端到端可用；完整主题视觉（VPNav/VPSidebar/VPDoc 等）在
-// C 阶段逐个迁移 .vue 组件后恢复。
+// 结构对齐 Vue 原版：layout-top 插槽 → VPSkipLink → VPBackdrop →
+// VPNav → VPLocalNav → VPSidebar → VPContent → layout-bottom。
+// 具名插槽经 props 透传（ActView 无 slot 机制）；screen 状态由
+// useNav 内部管理（VPNav/VPSidebar 自读取）；侧边栏开合用
+// useSidebarControl（模块级单例）。
 // ============================================================
 
-import { defineComponent, ref } from 'actview'
+import { defineComponent } from 'actview'
 import { Content } from '../app/components/Content'
 import { useData } from '../app/data'
-import { withBase } from '../app/utils'
+import { useSidebarControl } from './composables/sidebar'
+import { registerWatchers } from './composables/layout'
+import { VPBackdrop } from './components/VPBackdrop'
+import { VPContent } from './components/VPContent'
+import { VPLocalNav } from './components/VPLocalNav'
+import { VPNav } from './components/VPNav'
+import { VPSidebar } from './components/VPSidebar'
 import { VPSkipLink } from './components/VPSkipLink'
 
-function renderSidebarItems(items: any[] | undefined, indent: number): any[] {
-  if (!Array.isArray(items)) return []
-  return items.flatMap((item) => {
-    if (typeof item === 'string') {
-      return [
-        <div class="sidebar-group" style={{ marginLeft: indent * 12 + 'px' }}>
-          {item}
-        </div>
-      ]
-    }
-    if (item.text && item.link) {
-      return [
-        <a
-          class="sidebar-link"
-          style={{ display: 'block', marginLeft: indent * 12 + 'px' }}
-          href={withBase(item.link)}
-        >
-          {item.text}
-        </a>,
-        ...renderSidebarItems(item.items, indent + 1)
-      ]
-    }
-    if (item.text) {
-      return [
-        <div class="sidebar-heading" style={{ marginLeft: indent * 12 + 'px' }}>
-          {item.text}
-        </div>,
-        ...renderSidebarItems(item.items, indent + 1)
-      ]
-    }
-    return []
-  })
+export interface LayoutProps {
+  // layout-top / layout-bottom（原具名插槽）
+  layoutTop?: any
+  layoutBottom?: any
+  // VPNav 透传
+  navBarTitleBefore?: any
+  navBarTitleAfter?: any
+  navBarContentBefore?: any
+  navBarContentAfter?: any
+  navScreenContentBefore?: any
+  navScreenContentAfter?: any
+  // VPSidebar 透传
+  sidebarNavBefore?: any
+  sidebarNavAfter?: any
+  // VPContent 透传
+  pageTop?: any
+  pageBottom?: any
+  notFound?: any
+  homeHeroBefore?: any
+  homeHeroInfoBefore?: any
+  homeHeroInfo?: any
+  homeHeroInfoAfter?: any
+  homeHeroActionsAfter?: any
+  homeHeroActionsBeforeActions?: any
+  homeHeroImage?: any
+  homeHeroAfter?: any
+  homeFeaturesBefore?: any
+  homeFeaturesAfter?: any
+  [key: string]: any
 }
 
-export const Layout = defineComponent(function (props: any) {
-  const { site, theme, frontmatter } = useData()
-  const sidebarOpen = ref(false)
-  const openSidebar = () => {
-    sidebarOpen.value = true
-  }
-  const closeSidebar = () => {
-    sidebarOpen.value = false
-  }
+export const Layout = defineComponent(function (props: LayoutProps = {}) {
+  const { frontmatter } = useData()
+
+  const {
+    isOpen: isSidebarOpen,
+    open: openSidebar,
+    close: closeSidebar
+  } = useSidebarControl()
+
+  registerWatchers({ closeSidebar })
 
   return function () {
-    const fm = frontmatter.value
-    // layout: false → 只渲染页面内容（如 md 内 layout: false）
-    if (fm.layout === false) {
+    if (frontmatter.value.layout === false) {
       return <Content />
     }
 
-    const navItems = theme.value.nav ?? []
-    const sidebarConfig = theme.value.sidebar
-    // 简化：数组直接渲染；对象按当前路径前缀匹配（多侧边栏）
-    const sidebarItems =
-      sidebarConfig &&
-      typeof sidebarConfig === 'object' &&
-      !Array.isArray(sidebarConfig)
-        ? (Object.entries(sidebarConfig).find(([prefix]) =>
-            location.pathname.startsWith(withBase(prefix))
-          )?.[1] as any)
-        : sidebarConfig
-    const footer = theme.value.footer
-
-    const external = (link: string) => /^https?:\/\//.test(link)
-
     return (
       <div
-        class={['Layout', fm.pageClass].filter(Boolean).join(' ')}
-        style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}
+        class={['Layout', frontmatter.value.pageClass]
+          .filter(Boolean)
+          .join(' ')}
       >
+        {props.layoutTop}
         <VPSkipLink />
-        {sidebarOpen.value ? (
-          <div
-            class="backdrop"
-            onclick={closeSidebar}
-            style={{
-              position: 'fixed',
-              inset: '0',
-              background: 'rgba(0,0,0,.3)',
-              zIndex: 50
-            }}
-          />
-        ) : null}
-        {/* 顶部导航（简化版） */}
-        <header
-          class="nav"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
-            padding: '12px 0',
-            borderBottom: '1px solid #e2e8f0'
-          }}
-        >
-          <button
-            class="menu"
-            onclick={openSidebar}
-            style={{
-              cursor: 'pointer',
-              border: 'none',
-              background: 'none',
-              fontSize: '18px'
-            }}
-          >
-            {'\u2630'}
-          </button>
-          <a
-            class="nav-title"
-            href={withBase('/')}
-            style={{
-              fontWeight: 700,
-              textDecoration: 'none',
-              color: 'inherit'
-            }}
-          >
-            {site.value.title}
-          </a>
-          <nav
-            class="nav-links"
-            style={{ display: 'flex', gap: '12px', marginLeft: 'auto' }}
-          >
-            {navItems.map((item: any) => (
-              <a
-                class="nav-link"
-                href={external(item.link) ? item.link : withBase(item.link)}
-                target={external(item.link) ? '_blank' : undefined}
-                rel={external(item.link) ? 'noreferrer' : undefined}
-                style={{ textDecoration: 'none', color: 'inherit' }}
-              >
-                {item.text}
-              </a>
-            ))}
-          </nav>
-        </header>
-        {/* 主体：侧边栏 + 内容 */}
-        <div
-          class="layout-body"
-          style={{ display: 'flex', flex: 1, gap: '24px' }}
-        >
-          <aside
-            class={['sidebar', sidebarOpen.value ? 'open' : ''].join(' ')}
-            style={{
-              width: '240px',
-              flexShrink: 0,
-              padding: '12px 0',
-              ...(sidebarOpen.value ? { display: 'block' } : {})
-            }}
-          >
-            {renderSidebarItems(sidebarItems, 0)}
-          </aside>
-          <main
-            id="main-content"
-            class="content"
-            style={{ flex: 1, minWidth: 0, padding: '16px 0' }}
-          >
-            <Content />
-          </main>
-        </div>
-        {footer ? (
-          <footer
-            class="footer"
-            style={{
-              borderTop: '1px solid #e2e8f0',
-              padding: '12px 0',
-              textAlign: 'center'
-            }}
-          >
-            {typeof footer === 'string' ? footer : null}
-          </footer>
-        ) : null}
+        <VPBackdrop
+          class="backdrop"
+          show={isSidebarOpen.value}
+          onclick={closeSidebar}
+        />
+        <VPNav
+          navBarTitleBefore={props.navBarTitleBefore}
+          navBarTitleAfter={props.navBarTitleAfter}
+          navBarContentBefore={props.navBarContentBefore}
+          navBarContentAfter={props.navBarContentAfter}
+          navScreenContentBefore={props.navScreenContentBefore}
+          navScreenContentAfter={props.navScreenContentAfter}
+        />
+        <VPLocalNav open={isSidebarOpen.value} onOpenMenu={openSidebar} />
+        <VPSidebar
+          open={isSidebarOpen.value}
+          sidebarNavBefore={props.sidebarNavBefore}
+          sidebarNavAfter={props.sidebarNavAfter}
+        />
+        <VPContent
+          notFound={props.notFound}
+          pageTop={props.pageTop}
+          pageBottom={props.pageBottom}
+          homeHeroBefore={props.homeHeroBefore}
+          homeHeroInfoBefore={props.homeHeroInfoBefore}
+          homeHeroInfo={props.homeHeroInfo}
+          homeHeroInfoAfter={props.homeHeroInfoAfter}
+          homeHeroActionsAfter={props.homeHeroActionsAfter}
+          homeHeroActionsBeforeActions={props.homeHeroActionsBeforeActions}
+          homeHeroImage={props.homeHeroImage}
+          homeHeroAfter={props.homeHeroAfter}
+          homeFeaturesBefore={props.homeFeaturesBefore}
+          homeFeaturesAfter={props.homeFeaturesAfter}
+        />
+        {props.layoutBottom}
       </div>
     )
   }
