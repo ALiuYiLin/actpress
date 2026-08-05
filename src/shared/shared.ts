@@ -6,6 +6,7 @@ import type {
 } from '../../types/shared'
 
 export type {
+  AdditionalConfig,
   Awaitable,
   DefaultTheme,
   HeadConfig,
@@ -15,10 +16,11 @@ export type {
   MarkdownEnv,
   PageData,
   PageDataPayload,
+  Ref,
   SiteData,
+  UseDarkOptions,
   VitePressData,
   SSGContext,
-  AdditionalConfig,
   AdditionalConfigDict,
   AdditionalConfigLoader
 } from '../../types/shared'

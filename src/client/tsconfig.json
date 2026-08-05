@@ -8,10 +8,10 @@
     "paths": {
       "vitepress": ["./index.ts"],
       "vitepress/theme": ["../../theme.d.ts"],
-      "actview": ["E:/code3/JSX-Demo/packages/actview/src/index.ts"],
-      "@actview/core": ["E:/code3/JSX-Demo/packages/core/src/index.ts"],
-      "@actview/jsx": ["E:/code3/JSX-Demo/packages/jsx/src/index.ts"],
-      "@actview/router": ["E:/code3/JSX-Demo/packages/router/src/index.ts"]
+      "actview": ["../../actview-packages/actview/src/index.ts"],
+      "@actview/core": ["../../actview-packages/core/src/index.ts"],
+      "@actview/jsx": ["../../actview-packages/jsx/src/index.ts"],
+      "@actview/router": ["../../actview-packages/router/src/index.ts"]
     }
   },
   "include": ["."]

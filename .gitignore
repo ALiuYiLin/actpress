@@ -18,3 +18,4 @@ TODOs.md
 *.timestamp-*.mjs
 .claude
 reasonix.toml
+actview-packages/

@@ -1,8 +1,9 @@
-import { watchEffect, type Ref } from 'vue'
+import { watchEffect } from 'vue'
 import {
   createTitle,
   mergeHead,
   type HeadConfig,
+  type Ref,
   type SiteData
 } from '../../shared'
 import type { Route } from '../router'

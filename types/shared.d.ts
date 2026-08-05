@@ -1,8 +1,22 @@
 // types shared between server and client
-import type { UseDarkOptions } from '@vueuse/core'
-import type { Ref } from 'vue'
-import type { SSRContext } from 'vue/server-renderer'
 export type { DefaultTheme } from './default-theme.js'
+
+/**
+ * 通用响应式引用接口（替代 vue 的 Ref；结构兼容，供框架无关代码使用）
+ *
+ * 注：主题（Vue SFC）迁移到 ActView 后，所有 Ref 均为本类型。
+ */
+export interface Ref<T = any> {
+  value: T
+  [key: string]: any
+}
+
+/** useDark 选项（本地实现，替代 @vueuse/core 的 UseDarkOptions） */
+export interface UseDarkOptions {
+  storageKey?: string
+  initialValue?: string | (() => string)
+  [key: string]: any
+}
 
 export type Awaitable<T> = T | PromiseLike<T>
 
@@ -188,8 +202,10 @@ export interface PageDataPayload {
   pageData: PageData
 }
 
-export interface SSGContext extends SSRContext {
+export interface SSGContext {
   content: string
+  /** Vue 版从 SSRContext 继承，ActView 版静态生成独立定义 */
+  teleports?: Record<string, string>
   /** @experimental */
   vpSocialIcons: Set<string>
 }
