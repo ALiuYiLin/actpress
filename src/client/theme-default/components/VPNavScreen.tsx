@@ -1,5 +1,9 @@
 import { defineComponent, ref, watch } from 'actview'
 import { inBrowser } from 'vitepress'
+import { VPNavScreenAppearance } from './VPNavScreenAppearance'
+import { VPNavScreenMenu } from './VPNavScreenMenu'
+import { VPNavScreenSocialLinks } from './VPNavScreenSocialLinks'
+import { VPNavScreenTranslations } from './VPNavScreenTranslations'
 
 /** 手写 useScrollLock（替代 @vueuse/core）：锁定元素滚动 */
 function useScrollLock(element: HTMLElement | null) {
@@ -37,8 +41,10 @@ export const VPNavScreen = defineComponent(function (
       <div class="VPNavScreen" id="VPNavScreen">
         <div class="container">
           {props.navScreenContentBefore}
-          {/* TODO(C): VPNavScreenMenu / VPNavScreenTranslations /
-              VPNavScreenAppearance / VPNavScreenSocialLinks 后续批次迁移 */}
+          <VPNavScreenMenu />
+          <VPNavScreenTranslations />
+          <VPNavScreenAppearance />
+          <VPNavScreenSocialLinks />
           {props.navScreenContentAfter}
         </div>
       </div>

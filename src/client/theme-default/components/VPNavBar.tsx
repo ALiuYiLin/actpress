@@ -1,9 +1,14 @@
 import { defineComponent, ref } from 'actview'
 import { useLayout } from '../composables/layout'
 import { VPNavBarAppearance } from './VPNavBarAppearance'
+import { VPNavBarAskAiButton } from './VPNavBarAskAiButton'
+import { VPNavBarExtra } from './VPNavBarExtra'
 import { VPNavBarHamburger } from './VPNavBarHamburger'
 import { VPNavBarMenu } from './VPNavBarMenu'
+import { VPNavBarSearch } from './VPNavBarSearch'
+import { VPNavBarSocialLinks } from './VPNavBarSocialLinks'
 import { VPNavBarTitle } from './VPNavBarTitle'
+import { VPNavBarTranslations } from './VPNavBarTranslations'
 
 /** 手写 useWindowScroll（替代 @vueuse/core） */
 function useWindowScroll() {
@@ -56,10 +61,12 @@ export const VPNavBar = defineComponent(function (props: VPNavBarProps = {}) {
               <div class="content-body">
                 {props.navBarContentBefore}
                 <VPNavBarMenu class="menu" />
-                {/* TODO(C): VPNavBarSearch / VPNavBarTranslations /
-                    VPNavBarSocialLinks / VPNavBarExtra / VPNavBarAskAiButton
-                    尚未迁移（后续批次） */}
+                <VPNavBarSearch class="search" />
+                <VPNavBarTranslations class="translations" />
+                <VPNavBarSocialLinks class="social-links" />
                 <VPNavBarAppearance class="appearance" />
+                <VPNavBarExtra class="extra" />
+                <VPNavBarAskAiButton class="ask-ai" />
                 <VPNavBarHamburger
                   class="hamburger"
                   active={props.isScreenOpen}

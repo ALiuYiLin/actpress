@@ -6,6 +6,7 @@ import { VPLink } from './VPLink'
 export interface VPMenuLinkProps {
   item: DefaultTheme.NavItemWithLink
   rel?: string
+  [key: string]: any
 }
 
 export function VPMenuLink(props: VPMenuLinkProps) {
