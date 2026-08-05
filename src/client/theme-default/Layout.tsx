@@ -11,6 +11,7 @@ import { defineComponent, ref } from 'actview'
 import { Content } from '../app/components/Content'
 import { useData } from '../app/data'
 import { withBase } from '../app/utils'
+import { VPSkipLink } from './components/VPSkipLink'
 
 function renderSidebarItems(items: any[] | undefined, indent: number): any[] {
   if (!Array.isArray(items)) return []
@@ -93,15 +94,7 @@ export const Layout = defineComponent(function (props: any) {
         class: ['Layout', fm.pageClass].filter(Boolean).join(' '),
         style: { display: 'flex', flexDirection: 'column', minHeight: '100vh' }
       },
-      createElement(
-        'a',
-        {
-          class: 'skip-link',
-          href: '#main-content',
-          style: { position: 'absolute', left: '-9999px' }
-        },
-        'Skip to main content'
-      ),
+      createElement(VPSkipLink, null),
       sidebarOpen.value
         ? createElement('div', {
             class: 'backdrop',
