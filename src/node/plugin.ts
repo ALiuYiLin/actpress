@@ -69,7 +69,6 @@ export async function createVitePressPlugin(
   siteConfig: SiteConfig,
   ssr = false,
   pageToHashMap?: Record<string, string>,
-  clientJSMap?: Record<string, string>,
   restartServer?: () => Promise<void>
 ) {
   const {
@@ -78,7 +77,6 @@ export async function createVitePressPlugin(
     configDeps,
     markdown,
     site,
-    vue: userVuePluginOptions,
     vite: userViteConfig,
     lastUpdated,
     cleanUrls
@@ -88,22 +86,11 @@ export async function createVitePressPlugin(
     ReturnType<typeof createMarkdownToActViewRenderFn>
   >
 
-  // lazy require plugin-vue to respect NODE_ENV in @vue/compiler-x
-  // note: only `.vue` files are compiled by plugin-vue now; `.md` files are
-  // transformed into ActView modules (see markdownToActView.ts) instead.
-  const vuePlugin = await import('@vitejs/plugin-vue').then((r) =>
-    r.default({
-      include: /\.vue$/,
-      ...userVuePluginOptions
-    })
-  )
-
   const processClientJS = (code: string, id: string) => {
     return scriptClientRE.test(code)
-      ? code.replace(scriptClientRE, (_, content) => {
-          if (ssr && clientJSMap) clientJSMap[id] = content
-          return `\n`.repeat(_.split('\n').length - 1)
-        })
+      ? code.replace(scriptClientRE, (_) =>
+          `\n`.repeat(_.split('\n').length - 1)
+        )
       : code
   }
 
@@ -148,16 +135,9 @@ export async function createVitePressPlugin(
             site.themeConfig?.search?.provider === 'algolia' ||
             !!site.themeConfig?.algolia, // legacy
           __CARBON__: !!site.themeConfig?.carbonAds,
-          __ASSETS_DIR__: JSON.stringify(siteConfig.assetsDir),
-          __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: !!process.env.DEBUG
+          __ASSETS_DIR__: JSON.stringify(siteConfig.assetsDir)
         },
         optimizeDeps: {
-          // force include vue to avoid duplicated copies when linked + optimized
-          include: [
-            'vue',
-            'vitepress > @vue/devtools-api',
-            'vitepress > @vueuse/core'
-          ].filter((d) => d != null),
           exclude: ['@docsearch/js', '@docsearch/sidepanel-js', 'vitepress']
         },
         server: {
@@ -415,7 +395,6 @@ export async function createVitePressPlugin(
   return [
     vitePressPlugin,
     rewritesPlugin(siteConfig),
-    vuePlugin,
     hmrFix,
     webFontsPlugin(siteConfig.useWebFonts),
     ...(userViteConfig?.plugins || []),

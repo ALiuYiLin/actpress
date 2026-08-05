@@ -1,5 +1,3 @@
-import type { Options as VuePluginOptions } from '@vitejs/plugin-vue'
-import type { UseDarkOptions } from '@vueuse/core'
 import type { SitemapStreamOptions } from 'sitemap'
 import type { Logger, UserConfig as ViteConfig } from 'vite'
 import type { SitemapItem } from './build/generateSitemap'
@@ -16,7 +14,8 @@ import type {
 } from './shared'
 import type {
   AdditionalConfigDict,
-  AdditionalConfigLoader
+  AdditionalConfigLoader,
+  UseDarkOptions
 } from '../../types/shared'
 
 export type RawConfigExports<ThemeConfig = any> =
@@ -73,19 +72,9 @@ export interface UserConfig<
    */
   markdown?: MarkdownOptions
   /**
-   * Options to pass on to `@vitejs/plugin-vue`
-   */
-  vue?: VuePluginOptions
-  /**
    * Vite config
    */
   vite?: ViteConfig & { configFile?: string | false }
-
-  /**
-   * Enable MPA / zero-JS mode.
-   * @experimental
-   */
-  mpa?: boolean
 
   /**
    * Extracts metadata to a separate chunk.
@@ -196,11 +185,9 @@ export interface UserConfig<
 export interface SiteConfig<ThemeConfig = any> extends Pick<
   UserConfig<ThemeConfig>,
   | 'markdown'
-  | 'vue'
   | 'vite'
   | 'shouldPreload'
   | 'router'
-  | 'mpa'
   | 'metaChunk'
   | 'lastUpdated'
   | 'ignoreDeadLinks'
