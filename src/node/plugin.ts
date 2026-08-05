@@ -129,8 +129,16 @@ export async function createVitePressPlugin(
       )
     },
 
-    config() {
+    async config() {
+      // @actview/plugin: 把函数组件（function X() { return <JSX/> }）Babel 转成
+      // defineComponent（仅 .tsx）；esbuild 负责 JSX → jsx() 调用
+      const { actviewPlugin } = await import('@actview/plugin')
       const baseConfig: UserConfig = {
+        plugins: [actviewPlugin()],
+        esbuild: {
+          jsx: 'automatic',
+          jsxImportSource: '@actview/jsx'
+        },
         resolve: {
           alias: resolveAliases(siteConfig.root, ssr)
         },

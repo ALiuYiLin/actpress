@@ -105,7 +105,8 @@ export function registerWatchers({ closeSidebar }: RegisterWatchersOptions) {
   const route = useRoute()
   watch(() => route.path, closeSidebar)
 
-  watch(is960, closeSidebar)
+  // TODO: @actview/core 1.0.11 发布后移除断言（npm 1.0.10 watch source 需 __v_isRef）
+  watch(is960 as any, closeSidebar)
   useCloseSidebarOnEscape(closeSidebar)
 }
 

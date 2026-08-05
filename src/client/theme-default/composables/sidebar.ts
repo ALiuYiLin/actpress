@@ -82,7 +82,8 @@ export function useSidebarItemControl(item: Ref<DefaultTheme.SidebarItem>) {
     isActiveLink.value = isActive(page.value.relativePath, item.value.link)
   }
 
-  watch([page, item, hash], updateIsActiveLink)
+  // TODO: @actview/core 1.0.11 发布后移除断言（npm 1.0.10 watch 签名不支持混合来源数组）
+  watch([page, item, hash] as any, updateIsActiveLink)
   onMounted(updateIsActiveLink)
 
   const hasActiveLink = computed(() => {

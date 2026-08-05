@@ -69,7 +69,8 @@ function useDark(options: Record<string, any> = {}): Ref<boolean> {
       document.documentElement.classList.toggle('dark', isDark.value)
   }
   if (inBrowser) {
-    watch(isDark, syncClass)
+    // TODO: @actview/core 1.0.11 发布后移除断言（npm 1.0.10 computed 类型缺 __v_isRef）
+    watch(isDark as any, syncClass)
     syncClass()
   }
   return isDark

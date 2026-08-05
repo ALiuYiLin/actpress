@@ -4,6 +4,7 @@ import { createApp } from 'actview'
 import { initData } from 'client/app/data'
 import { createRouter } from 'client/app/router'
 import { Layout } from 'client/theme-default/Layout'
+import { VPBadge } from 'client/theme-default/components/VPBadge'
 
 describe('actview rendering shell (phase B smoke)', () => {
   it('renders a markdown page through Layout + Content', async () => {
@@ -43,5 +44,16 @@ describe('actview rendering shell (phase B smoke)', () => {
     expect(html).toContain('paragraph &amp; text')
     // 站点标题出现在顶栏
     expect(html).toContain('Test Site')
+  })
+})
+
+describe('actview JSX component rendering', () => {
+  it('renders a JSX function component (VPBadge) via actviewPlugin transform', () => {
+    const host = document.createElement('div')
+    host.id = 'badge-host'
+    document.body.appendChild(host)
+    createApp(VPBadge).mount('#badge-host')
+    const span = host.querySelector('span')
+    expect(span?.className).toBe('VPBadge tip')
   })
 })

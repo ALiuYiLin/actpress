@@ -9,7 +9,8 @@
     "noUnusedLocals": true,
     "resolveJsonModule": true,
     "verbatimModuleSyntax": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
+    "jsxImportSource": "@actview/jsx",
     "lib": ["esnext", "dom", "dom.iterable"]
   },
   "exclude": [

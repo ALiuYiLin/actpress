@@ -31,29 +31,6 @@ export function resolveAliases(root: string, ssr: boolean): AliasOptions {
     }
   ]
 
-  // actview workspace packages (JSX-Demo: E:\code3\JSX-Demo)
-  // md pages are compiled into ActView modules (see markdownToActView.ts),
-  // so both client and node(ssr) builds need these resolvable.
-  const ACTVIEW_PKG_ROOT = 'E:/code3/JSX-Demo/packages'
-  aliases.push(
-    {
-      find: /^actview$/,
-      replacement: join(ACTVIEW_PKG_ROOT, 'actview/src/index.ts')
-    },
-    {
-      find: /^@actview\/core$/,
-      replacement: join(ACTVIEW_PKG_ROOT, 'core/src/index.ts')
-    },
-    {
-      find: /^@actview\/jsx$/,
-      replacement: join(ACTVIEW_PKG_ROOT, 'jsx/src/index.ts')
-    },
-    {
-      find: /^@actview\/router$/,
-      replacement: join(ACTVIEW_PKG_ROOT, 'router/src/index.ts')
-    }
-  )
-
   if (!ssr) {
     // Prioritize vue installed in project root and fallback to
     // vue that comes with vitepress itself.
