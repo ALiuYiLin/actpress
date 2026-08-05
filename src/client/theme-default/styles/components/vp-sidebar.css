@@ -1,113 +1,97 @@
-<script setup lang="ts">
-import type { DefaultTheme } from 'vitepress/theme'
-import { computed } from 'vue'
-import { useSidebarItemControl } from '../composables/sidebar'
-import VPLink from './VPLink.vue'
+.VPSidebar {
+  position: fixed;
+  top: var(--vp-layout-top-height, 0px);
+  bottom: 0;
+  left: 0;
+  z-index: var(--vp-z-index-sidebar);
+  padding: 32px 32px 96px;
+  width: calc(100vw - 64px);
+  max-width: 320px;
+  background-color: var(--vp-sidebar-bg-color);
+  opacity: 0;
+  box-shadow: var(--vp-c-shadow-3);
+  overflow-x: hidden;
+  overflow-y: auto;
+  transform: translateX(-100%);
+  transition:
+    opacity 0.5s,
+    transform 0.25s ease;
+  overscroll-behavior: contain;
+}
 
-const props = defineProps<{
-  item: DefaultTheme.SidebarItem
-  depth: number
-}>()
+.VPSidebar.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+  transition:
+    opacity 0.25s,
+    transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
 
-const {
-  collapsed,
-  collapsible,
-  isLink,
-  isActiveLink,
-  hasActiveLink,
-  hasChildren,
-  toggle
-} = useSidebarItemControl(computed(() => props.item))
+.dark .VPSidebar {
+  box-shadow: var(--vp-shadow-1);
+}
 
-const sectionTag = computed(() => (hasChildren.value ? 'section' : `div`))
-
-const linkTag = computed(() => (isLink.value ? 'a' : 'div'))
-
-const textTag = computed(() => {
-  return !hasChildren.value
-    ? 'p'
-    : props.depth + 2 === 7
-      ? 'p'
-      : `h${props.depth + 2}`
-})
-
-const itemRole = computed(() => (isLink.value ? undefined : 'button'))
-
-const classes = computed(() => [
-  [`level-${props.depth}`],
-  { collapsible: collapsible.value },
-  { collapsed: collapsed.value },
-  { 'is-link': isLink.value },
-  { 'is-active': isActiveLink.value },
-  { 'has-active': hasActiveLink.value }
-])
-
-function onItemInteraction(e: MouseEvent | Event) {
-  if ('key' in e && e.key !== 'Enter') {
-    return
+@media (min-width: 960px) {
+  .VPSidebar {
+    padding-top: var(--vp-nav-height);
+    width: var(--vp-sidebar-width);
+    max-width: 100%;
+    background-color: var(--vp-sidebar-bg-color);
+    opacity: 1;
+    visibility: visible;
+    box-shadow: none;
+    transform: translateX(0);
   }
-  !props.item.link && toggle()
 }
 
-function onCaretClick() {
-  props.item.link && toggle()
+@media (min-width: 1440px) {
+  .VPSidebar {
+    padding-left: max(
+      32px,
+      calc((100% - (var(--vp-layout-max-width) - 64px)) / 2)
+    );
+    width: calc(
+      (100% - (var(--vp-layout-max-width) - 64px)) / 2 +
+        var(--vp-sidebar-width) - 32px
+    );
+  }
 }
-</script>
 
-<template>
-  <component :is="sectionTag" class="VPSidebarItem" :class="classes">
-    <div
-      v-if="item.text"
-      class="item"
-      :role="itemRole"
-      v-on="
-        item.items
-          ? { click: onItemInteraction, keydown: onItemInteraction }
-          : {}
-      "
-      :tabindex="item.items && 0"
-    >
-      <div class="indicator" />
+@media (min-width: 960px) {
+  .curtain {
+    position: sticky;
+    top: calc(var(--vp-nav-height) * -1);
+    left: 0;
+    z-index: 1;
+    margin-top: calc(var(--vp-nav-height) * -1);
+    margin-right: -32px;
+    margin-left: -32px;
+    height: var(--vp-nav-height);
+    background-color: var(--vp-sidebar-bg-color);
+  }
+}
 
-      <VPLink
-        v-if="item.link"
-        :tag="linkTag"
-        class="link"
-        :href="item.link"
-        :rel="item.rel"
-        :target="item.target"
-      >
-        <component :is="textTag" class="text" v-html="item.text" />
-      </VPLink>
-      <component v-else :is="textTag" class="text" v-html="item.text" />
+.nav {
+  outline: 0;
+}
 
-      <div
-        v-if="item.collapsed != null && item.items && item.items.length"
-        class="caret"
-        role="button"
-        aria-label="toggle section"
-        @click="onCaretClick"
-        @keydown.enter="onCaretClick"
-        tabindex="0"
-      >
-        <span class="vpi-chevron-right caret-icon" />
-      </div>
-    </div>
+.no-transition :deep(.caret-icon) {
+  transition: none;
+}
 
-    <div v-if="item.items && item.items.length" class="items">
-      <template v-if="depth < 5">
-        <VPSidebarItem
-          v-for="i in item.items"
-          :key="i.text"
-          :item="i"
-          :depth="depth + 1"
-        />
-      </template>
-    </div>
-  </component>
-</template>
+.group + .group {
+  border-top: 1px solid var(--vp-c-divider);
+  padding-top: 10px;
+}
 
-<style scoped>
+@media (min-width: 960px) {
+  .group {
+    padding-top: 10px;
+    width: calc(var(--vp-sidebar-width) - 64px);
+  }
+}
+
 .VPSidebarItem.level-0 {
   padding-bottom: 24px;
 }
@@ -233,7 +217,7 @@ function onCaretClick() {
 }
 
 .VPSidebarItem.collapsed .caret-icon {
-  transform: rotate(0)/*rtl:rotate(180deg)*/;
+  transform: rotate(0) /*rtl:rotate(180deg)*/;
 }
 
 .VPSidebarItem.level-1 .items,
@@ -248,4 +232,3 @@ function onCaretClick() {
 .VPSidebarItem.collapsed .items {
   display: none;
 }
-</style>
