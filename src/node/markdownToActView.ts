@@ -414,6 +414,20 @@ function stripExportDefault(code: string): string {
  * - `export default` 注释掉（ActView 不支持 options API）
  * - `export const/function/class/let/var` 降级为普通声明（留在 setup 内）
  */
+/**
+ * 把 <script setup> 里的 Vue 运行时 import 改写为 ActView 等价物。
+ * Vue 依赖已从 vitepress 移除，docs/用户 md 中的 `import { ref } from 'vue'`
+ * 若原样保留会在浏览器端加载失败（vue 包不存在）。
+ * ref/computed/watch/onMounted/nextTick/watchEffect 等 actview 均有同名导出；
+ * 缺失的（provide、h 等）运行时才会报错，编译期不拦截。
+ */
+function rewriteVueImports(importLine: string): string {
+  return importLine
+    .replace(/from\s+['"]vue['"]/g, "from 'actview'")
+    .replace(/from\s+['"]@vueuse\/core['"]/g, "from 'actview'")
+    .replace(/from\s+['"]@vueuse\/integrations\/[^'"]+['"]/g, "from 'actview'")
+}
+
 function extractSetupBody(code: string): { imports: string[]; body: string } {
   const imports: string[] = []
   const lines = code.split('\n')
@@ -437,7 +451,7 @@ function extractSetupBody(code: string): { imports: string[]; body: string } {
         depth += countBrackets(lines[i])
         i++
       }
-      imports.push(buf)
+      imports.push(rewriteVueImports(buf))
       continue
     }
 
