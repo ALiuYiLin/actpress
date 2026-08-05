@@ -1,4 +1,4 @@
-import { watchEffect } from 'vue'
+import { watchEffect } from 'actview'
 import {
   createTitle,
   mergeHead,

@@ -1,7 +1,7 @@
 // Customized pre-fetch for page chunks based on
 // https://github.com/GoogleChromeLabs/quicklink
 
-import { onMounted, onUnmounted, watch } from 'vue'
+import { onBeforeUnmount, onMounted, watch } from 'actview'
 import { useRoute } from '../router'
 import { inBrowser, pathToFile } from '../utils'
 
@@ -114,7 +114,7 @@ export function usePrefetch() {
   const route = useRoute()
   watch(() => route.path, observeLinks)
 
-  onUnmounted(() => {
+  onBeforeUnmount(() => {
     observer && observer.disconnect()
   })
 }

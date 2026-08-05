@@ -1,5 +1,4 @@
-import { tryOnUnmounted } from '@vueuse/core'
-import { h, onMounted, shallowRef, type AsyncComponentLoader } from 'vue'
+import { lazy, onBeforeUnmount } from 'actview'
 import {
   EXTERNAL_URL_RE,
   inBrowser,
@@ -73,32 +72,35 @@ export let contentUpdatedCallbacks: (() => any)[] = []
 /**
  * Register callback that is called every time the markdown content is updated
  * in the DOM.
+ *
+ * ActView 版：组件 setup 内调用时，卸载时自动清理（onBeforeUnmount）；
+ * 组件外调用会 console.warn（ActView 生命周期限制），回调不清理。
  */
 export function onContentUpdated(fn: () => any) {
   contentUpdatedCallbacks.push(fn)
-  tryOnUnmounted(() => {
+  onBeforeUnmount(() => {
     contentUpdatedCallbacks = contentUpdatedCallbacks.filter((f) => f !== fn)
   })
 }
 
+/**
+ * 异步加载并渲染客户端组件。
+ *
+ * ActView 版：基于 lazy() 的异步组件；args（props）暂不支持透传
+ * （ActView lazy 无 props 通道，主题迁移后如需 props 请直接使用 lazy）。
+ */
 export function defineClientComponent(
-  loader: AsyncComponentLoader,
-  args?: any[],
+  loader: () => Promise<any>,
+  _args?: any[],
   cb?: () => Awaitable<void>
 ) {
-  return {
-    setup() {
-      const comp = shallowRef()
-      onMounted(async () => {
-        let res = await loader()
-        // interop module default
-        if (res && (res.__esModule || res[Symbol.toStringTag] === 'Module')) {
-          res = res.default
-        }
-        comp.value = res
-        await cb?.()
-      })
-      return () => (comp.value ? h(comp.value, ...(args ?? [])) : null)
+  return lazy(async () => {
+    let res = await loader()
+    // interop module default
+    if (res && (res.__esModule || res[Symbol.toStringTag] === 'Module')) {
+      res = res.default
     }
-  }
+    await cb?.()
+    return { default: res }
+  })
 }

@@ -101,13 +101,7 @@ export async function createApp() {
     })
   }
 
-  // setup devtools in dev mode
-  if (import.meta.env.DEV || __VUE_PROD_DEVTOOLS__) {
-    import('./devtools.js').then(({ setupDevtools }) =>
-      setupDevtools(app, router, data)
-    )
-  }
-
+  // devtools 支持已移除（ActView 迁移）
   return { app, router, data }
 }
 
