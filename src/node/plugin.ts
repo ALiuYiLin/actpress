@@ -99,8 +99,12 @@ export async function createVitePressPlugin(
   let config: ResolvedConfig
   let importerMap: Record<string, Set<string> | undefined> = {}
 
+  // enforce:'pre'：必须在 rolldown-vite 的内建 import-analysis（normal 级，
+  // 且排在用户 normal 插件之前）之前把 .md 转成 JS，否则它会 parse md 原文
+  // 报 "Failed to parse source for import analysis ... invalid JS syntax"。
   const vitePressPlugin: Plugin = {
     name: 'vitepress',
+    enforce: 'pre',
 
     async configResolved(resolvedConfig) {
       config = resolvedConfig
@@ -117,11 +121,10 @@ export async function createVitePressPlugin(
     },
 
     async config() {
-      // @actview/plugin: 把函数组件（function X() { return <JSX/> }）Babel 转成
-      // defineComponent（仅 .tsx）；esbuild 负责 JSX → jsx() 调用
-      const { actviewPlugin } = await import('@actview/plugin')
+      // esbuild 负责 JSX → jsx() 调用；actviewPlugin（Babel 转 defineComponent）
+      // 已移至顶层 plugins 数组（见 createVitePressPlugin 返回值）——rolldown-vite
+      // 对 config() 钩子返回的 plugins 不保证合并进 transform 管线
       const baseConfig: UserConfig = {
-        plugins: [actviewPlugin()],
         esbuild: {
           jsx: 'automatic',
           jsxImportSource: '@actview/jsx'
@@ -193,11 +196,13 @@ export async function createVitePressPlugin(
       if (id.endsWith('.vue')) {
         return processClientJS(code, id)
       }
-      if (id.endsWith('.md')) {
-        const relativePath = path.posix.relative(srcDir, id)
+      // dev 下 id 可能带 query（rolldown-vite 传 ?t= 等），先剥掉再判断扩展名
+      const cleanId = cleanUrl(id)
+      if (cleanId.endsWith('.md')) {
+        const relativePath = path.posix.relative(srcDir, cleanId)
         // transform .md files into an ActView module (createElement-based VNode tree)
         const { actViewSrc, deadLinks, includes, pageData } =
-          await markdownToActView(code, id, config.publicDir)
+          await markdownToActView(code, cleanId, config.publicDir)
         allDeadLinks.push(...deadLinks)
         if (includes.length) {
           includes.forEach((i) => {
@@ -392,7 +397,11 @@ export async function createVitePressPlugin(
     }
   }
 
+  // @actview/plugin（enforce:'pre'，Babel 把函数组件转 defineComponent）
+  const { actviewPlugin } = await import('@actview/plugin')
+
   return [
+    actviewPlugin(),
     vitePressPlugin,
     rewritesPlugin(siteConfig),
     hmrFix,
