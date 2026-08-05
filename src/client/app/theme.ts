@@ -1,4 +1,3 @@
-import type { Component as VueComponent } from 'vue'
 import type { Awaitable, Ref, SiteData } from '../shared'
 import type { Router } from './router'
 
@@ -29,5 +28,5 @@ export interface Theme {
   /**
    * @deprecated Render not found page by checking `useData().page.value.isNotFound` in Layout instead.
    */
-  NotFound?: VueComponent
+  NotFound?: Component
 }

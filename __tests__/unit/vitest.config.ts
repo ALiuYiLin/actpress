@@ -1,4 +1,3 @@
-import vue from '@vitejs/plugin-vue'
 import { actviewPlugin } from '@actview/plugin'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -7,7 +6,7 @@ import { defineConfig } from 'vitest/config'
 const dir = dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
-  plugins: [vue(), actviewPlugin()],
+  plugins: [actviewPlugin()],
   esbuild: {
     jsx: 'automatic',
     jsxImportSource: '@actview/jsx'

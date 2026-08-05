@@ -20,6 +20,10 @@ export interface UseDarkOptions {
   [key: string]: any
 }
 
+/** 注入键类型（本地实现，替代 vue 的 InjectionKey；ActView 无 provide/inject，
+ *  仅保留类型层面的符号标记） */
+export type InjectionKey<T = unknown> = symbol
+
 export type Awaitable<T> = T | PromiseLike<T>
 
 type DeepPartial<T> =

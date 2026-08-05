@@ -1,6 +1,6 @@
 import siteData from '@siteData'
 import { computed, readonly, ref, shallowReactive, watch } from 'actview'
-import type { InjectionKey } from 'vue'
+import type { InjectionKey } from 'vitepress'
 import {
   APPEARANCE_KEY,
   createTitle,

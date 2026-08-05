@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref } from 'actview'
 import type { VitePressData } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import { resolveLocaleLink } from 'client/theme-default/composables/langs'

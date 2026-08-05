@@ -1,7 +1,7 @@
 import { inBrowser, onContentUpdated, useRoute } from 'vitepress'
 import { computed, readonly, watch } from 'actview'
 import type { DefaultTheme } from 'vitepress/theme'
-import type { InjectionKey } from 'vue'
+import type { InjectionKey } from 'vitepress'
 import type { Ref } from 'vitepress'
 import { getSidebar, getSidebarGroups } from '../support/sidebar'
 import { shallowRef } from '../support/reactivity'
