@@ -1,90 +1,139 @@
-<script setup lang="ts">
-import type { DefaultTheme } from 'vitepress/theme'
-import { computed, inject } from 'vue'
-import { layoutInfoInjectionKey } from '../composables/layout'
-import VPButton from './VPButton.vue'
-import VPImage from './VPImage.vue'
-
-export interface HeroAction {
-  theme?: 'brand' | 'alt'
-  text: string
-  link: string
-  target?: string
-  rel?: string
+.VPHome {
+  margin-bottom: 96px;
 }
 
-defineProps<{
-  name?: string
-  text?: string
-  tagline?: string
-  image?: DefaultTheme.ThemeableImage
-  actions?: HeroAction[]
-}>()
+@media (min-width: 768px) {
+  .VPHome {
+    margin-bottom: 128px;
+  }
+}
 
-const { heroImageSlotExists } = inject(
-  layoutInfoInjectionKey,
-  { heroImageSlotExists: computed(() => false) }
-)
-</script>
+.container {
+  margin: auto;
+  width: 100%;
+  max-width: 1280px;
+  padding: 0 24px;
+}
 
-<template>
-  <div class="VPHero" :class="{ 'has-image': image || heroImageSlotExists }">
-    <div class="container">
-      <div class="main">
-        <slot name="home-hero-info-before" />
-        <slot name="home-hero-info">
-          <h1 class="heading">
-            <span v-if="name" v-html="name" class="name clip"></span>
-            <span v-if="text" v-html="text" class="text"></span>
-          </h1>
-          <p v-if="tagline" v-html="tagline" class="tagline"></p>
-        </slot>
-        <slot name="home-hero-info-after" />
+@media (min-width: 640px) {
+  .container {
+    padding: 0 48px;
+  }
+}
 
-        <div v-if="actions" class="actions">
-          <slot name="home-hero-actions-before-actions" />
-          <div v-for="action in actions" :key="action.link" class="action">
-            <VPButton
-              tag="a"
-              size="medium"
-              :theme="action.theme"
-              :text="action.text"
-              :href="action.link"
-              :target="action.target"
-              :rel="action.rel"
-            />
-          </div>
-        </div>
-        <slot name="home-hero-actions-after" />
-      </div>
+@media (min-width: 960px) {
+  .container {
+    width: 100%;
+    padding: 0 64px;
+  }
+}
 
-      <div v-if="image || heroImageSlotExists" class="image">
-        <div class="image-container">
-          <div class="image-bg" />
-          <slot name="home-hero-image">
-            <VPImage v-if="image" class="image-src" :image />
-          </slot>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
+.vp-doc :deep(.VPHomeSponsors),
+.vp-doc :deep(.VPTeamPage) {
+  margin-left: var(--vp-offset, calc(50% - 50vw));
+  margin-right: var(--vp-offset, calc(50% - 50vw));
+}
 
-<style scoped>
+.vp-doc :deep(.VPHomeSponsors h2) {
+  border-top: none;
+  letter-spacing: normal;
+}
+
+.vp-doc :deep(.VPHomeSponsors a),
+.vp-doc :deep(.VPTeamPage a) {
+  text-decoration: none;
+}
+
+.VPHomeSponsors {
+  border-top: 1px solid var(--vp-c-gutter);
+  padding-top: 88px !important;
+}
+
+.VPHomeSponsors {
+  margin: 96px 0;
+}
+
+@media (min-width: 768px) {
+  .VPHomeSponsors {
+    margin: 128px 0;
+  }
+}
+
+.VPHomeSponsors {
+  padding: 0 24px;
+}
+
+@media (min-width: 768px) {
+  .VPHomeSponsors {
+    padding: 0 48px;
+  }
+}
+
+@media (min-width: 960px) {
+  .VPHomeSponsors {
+    padding: 0 64px;
+  }
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1152px;
+}
+
+.love {
+  margin: 0 auto;
+  width: fit-content;
+  font-size: 28px;
+  color: var(--vp-c-text-3);
+}
+
+.icon {
+  display: inline-block;
+}
+
+.message {
+  margin: 0 auto;
+  padding-top: 10px;
+  max-width: 320px;
+  text-align: center;
+  line-height: 24px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--vp-c-text-2);
+}
+
+.sponsors {
+  padding-top: 32px;
+}
+
+.action {
+  padding-top: 40px;
+  text-align: center;
+}
+
 .VPHero {
-  margin-top: calc((var(--vp-nav-height) + var(--vp-layout-top-height, 0px)) * -1);
-  padding: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 48px) 24px 48px;
+  margin-top: calc(
+    (var(--vp-nav-height) + var(--vp-layout-top-height, 0px)) * -1
+  );
+  padding: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 48px)
+    24px 48px;
 }
 
 @media (min-width: 640px) {
   .VPHero {
-    padding: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 80px) 48px 64px;
+    padding: calc(
+        var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 80px
+      )
+      48px 64px;
   }
 }
 
 @media (min-width: 960px) {
   .VPHero {
-    padding: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 80px) 64px 64px;
+    padding: calc(
+        var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 80px
+      )
+      64px 64px;
   }
 }
 
@@ -352,4 +401,137 @@ const { heroImageSlotExists } = inject(
     max-height: 320px;
   }
 }
-</style>
+
+.VPFeatures {
+  position: relative;
+  padding: 0 24px;
+}
+
+@media (min-width: 640px) {
+  .VPFeatures {
+    padding: 0 48px;
+  }
+}
+
+@media (min-width: 960px) {
+  .VPFeatures {
+    padding: 0 64px;
+  }
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1152px;
+}
+
+.items {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -8px;
+}
+
+.item {
+  padding: 8px;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .item.grid-2,
+  .item.grid-4,
+  .item.grid-6 {
+    width: calc(100% / 2);
+  }
+}
+
+@media (min-width: 768px) {
+  .item.grid-2,
+  .item.grid-4 {
+    width: calc(100% / 2);
+  }
+
+  .item.grid-3,
+  .item.grid-6 {
+    width: calc(100% / 3);
+  }
+}
+
+@media (min-width: 960px) {
+  .item.grid-4 {
+    width: calc(100% / 4);
+  }
+}
+
+.VPFeature {
+  display: block;
+  border: 1px solid var(--vp-c-bg-soft);
+  border-radius: 12px;
+  height: 100%;
+  background-color: var(--vp-c-bg-soft);
+  transition:
+    border-color 0.25s,
+    background-color 0.25s;
+}
+
+.VPFeature.link:hover {
+  border-color: var(--vp-c-brand-1);
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  height: 100%;
+}
+
+.box > :deep(.VPImage) {
+  margin-bottom: 20px;
+}
+
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  background-color: var(--vp-c-default-soft);
+  width: 48px;
+  height: 48px;
+  font-size: 24px;
+  transition: background-color 0.25s;
+}
+
+.title {
+  line-height: 24px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.details {
+  flex-grow: 1;
+  padding-top: 8px;
+  line-height: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--vp-c-text-2);
+}
+
+ul.details {
+  list-style-type: disc;
+  padding-left: 14px;
+}
+
+.link-text {
+  padding-top: 8px;
+}
+
+.link-text-value {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--vp-c-brand-1);
+}
+
+.link-text-icon {
+  margin-left: 6px;
+}
