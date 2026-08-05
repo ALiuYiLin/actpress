@@ -1,4 +1,5 @@
 import { useData } from '../composables/data'
+import { VPDocAsideCarbonAds } from './VPDocAsideCarbonAds'
 import { VPDocAsideOutline } from './VPDocAsideOutline'
 
 export interface VPDocAsideProps {
@@ -23,7 +24,9 @@ export function VPDocAside(props: VPDocAsideProps = {}) {
       <div class="spacer" />
 
       {props.asideAdsBefore}
-      {/* TODO(C): VPDocAsideCarbonAds / VPDocAsideSponsors 后续批次迁移 */}
+      {theme.value.carbonAds ? (
+        <VPDocAsideCarbonAds carbonAds={theme.value.carbonAds} />
+      ) : null}
       {theme.value.carbonAds ? null : null}
       {props.asideAdsAfter}
 

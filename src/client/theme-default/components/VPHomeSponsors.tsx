@@ -1,3 +1,4 @@
+import { VPSponsors } from './VPSponsors'
 import { VPButton } from './VPButton'
 
 export interface Sponsor {
@@ -33,8 +34,7 @@ export function VPHomeSponsors(props: VPHomeSponsorsProps) {
         </div>
 
         <div class="sponsors">
-          {/* TODO(C): VPSponsors 后续批次迁移 */}
-          {null}
+          <VPSponsors mode="normal" data={props.data} />
         </div>
 
         {props.actionLink ? (
