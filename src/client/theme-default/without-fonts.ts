@@ -28,6 +28,7 @@ import './styles/components/vp-footer.css'
 import './styles/components/vp-backdrop.css'
 import './styles/components/vp-home.css'
 import './styles/components/vp-page.css'
+import './styles/components/scoped-restore.css'
 
 import type { Theme } from 'vitepress'
 import { Layout } from './Layout'

@@ -402,7 +402,7 @@ export async function createVitePressPlugin(
 
   // @actview/plugin（enforce:'pre'，Babel 把函数组件转 defineComponent）
   const { actviewPlugin } = await import('@actview/plugin')
-  const rawActViewPlugin = actviewPlugin() // WRAPPER_MARKER_9f3k
+  const rawActViewPlugin = actviewPlugin()
 
   // rolldown-vite dev 的模块 id 带 ?t= 时间戳 query，@actview/plugin 内部
   // `id.endsWith('.tsx')` 不匹配 → Babel 转换被跳过 → 组件以裸函数进入运行时
