@@ -248,6 +248,9 @@ export async function createVitePressPlugin(
         configDeps.forEach((file) => server.watcher.add(file))
       }
 
+      // rolldown-vite：带 ?t= 时间戳 query 的 .tsx 请求不经过 JS 插件 transform
+      // （@actview/plugin 的 Babel 转换被跳过 → 组件以裸函数进入运行时崩溃）。
+      // 剥掉 query 落到无 query 的转换管线（moduleGraph 缓存，Babel 生效）。
       // serve our index.html after vite history fallback
       return () => {
         server.middlewares.use(async (req, res, next) => {
@@ -399,9 +402,21 @@ export async function createVitePressPlugin(
 
   // @actview/plugin（enforce:'pre'，Babel 把函数组件转 defineComponent）
   const { actviewPlugin } = await import('@actview/plugin')
+  const rawActViewPlugin = actviewPlugin() // WRAPPER_MARKER_9f3k
+
+  // rolldown-vite dev 的模块 id 带 ?t= 时间戳 query，@actview/plugin 内部
+  // `id.endsWith('.tsx')` 不匹配 → Babel 转换被跳过 → 组件以裸函数进入运行时
+  // （createElement('function ...') 崩溃）。剥 query 后转发；@actview/plugin
+  // 1.0.6 已内置该修复，此处兜底兼容旧版本。
+  const actViewPlugin = {
+    ...rawActViewPlugin,
+    transform(code: string, id: string) {
+      return rawActViewPlugin.transform(code, id.split('?')[0] || id)
+    }
+  }
 
   return [
-    actviewPlugin(),
+    actViewPlugin,
     vitePressPlugin,
     rewritesPlugin(siteConfig),
     hmrFix,
