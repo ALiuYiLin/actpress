@@ -1,5 +1,5 @@
 import { defineComponent, nextTick, ref, watch } from 'actview'
-import { onContentUpdated } from 'vitepress'
+import { inBrowser, onContentUpdated } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import { useData } from '../composables/data'
 import { resolveTitle } from '../composables/outline'
@@ -33,11 +33,11 @@ export const VPLocalNavOutlineDropdown = defineComponent(function (
     document.removeEventListener('click', closeOnClickOutside)
   })
 
-  // onKeyStroke('Escape') 手写（替代 @vueuse/core）
+  // onKeyStroke('Escape') 手写（替代 @vueuse/core）；node 静态生成期不监听
   const onKeydown = (e: KeyboardEvent) => {
     if (e.key === 'Escape') open.value = false
   }
-  document.addEventListener('keydown', onKeydown)
+  if (inBrowser) document.addEventListener('keydown', onKeydown)
 
   onContentUpdated(() => {
     open.value = false

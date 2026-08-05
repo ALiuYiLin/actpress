@@ -1,4 +1,5 @@
 import { defineComponent, ref } from 'actview'
+import { inBrowser } from 'vitepress'
 import { useLayout } from '../composables/layout'
 import { VPNavBarAppearance } from './VPNavBarAppearance'
 import { VPNavBarAskAiButton } from './VPNavBarAskAiButton'
@@ -12,13 +13,15 @@ import { VPNavBarTranslations } from './VPNavBarTranslations'
 
 /** 手写 useWindowScroll（替代 @vueuse/core） */
 function useWindowScroll() {
-  const x = ref(window.scrollX)
-  const y = ref(window.scrollY)
-  const onScroll = () => {
-    x.value = window.scrollX
-    y.value = window.scrollY
+  const x = ref(inBrowser ? window.scrollX : 0)
+  const y = ref(inBrowser ? window.scrollY : 0)
+  if (inBrowser) {
+    const onScroll = () => {
+      x.value = window.scrollX
+      y.value = window.scrollY
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
   }
-  window.addEventListener('scroll', onScroll, { passive: true })
   return { x, y }
 }
 
