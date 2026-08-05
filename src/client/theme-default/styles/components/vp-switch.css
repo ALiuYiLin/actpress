@@ -1,14 +1,3 @@
-<template>
-  <button class="VPSwitch" type="button" role="switch">
-    <span class="check">
-      <span class="icon" v-if="$slots.default">
-        <slot />
-      </span>
-    </span>
-  </button>
-</template>
-
-<style scoped>
 .VPSwitch {
   position: relative;
   border-radius: 11px;
@@ -60,4 +49,3 @@
   color: var(--vp-c-text-1);
   transition: opacity 0.25s !important;
 }
-</style>
