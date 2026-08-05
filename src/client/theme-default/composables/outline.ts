@@ -78,8 +78,8 @@ export function resolveHeaders(
 }
 
 export function useActiveAnchor(
-  container: Ref<HTMLElement>,
-  marker: Ref<HTMLElement>
+  container: Ref<HTMLElement | undefined>,
+  marker: Ref<HTMLElement | undefined>
 ): void {
   const { isAsideEnabled } = useAside()
 
@@ -166,11 +166,11 @@ export function useActiveAnchor(
 
     const activeLink = prevActiveLink
 
-    if (activeLink) {
+    if (activeLink && container.value && marker.value) {
       activeLink.classList.add('active')
       marker.value.style.top = activeLink.offsetTop + 39 + 'px'
       marker.value.style.opacity = '1'
-    } else {
+    } else if (marker.value) {
       marker.value.style.top = '33px'
       marker.value.style.opacity = '0'
     }
