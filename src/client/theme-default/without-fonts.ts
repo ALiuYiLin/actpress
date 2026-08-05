@@ -13,6 +13,7 @@ import './styles/components/vp-image.css'
 import './styles/components/vp-skip-link.css'
 import './styles/components/vp-menu.css'
 import './styles/components/vp-switch.css'
+import './styles/components/vp-flyout.css'
 
 import type { Theme } from 'vitepress'
 import { Layout } from './Layout'
