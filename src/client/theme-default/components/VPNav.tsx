@@ -1,4 +1,3 @@
-import { createElement } from '@actview/jsx'
 import { computed, defineComponent, watchEffect } from 'actview'
 import { inBrowser } from 'vitepress'
 import { useData } from '../composables/data'
@@ -29,22 +28,22 @@ export const VPNav = defineComponent(function (props: VPNavProps = {}) {
 
   return function () {
     if (!hasNavbar.value) return null
-    return createElement(
-      'header',
-      { class: 'VPNav' },
-      createElement(VPNavBar, {
-        isScreenOpen: isScreenOpen.value,
-        onToggleScreen: toggleScreen,
-        navBarTitleBefore: props.navBarTitleBefore,
-        navBarTitleAfter: props.navBarTitleAfter,
-        navBarContentBefore: props.navBarContentBefore,
-        navBarContentAfter: props.navBarContentAfter
-      }),
-      createElement(VPNavScreen, {
-        open: isScreenOpen.value,
-        navScreenContentBefore: props.navScreenContentBefore,
-        navScreenContentAfter: props.navScreenContentAfter
-      })
+    return (
+      <header class="VPNav">
+        <VPNavBar
+          isScreenOpen={isScreenOpen.value}
+          onToggleScreen={toggleScreen}
+          navBarTitleBefore={props.navBarTitleBefore}
+          navBarTitleAfter={props.navBarTitleAfter}
+          navBarContentBefore={props.navBarContentBefore}
+          navBarContentAfter={props.navBarContentAfter}
+        />
+        <VPNavScreen
+          open={isScreenOpen.value}
+          navScreenContentBefore={props.navScreenContentBefore}
+          navScreenContentAfter={props.navScreenContentAfter}
+        />
+      </header>
     )
   }
 })

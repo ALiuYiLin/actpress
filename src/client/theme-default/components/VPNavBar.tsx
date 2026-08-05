@@ -1,4 +1,3 @@
-import { createElement } from '@actview/jsx'
 import { defineComponent, ref } from 'actview'
 import { useLayout } from '../composables/layout'
 import { VPNavBarAppearance } from './VPNavBarAppearance'
@@ -33,10 +32,9 @@ export const VPNavBar = defineComponent(function (props: VPNavBarProps = {}) {
   const { isHome, hasSidebar } = useLayout()
 
   return function () {
-    return createElement(
-      'div',
-      {
-        class: [
+    return (
+      <div
+        class={[
           'VPNavBar',
           hasSidebar.value ? 'has-sidebar' : '',
           isHome.value ? 'home' : '',
@@ -44,49 +42,38 @@ export const VPNavBar = defineComponent(function (props: VPNavBarProps = {}) {
           props.isScreenOpen ? 'screen-open' : ''
         ]
           .filter(Boolean)
-          .join(' ')
-      },
-      createElement(
-        'div',
-        { class: 'wrapper' },
-        createElement(
-          'div',
-          { class: 'container' },
-          createElement(
-            'div',
-            { class: 'title' },
-            createElement(VPNavBarTitle, {
-              navBarTitleBefore: props.navBarTitleBefore,
-              navBarTitleAfter: props.navBarTitleAfter
-            })
-          ),
-          createElement(
-            'div',
-            { class: 'content' },
-            createElement(
-              'div',
-              { class: 'content-body' },
-              props.navBarContentBefore,
-              createElement(VPNavBarMenu, { class: 'menu' }),
-              // TODO(C): VPNavBarSearch / VPNavBarTranslations /
-              // VPNavBarSocialLinks / VPNavBarExtra / VPNavBarAskAiButton
-              // 尚未迁移（后续批次）
-              createElement(VPNavBarAppearance, { class: 'appearance' }),
-              createElement(VPNavBarHamburger, {
-                class: 'hamburger',
-                active: props.isScreenOpen,
-                onclick: props.onToggleScreen
-              }),
-              props.navBarContentAfter
-            )
-          )
-        )
-      ),
-      createElement(
-        'div',
-        { class: 'divider' },
-        createElement('div', { class: 'divider-line' })
-      )
+          .join(' ')}
+      >
+        <div class="wrapper">
+          <div class="container">
+            <div class="title">
+              <VPNavBarTitle
+                navBarTitleBefore={props.navBarTitleBefore}
+                navBarTitleAfter={props.navBarTitleAfter}
+              />
+            </div>
+            <div class="content">
+              <div class="content-body">
+                {props.navBarContentBefore}
+                <VPNavBarMenu class="menu" />
+                {/* TODO(C): VPNavBarSearch / VPNavBarTranslations /
+                    VPNavBarSocialLinks / VPNavBarExtra / VPNavBarAskAiButton
+                    尚未迁移（后续批次） */}
+                <VPNavBarAppearance class="appearance" />
+                <VPNavBarHamburger
+                  class="hamburger"
+                  active={props.isScreenOpen}
+                  onclick={props.onToggleScreen}
+                />
+                {props.navBarContentAfter}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="divider">
+          <div class="divider-line" />
+        </div>
+      </div>
     )
   }
 })

@@ -1,4 +1,3 @@
-import { createElement } from '@actview/jsx'
 import { defineComponent } from 'actview'
 import type { DefaultTheme } from 'vitepress/theme'
 import { withBase } from 'vitepress'
@@ -9,6 +8,7 @@ export interface VPImageProps {
   [key: string]: any
 }
 
+// defineComponent + JSX：render 内允许条件 return（VPImage 有递归与早退）
 export const VPImage = defineComponent(function (props: VPImageProps) {
   return function () {
     const { image, alt, ...rest } = props
@@ -17,30 +17,15 @@ export const VPImage = defineComponent(function (props: VPImageProps) {
     if (typeof image === 'string' || 'src' in image) {
       const src = typeof image === 'string' ? image : image.src
       const altText = alt ?? (typeof image === 'string' ? '' : image.alt || '')
-      return createElement('img', {
-        class: 'VPImage',
-        src: withBase(src),
-        alt: altText,
-        ...rest
-      })
+      return <img class="VPImage" src={withBase(src)} alt={altText} {...rest} />
     }
 
     // 双主题图（light/dark）
-    return createElement(
-      'div',
-      { style: { display: 'contents' } },
-      createElement(VPImage, {
-        class: 'dark',
-        image: image.dark,
-        alt: image.alt,
-        ...rest
-      }),
-      createElement(VPImage, {
-        class: 'light',
-        image: image.light,
-        alt: image.alt,
-        ...rest
-      })
+    return (
+      <div style={{ display: 'contents' }}>
+        <VPImage class="dark" image={image.dark} alt={image.alt} {...rest} />
+        <VPImage class="light" image={image.light} alt={image.alt} {...rest} />
+      </div>
     )
   }
 })

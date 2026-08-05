@@ -1,4 +1,3 @@
-import { createElement } from '@actview/jsx'
 import { defineComponent, ref, watch } from 'actview'
 import { inBrowser } from 'vitepress'
 
@@ -34,17 +33,15 @@ export const VPNavScreen = defineComponent(function (
 
   return function () {
     if (!props.open) return null
-    return createElement(
-      'div',
-      { class: 'VPNavScreen', id: 'VPNavScreen' },
-      createElement(
-        'div',
-        { class: 'container' },
-        props.navScreenContentBefore,
-        // TODO(C): VPNavScreenMenu / VPNavScreenTranslations /
-        // VPNavScreenAppearance / VPNavScreenSocialLinks 后续批次迁移
-        props.navScreenContentAfter
-      )
+    return (
+      <div class="VPNavScreen" id="VPNavScreen">
+        <div class="container">
+          {props.navScreenContentBefore}
+          {/* TODO(C): VPNavScreenMenu / VPNavScreenTranslations /
+              VPNavScreenAppearance / VPNavScreenSocialLinks 后续批次迁移 */}
+          {props.navScreenContentAfter}
+        </div>
+      </div>
     )
   }
 })
