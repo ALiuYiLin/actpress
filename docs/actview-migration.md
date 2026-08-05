@@ -86,6 +86,28 @@
 
 ---
 
+## 6. rolldown-vite（vite 7）兼容要点
+
+dev 白屏的两个根因与修复（commit `95c23094`）：
+
+1. **md transform id 带 query**：rolldown-vite 的 transform 收到 `id` 带 `?t=` 时间戳，
+   `id.endsWith('.md')` 永不匹配 → markdownToActView 不执行，md 原文被 import-analysis
+   parse 报 `Failed to parse source for import analysis ... invalid JS syntax`。
+   → 修复：`cleanUrl(id)` 后再判断扩展名。
+2. **import-analysis 先于用户 normal 插件**：rolldown-vite 的内建 import-analysis
+   （normal 级）在用户 normal 插件之前 parse 原始源码。→ 修复：`vitePressPlugin`
+   设 `enforce: 'pre'`，md → JS 转换先行。
+
+另外两个 rolldown-vite 行为：
+
+- **JS 插件 transform/load 对 .tsx 不调用**：rolldown 用 rust（oxc）原生处理 JS/TS，
+  函数组件（`function X(){ return <JSX/> }`）不会被 `@actview/plugin` 的 Babel 转换。
+  → 修复（JSX-Demo `987f428`，待发布）：Babel 插件兼容 esbuild 已降级的
+  `return _jsx/_jsxs(...)` 调用形态（`isJsxCall`），同样包裹 `defineComponent`。
+  `@actview/plugin` 需发布新版（vitepress 侧已本地 patch 验证）。
+- **`config()` 钩子返回的 plugins 不保证进 transform 管线**：`actviewPlugin` 已移至
+  `createVitePressPlugin` 返回数组顶层（`actviewPlugin()` 放最前）。
+
 ## 7. 测试现状
 
 - `npx vitest run -r __tests__/unit`：**14 个文件 134 用例全绿**
