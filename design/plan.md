@@ -103,17 +103,25 @@
 
 **验收（已通过）**：`.vue` 计数 **0**；`tsc -p src/client` 通过；134 单测全绿（含 `actview-shell` 冒烟：happy-dom 中 `Layout → Content → md 页面组件` 真实渲染）。
 
-### 阶段 D：构建管线（`src/node/build/`，去掉 SSR 只留静态生成）
+### 阶段 D：构建管线（`src/node/build/`，去掉 SSR 只留静态生成）✅ 已完成
 
-- [ ] **D1** `bundle.ts`：删除 SSR 构建分支（`ssr` 参数、tempDir 的 ssr bundle、`@vue/*` external 规则），改为**单构建**（client bundle）
-- [ ] **D2** `render.ts`：`renderPage` 不再 import SSR bundle 渲染，改为**构建期直接用 ActView `renderToString`** 渲染每页（`createElement` 树在构建进程内直接执行 → HTML 字符串），再组装进页面模板；`teleports` 逻辑删除
-- [ ] **D3** `@vue/shared` 的 `isBooleanAttr` 等工具用自研替代（属性转义/布尔属性判断写进 `renderToString` 或复用 markdownToActView 的工具）
-- [ ] **D4** `buildMPAClient.ts`：🔶 决策：MPA 模式与 SSR 强相关，建议**一并删除**（静态生成 + SPA 模式已覆盖）
-- [ ] **D5** `plugin.ts` 清理：删除 `vuePlugin`（`.vue` 页面支持随之移除，🔶 确认不再需要 `.vue` 页面）；`optimizeDeps.include` 的 `vue`/`vueuse` 条目删除；`define` 里的 `__VUE_PROD_HYDRATION_MISMATCH_DETAILS__` 删除
-- [ ] **D6** `cli.ts`/`config.ts` 中 `vue` 相关选项（`siteConfig.vue`）清理
-- [ ] **D7** 静态 HTML 与客户端挂载策略：🔶 决策——构建产物是「完整静态 HTML + 客户端 JS 全量挂载」（无 hydration，挂载时会重渲染 DOM）还是「静态 HTML + 客户端跳过已有 DOM 的挂载」。**建议前者**（ActView `createApp().mount()` 原生行为，简单可靠；首屏内容由静态 HTML 保证，交互由 JS 接管）
+> 核心思路：**保留「server bundle」的概念但内容换成 ActView 静态生成入口**——它不再是 Vue SSR bundle，
+> 而是 node 构建期渲染入口：`src/client/app/ssr.ts` 用 `renderToString(createElement(VitePressApp))`
+> 在构建进程内直接渲染整棵主题树 → HTML 字符串；页面 chunk 继续导出 `__pageData` 供 head 组装。
+> `teleports`/`vpSocialIcons` 返回空集对齐 `SSGContext` 契约。
 
-**验收**：`pnpm build` 产出静态站点（每页 `.html` 含预渲染内容 + 资源哈希）；`pnpm preview` 正常；无 SSR 相关文件/依赖残留。
+- [x] **D1** `bundle.ts`：client + server 双 bundle 保留但含义改变（server = 静态生成入口）；删 `@vue/(runtime|shared|reactivity)`/`plugin-vue:export-helper` manualChunks、`@vueuse`/`vue` excludedModules、`clientJSMap` 管线
+- [x] **D2** `ssr.ts` 重建为 ActView 版（`renderToString(VitePressApp)`，纯函数无 DOM）；`render.ts` 不再 import Vue SSR
+- [x] **D3** `render.ts` 的 `isBooleanAttr`（@vue/shared）→ 自研 `BOOLEAN_ATTRS` 集合
+- [x] **D4** `buildMPAClient.ts` 删除；`mpa` 从 config/siteConfig/render/build 全链路移除
+- [x] **D5** `plugin.ts` 删 `vuePlugin`/`optimizeDeps` vue 条目/`__VUE_PROD_HYDRATION_MISMATCH_DETAILS__`；`siteConfig.vue` 选项删除；`localSearchPlugin` optimizeDeps 收窄
+- [x] **D6** `alias.ts` 删 vue runtime alias；`linkVue()`（vue symlink）删除；package.json 移除 `vue`/`@vitejs/plugin-vue`/`@vue/shared`/`@vueuse/core`/`@vueuse/integrations`/`@vue/devtools-api`/`mark.js`/`vue-tsc`
+- [x] **D7** 决策落地：**完整静态 HTML + 客户端全量挂载**（ActView `createApp().mount()` 原生行为）
+- [x] **C4 补全（D 阶段顺带）**：`Layout.tsx` 从 B 阶段最小主干升级为完整树（VPNav/VPLocalNav/VPSidebar/VPContent）；3 个组件的浏览器访问加 `inBrowser` 守卫；13 个 CSS 清理 `:deep`/`:slotted`（lightningcss 警告消除）
+
+**验收（已通过）**：`node bin/vitepress.js build`（最小站点）产出每页 `.html` 含预渲染完整主题树（VPNavBar/VPSidebar/VPContent/Outline）+ 资源哈希；实体转义/标题/锚点正确；无 SSR 残留。
+
+**遗留（JSX-Demo 侧）**：`renderToString` 期间组件 setup 内调用生命周期钩子会打印 `[actview] 生命周期钩子只能在组件 setup 中调用`（功能不受影响）——建议 JSX-Demo 的 `renderToString` 在调用 `__setup` 时设置 currentInstance 上下文。
 
 ### 阶段 E：docs 重构
 

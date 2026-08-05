@@ -7,6 +7,12 @@ const dir = dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
   plugins: [actviewPlugin()],
+  define: {
+    __ALGOLIA__: false,
+    __VP_LOCAL_SEARCH__: false,
+    __CARBON__: false,
+    __ASSETS_DIR__: JSON.stringify('assets')
+  },
   esbuild: {
     jsx: 'automatic',
     jsxImportSource: '@actview/jsx'
@@ -14,6 +20,10 @@ export default defineConfig({
   resolve: {
     alias: [
       { find: '@siteData', replacement: resolve(dir, './shims.ts') },
+      {
+        find: '@localSearchIndex',
+        replacement: resolve(dir, './shims-local-search.ts')
+      },
       { find: 'client', replacement: resolve(dir, '../../src/client') },
       { find: 'node', replacement: resolve(dir, '../../src/node') },
       { find: 'shared', replacement: resolve(dir, '../../src/shared') },
