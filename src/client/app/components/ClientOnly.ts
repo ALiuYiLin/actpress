@@ -1,13 +1,17 @@
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, onMounted, ref } from 'actview'
 
-export const ClientOnly = defineComponent({
-  setup(_, { slots }) {
-    const show = ref(false)
+/**
+ * ClientOnly — 仅在客户端挂载后渲染 children。
+ * ActView 版：默认插槽通过 props.children 传入。
+ */
+export const ClientOnly = defineComponent(function (props: any) {
+  const show = ref(false)
 
-    onMounted(() => {
-      show.value = true
-    })
+  onMounted(() => {
+    show.value = true
+  })
 
-    return () => (show.value && slots.default ? slots.default() : null)
+  return function () {
+    return show.value ? (props.children ?? null) : null
   }
 })
