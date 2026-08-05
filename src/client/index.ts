@@ -12,6 +12,7 @@ export type { EnhanceAppContext, Theme } from './app/theme'
 export type {
   HeadConfig,
   Header,
+  InjectionKey,
   PageData,
   Ref,
   SiteData
