@@ -112,9 +112,9 @@ describe('node/markdownToActView', () => {
     expect(result.actViewSrc).toContain(`createElement("div", null,`)
 
     // 把生成的模块写到临时文件并实际执行（actview 相关 import 已被 vi.mock 替换）
-    const modFile = path.join(root, 'page.js')
+    const modFile = path.join(root, `page-${Date.now()}.js`)
     await writeFile(modFile, result.actViewSrc)
-    const mod = await import(pathToFileURL(modFile).href + '?t=' + Date.now())
+    const mod = await import(pathToFileURL(modFile).href)
 
     // __pageData 导出
     expect(mod.__pageData).toMatchObject({ title: 'Hi' })
