@@ -1,6 +1,20 @@
-import { useMediaQuery } from '@vueuse/core'
-import { computed } from 'vue'
+import { computed, ref } from 'actview'
+import type { Ref } from 'vitepress'
+import { inBrowser } from '../../shared'
 import { useLayout } from './layout'
+
+/** 手写 useMediaQuery（替代 @vueuse/core）：matchMedia + change 监听 */
+function useMediaQuery(query: string): Ref<boolean> {
+  const media = inBrowser ? window.matchMedia(query) : null
+  const isMatch = ref(media?.matches ?? false)
+  if (media) {
+    const onChange = (e: MediaQueryListEvent) => {
+      isMatch.value = e.matches
+    }
+    media.addEventListener('change', onChange)
+  }
+  return isMatch
+}
 
 export function useAside() {
   const { hasSidebar } = useLayout()

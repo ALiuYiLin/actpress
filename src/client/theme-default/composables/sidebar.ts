@@ -2,13 +2,12 @@ import type { DefaultTheme } from 'vitepress/theme'
 import {
   computed,
   onMounted,
-  onUnmounted,
+  onBeforeUnmount,
   ref,
   watch,
-  watchEffect,
-  watchPostEffect,
-  type ComputedRef
-} from 'vue'
+  watchEffect
+} from 'actview'
+import type { Ref } from 'vitepress'
 import { isActive } from '../../shared'
 import { hasActiveLink as containsActiveLink } from '../support/sidebar'
 import { useData } from './data'
@@ -32,7 +31,7 @@ export function useCloseSidebarOnEscape(close: () => void) {
     window.addEventListener('keyup', onEscape)
   })
 
-  onUnmounted(() => {
+  onBeforeUnmount(() => {
     window.removeEventListener('keyup', onEscape)
   })
 
@@ -65,9 +64,7 @@ export function useSidebarControl() {
   }
 }
 
-export function useSidebarItemControl(
-  item: ComputedRef<DefaultTheme.SidebarItem>
-) {
+export function useSidebarItemControl(item: Ref<DefaultTheme.SidebarItem>) {
   const { page, hash } = useData()
 
   const collapsed = ref(false)
@@ -106,7 +103,7 @@ export function useSidebarItemControl(
     collapsed.value = !!(collapsible.value && item.value.collapsed)
   })
 
-  watchPostEffect(() => {
+  watchEffect(() => {
     ;(isActiveLink.value || hasActiveLink.value) && (collapsed.value = false)
   })
 

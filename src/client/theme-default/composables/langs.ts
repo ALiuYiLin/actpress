@@ -1,4 +1,4 @@
-import { computed } from 'vue'
+import { computed } from 'actview'
 import type { DefaultTheme } from 'vitepress/theme'
 import type { VitePressData } from '../../app/data'
 import { ensureStartingSlash } from '../support/utils'

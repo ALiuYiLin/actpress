@@ -1,5 +1,6 @@
 import type { DefaultTheme } from 'vitepress/theme'
-import { onMounted, onUnmounted, onUpdated, type Ref } from 'vue'
+import { onBeforeUnmount, onMounted, onUpdated } from 'actview'
+import type { Ref } from 'vitepress'
 import { throttleAndDebounce } from '../support/utils'
 import { useAside } from './aside'
 
@@ -96,7 +97,7 @@ export function useActiveAnchor(
     activateLink(location.hash)
   })
 
-  onUnmounted(() => {
+  onBeforeUnmount(() => {
     window.removeEventListener('scroll', onScroll)
   })
 

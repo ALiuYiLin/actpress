@@ -9,7 +9,13 @@ export type { Route, Router } from './app/router'
 export type { EnhanceAppContext, Theme } from './app/theme'
 
 // shared types
-export type { HeadConfig, Header, PageData, SiteData } from '../../types/shared'
+export type {
+  HeadConfig,
+  Header,
+  PageData,
+  Ref,
+  SiteData
+} from '../../types/shared'
 
 // composables
 export { dataSymbol, useData } from './app/data'

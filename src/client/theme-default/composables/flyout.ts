@@ -1,4 +1,5 @@
-import { onUnmounted, readonly, type Ref, ref, watch } from 'vue'
+import { onBeforeUnmount, readonly, ref, watch } from 'actview'
+import type { Ref } from 'vitepress'
 import { inBrowser } from '../../shared'
 
 interface UseFlyoutOptions {
@@ -7,7 +8,7 @@ interface UseFlyoutOptions {
   onBlur?(): void
 }
 
-export const focusedElement = ref<HTMLElement>()
+export const focusedElement = ref<HTMLElement | undefined>(undefined)
 
 let active = false
 let listeners = 0
@@ -30,7 +31,7 @@ export function useFlyout(options: UseFlyoutOptions) {
       }
     })
 
-    onUnmounted(() => {
+    onBeforeUnmount(() => {
       unwatch()
 
       listeners--

@@ -1,4 +1,4 @@
-import { computed } from 'vue'
+import { computed } from 'actview'
 import { useData } from './data'
 
 export function useEditLink() {

@@ -1,4 +1,4 @@
-import { computed } from 'vue'
+import { computed } from 'actview'
 import { isActive } from '../../shared'
 import { getFlatSideBarLinks, getSidebar } from '../support/sidebar'
 import { useData } from './data'

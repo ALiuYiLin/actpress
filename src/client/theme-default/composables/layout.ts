@@ -1,14 +1,10 @@
 import { inBrowser, onContentUpdated, useRoute } from 'vitepress'
-import type { DefaultTheme, useLayout as expected } from 'vitepress/theme'
-import {
-  computed,
-  shallowReadonly,
-  shallowRef,
-  watch,
-  type ComputedRef,
-  type InjectionKey
-} from 'vue'
+import { computed, readonly, watch } from 'actview'
+import type { DefaultTheme } from 'vitepress/theme'
+import type { InjectionKey } from 'vue'
+import type { Ref } from 'vitepress'
 import { getSidebar, getSidebarGroups } from '../support/sidebar'
+import { shallowRef } from '../support/reactivity'
 import { useData } from './data'
 import { getHeaders } from './outline'
 import { useCloseSidebarOnEscape } from './sidebar'
@@ -18,7 +14,7 @@ const sidebar = shallowRef<DefaultTheme.SidebarItem[]>([])
 
 const is960 = shallowRef(false)
 
-export function useLayout(): ReturnType<typeof expected> {
+export function useLayout() {
   const { frontmatter, theme } = useData()
 
   const isHome = computed(() => {
@@ -58,13 +54,13 @@ export function useLayout(): ReturnType<typeof expected> {
 
   return {
     isHome,
-    sidebar: shallowReadonly(sidebar),
+    sidebar: readonly(sidebar),
     sidebarGroups,
     hasSidebar,
     isSidebarEnabled,
     hasAside,
     leftAside,
-    headers: shallowReadonly(headers),
+    headers: readonly(headers),
     hasLocalNav
   }
 }
@@ -76,6 +72,8 @@ interface RegisterWatchersOptions {
 export function registerWatchers({ closeSidebar }: RegisterWatchersOptions) {
   const { frontmatter, page, theme } = useData()
 
+  // ActView watch 无 deep/flush 选项；getter 每次返回新数组 → 恒触发，
+  // 与 Vue 版 deep+sync 的关键场景一致（immediate 由 options 提供）
   watch(
     () => [page.value.relativePath, theme.value.sidebar] as const,
     ([relativePath, sidebarConfig]) => {
@@ -86,7 +84,7 @@ export function registerWatchers({ closeSidebar }: RegisterWatchersOptions) {
         sidebar.value = newSidebar
       }
     },
-    { immediate: true, deep: true, flush: 'sync' }
+    { immediate: true }
   )
 
   onContentUpdated(() => {
@@ -112,7 +110,7 @@ export function registerWatchers({ closeSidebar }: RegisterWatchersOptions) {
 }
 
 export interface LayoutInfo {
-  heroImageSlotExists: ComputedRef<boolean>
+  heroImageSlotExists: Ref<boolean>
 }
 
 export const layoutInfoInjectionKey: InjectionKey<LayoutInfo> =

@@ -1,4 +1,5 @@
-import { type Ref, onMounted, onUnmounted } from 'vue'
+import { onBeforeUnmount, onMounted } from 'actview'
+import type { Ref } from 'vitepress'
 import { throttleAndDebounce } from '../support/utils'
 
 export interface GridSetting {
@@ -57,7 +58,7 @@ export function useSponsorsGrid({
     window.addEventListener('resize', onResize)
   })
 
-  onUnmounted(() => {
+  onBeforeUnmount(() => {
     window.removeEventListener('resize', onResize)
   })
 
