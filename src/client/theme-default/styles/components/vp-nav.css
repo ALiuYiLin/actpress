@@ -535,3 +535,27 @@ kbd {
     color: var(--vp-c-brand-1);
   }
 }
+
+/* ---- VPNavBarTitle（原版 VPNavBarTitle.vue scoped style） ---- */
+.VPNavBarTitle .title {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid transparent;
+  width: 100%;
+  height: var(--vp-nav-height);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--vp-c-text-1);
+  transition: opacity 0.25s;
+}
+
+@media (min-width: 960px) {
+  .VPNavBarTitle .title {
+    flex-shrink: 0;
+  }
+}
+
+.VPNavBarTitle .logo {
+  margin-right: 8px;
+  height: var(--vp-nav-logo-height);
+}
