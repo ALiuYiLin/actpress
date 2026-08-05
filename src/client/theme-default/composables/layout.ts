@@ -14,7 +14,17 @@ const sidebar = shallowRef<DefaultTheme.SidebarItem[]>([])
 
 const is960 = shallowRef(false)
 
-export function useLayout() {
+export function useLayout(): {
+  isHome: Ref<boolean>
+  sidebar: Ref<DefaultTheme.SidebarItem[]>
+  sidebarGroups: Ref<DefaultTheme.SidebarItem[]>
+  hasSidebar: Ref<boolean>
+  isSidebarEnabled: Ref<boolean>
+  hasAside: Ref<boolean>
+  leftAside: Ref<boolean>
+  headers: Ref<DefaultTheme.OutlineItem[]>
+  hasLocalNav: Ref<boolean>
+} {
   const { frontmatter, theme } = useData()
 
   const isHome = computed(() => {
@@ -105,8 +115,7 @@ export function registerWatchers({ closeSidebar }: RegisterWatchersOptions) {
   const route = useRoute()
   watch(() => route.path, closeSidebar)
 
-  // TODO: @actview/core 1.0.11 发布后移除断言（npm 1.0.10 watch source 需 __v_isRef）
-  watch(is960 as any, closeSidebar)
+  watch(is960, closeSidebar)
   useCloseSidebarOnEscape(closeSidebar)
 }
 

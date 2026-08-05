@@ -27,8 +27,8 @@ importers:
   .:
     dependencies:
       '@actview/core':
-        specifier: ^1.0.10
-        version: 1.0.10
+        specifier: ^1.0.11
+        version: 1.0.11
       '@actview/jsx':
         specifier: ^1.0.11
         version: 1.0.11
@@ -372,8 +372,8 @@ importers:
 
 packages:
 
-  '@actview/core@1.0.10':
-    resolution: {integrity: sha512-BnJoe3YiUbNJ25j5c4cs82eCz0go1W5a7k1quFwGCk33+kxmYfuR+X2FfXeuisfTdoARpQUdar8lHtkJUJgypA==}
+  '@actview/core@1.0.11':
+    resolution: {integrity: sha512-XcO2LLVQpbdXT3fqGWiz8WOaZAhHH4QVM7JM4daL5yFTIQzuCli2R6kbTbdqxiCOndOAKsgxQ6RPPXWVBqeSsA==}
 
   '@actview/jsx@1.0.11':
     resolution: {integrity: sha512-eMBEs3mQE9yIg1F9qE2nlmPAALRunQ1mlWLJp/rJW7iR1Y3RBNFCBdA7eHFqgQCMHRa5Fcld0NjbADfZPNsS4A==}
@@ -3315,7 +3315,7 @@ packages:
 
 snapshots:
 
-  '@actview/core@1.0.10':
+  '@actview/core@1.0.11':
     dependencies:
       '@actview/jsx': 1.0.11
 
@@ -3327,7 +3327,7 @@ snapshots:
 
   '@actview/router@1.0.10':
     dependencies:
-      '@actview/core': 1.0.10
+      '@actview/core': 1.0.11
       '@actview/jsx': 1.0.11
 
   '@antfu/install-pkg@1.1.0':
@@ -4275,7 +4275,7 @@ snapshots:
 
   actview@1.0.10:
     dependencies:
-      '@actview/core': 1.0.10
+      '@actview/core': 1.0.11
       '@actview/jsx': 1.0.11
 
   agent-base@6.0.2:

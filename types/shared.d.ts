@@ -2,14 +2,14 @@
 export type { DefaultTheme } from './default-theme.js'
 
 /**
- * 通用响应式引用接口（替代 vue 的 Ref）。
+ * 通用响应式引用接口（替代 vue 的 Ref；结构兼容 ActView 的 Ref，
+ * 保证可以传给 actview 的 watch/computed 等 API）。
  *
- * `__v_isRef` 标记为可选：npm 版 @actview/core@1.0.10 的 computed 返回类型
- * 未带该标记（1.0.11 已修复类型，发布后此处可收紧为必填）。
+ * 注：主题（Vue SFC）迁移到 ActView 后，所有 Ref 均为本类型。
  */
 export interface Ref<T = any> {
   value: T
-  readonly __v_isRef?: true
+  readonly __v_isRef: true
   [key: string]: any
 }
 

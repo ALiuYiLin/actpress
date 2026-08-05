@@ -43,7 +43,12 @@ export function useCloseSidebarOnEscape(close: () => void) {
   }
 }
 
-export function useSidebarControl() {
+export function useSidebarControl(): {
+  isOpen: Ref<boolean>
+  open(): void
+  close(): void
+  toggle(): void
+} {
   function open() {
     isOpen.value = true
   }
@@ -64,7 +69,15 @@ export function useSidebarControl() {
   }
 }
 
-export function useSidebarItemControl(item: Ref<DefaultTheme.SidebarItem>) {
+export function useSidebarItemControl(item: Ref<DefaultTheme.SidebarItem>): {
+  collapsed: Ref<boolean>
+  collapsible: Ref<boolean>
+  isLink: Ref<boolean>
+  isActiveLink: Ref<boolean>
+  hasActiveLink: Ref<boolean>
+  hasChildren: Ref<boolean>
+  toggle(): void
+} {
   const { page, hash } = useData()
 
   const collapsed = ref(false)
@@ -82,8 +95,7 @@ export function useSidebarItemControl(item: Ref<DefaultTheme.SidebarItem>) {
     isActiveLink.value = isActive(page.value.relativePath, item.value.link)
   }
 
-  // TODO: @actview/core 1.0.11 发布后移除断言（npm 1.0.10 watch 签名不支持混合来源数组）
-  watch([page, item, hash] as any, updateIsActiveLink)
+  watch([page, item, hash], updateIsActiveLink)
   onMounted(updateIsActiveLink)
 
   const hasActiveLink = computed(() => {

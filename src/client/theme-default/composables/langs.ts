@@ -1,10 +1,23 @@
 import { computed } from 'actview'
 import type { DefaultTheme } from 'vitepress/theme'
+import type { Ref } from 'vitepress'
 import type { VitePressData } from '../../app/data'
 import { ensureStartingSlash } from '../support/utils'
 import { useData } from './data'
 
-export function useLangs({ correspondingLink = false } = {}) {
+export function useLangs({
+  correspondingLink = false
+}: { correspondingLink?: boolean } = {}): {
+  localeLinks: Ref<
+    Array<{
+      text: string
+      link: string
+      lang: string | undefined
+      dir: string | undefined
+    }>
+  >
+  currentLang: Ref<{ label: string | undefined; link: string }>
+} {
   const data = useData()
   const { site, localeIndex } = data
   const currentLang = computed(() => ({

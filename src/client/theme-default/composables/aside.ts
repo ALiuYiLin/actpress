@@ -16,7 +16,7 @@ function useMediaQuery(query: string): Ref<boolean> {
   return isMatch
 }
 
-export function useAside() {
+export function useAside(): { isAsideEnabled: Ref<boolean> } {
   const { hasSidebar } = useLayout()
   const is960 = useMediaQuery('(min-width: 960px)')
   const is1280 = useMediaQuery('(min-width: 1280px)')

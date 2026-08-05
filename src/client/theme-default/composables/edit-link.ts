@@ -1,7 +1,8 @@
 import { computed } from 'actview'
+import type { Ref } from 'vitepress'
 import { useData } from './data'
 
-export function useEditLink() {
+export function useEditLink(): Ref<{ url: string; text: string }> {
   const { theme, page } = useData()
 
   return computed(() => {

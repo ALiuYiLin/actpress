@@ -1,9 +1,13 @@
 import { computed } from 'actview'
 import { isActive } from '../../shared'
 import { getFlatSideBarLinks, getSidebar } from '../support/sidebar'
+import type { Ref } from 'vitepress'
 import { useData } from './data'
 
-export function usePrevNext() {
+export function usePrevNext(): Ref<{
+  prev?: { text?: string; link?: string } | undefined
+  next?: { text?: string; link?: string } | undefined
+}> {
   const { page, theme, frontmatter } = useData()
 
   return computed(() => {
