@@ -32,7 +32,7 @@ function resolveThemeExtends(theme: typeof RawTheme): typeof RawTheme {
 
 const Theme = resolveThemeExtends(RawTheme)
 
-const VitePressApp = defineComponent(function (props: any) {
+export const VitePressApp = defineComponent(function (props: any) {
   const { site, lang, dir } = useData()
 
   // change the language on the HTML element based on the current lang
