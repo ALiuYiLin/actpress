@@ -42,8 +42,14 @@ export function VPFeature(props: VPFeatureProps) {
             width={icon.width || 48}
           />
         ) : icon ? (
-          // 原 v-html：ActView 无 innerHTML，文本渲染
-          <div class="icon">{icon}</div>
+          // 原 v-html：ActView 无 innerHTML，用 ref 回调注入 DOM（icon 支持内联 SVG/HTML 字符串）
+          // 纯文本场景可直接 <div class="icon">{icon}</div>
+          <div
+            class="icon"
+            ref={(el: HTMLDivElement | null) => {
+              if (el) el.innerHTML = icon
+            }}
+          />
         ) : null}
         {/* 原 v-html：文本渲染 */}
         <h2 class="title">{title}</h2>
