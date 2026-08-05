@@ -14,6 +14,7 @@ import './styles/components/vp-skip-link.css'
 import './styles/components/vp-menu.css'
 import './styles/components/vp-switch.css'
 import './styles/components/vp-flyout.css'
+import './styles/components/vp-nav.css'
 
 import type { Theme } from 'vitepress'
 import { Layout } from './Layout'

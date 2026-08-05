@@ -1,73 +1,3 @@
-<script lang="ts" setup>
-import { useWindowScroll } from '@vueuse/core'
-import { useLayout } from '../composables/layout'
-import VPNavBarAppearance from './VPNavBarAppearance.vue'
-import VPNavBarExtra from './VPNavBarExtra.vue'
-import VPNavBarHamburger from './VPNavBarHamburger.vue'
-import VPNavBarMenu from './VPNavBarMenu.vue'
-import VPNavBarSearch from './VPNavBarSearch.vue'
-import VPNavBarSocialLinks from './VPNavBarSocialLinks.vue'
-import VPNavBarTitle from './VPNavBarTitle.vue'
-import VPNavBarTranslations from './VPNavBarTranslations.vue'
-
-const props = defineProps<{
-  isScreenOpen: boolean
-}>()
-
-defineEmits<{
-  (e: 'toggle-screen'): void
-}>()
-
-const { y } = useWindowScroll()
-const { isHome, hasSidebar } = useLayout()
-</script>
-
-<template>
-  <div
-    class="VPNavBar"
-    :class="{
-      'has-sidebar': hasSidebar,
-      'home': isHome,
-      'top': y === 0,
-      'screen-open': isScreenOpen
-    }"
-  >
-    <div class="wrapper">
-      <div class="container">
-        <div class="title">
-          <VPNavBarTitle>
-            <template #nav-bar-title-before><slot name="nav-bar-title-before" /></template>
-            <template #nav-bar-title-after><slot name="nav-bar-title-after" /></template>
-          </VPNavBarTitle>
-        </div>
-
-        <div class="content">
-          <div class="content-body">
-            <slot name="nav-bar-content-before" />
-            <VPNavBarSearch class="search" />
-            <VPNavBarMenu class="menu" />
-            <VPNavBarTranslations class="translations" />
-            <VPNavBarAppearance class="appearance" />
-            <VPNavBarSocialLinks class="social-links" />
-            <VPNavBarExtra class="extra" />
-            <slot name="nav-bar-content-after" />
-            <VPNavBarHamburger
-              class="hamburger"
-              :active="isScreenOpen"
-              @click="$emit('toggle-screen')"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="divider">
-      <div class="divider-line" />
-    </div>
-  </div>
-</template>
-
-<style scoped>
 .VPNavBar {
   position: relative;
   height: var(--vp-nav-height);
@@ -157,8 +87,14 @@ const { isHome, hasSidebar } = useLayout()
 
 @media (min-width: 1440px) {
   .VPNavBar.has-sidebar .title {
-    padding-left: max(32px, calc((100% - (var(--vp-layout-max-width) - 64px)) / 2));
-    width: calc((100% - (var(--vp-layout-max-width) - 64px)) / 2 + var(--vp-sidebar-width) - 32px);
+    padding-left: max(
+      32px,
+      calc((100% - (var(--vp-layout-max-width) - 64px)) / 2)
+    );
+    width: calc(
+      (100% - (var(--vp-layout-max-width) - 64px)) / 2 +
+        var(--vp-sidebar-width) - 32px
+    );
   }
 }
 
@@ -177,7 +113,9 @@ const { isHome, hasSidebar } = useLayout()
 
 @media (min-width: 1440px) {
   .VPNavBar.has-sidebar .content {
-    padding-left: calc((100% - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
+    padding-left: calc(
+      (100% - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width)
+    );
     padding-right: calc((100% - var(--vp-layout-max-width)) / 2 + 32px);
   }
 }
@@ -216,7 +154,7 @@ const { isHome, hasSidebar } = useLayout()
   width: 1px;
   height: 24px;
   background-color: var(--vp-c-divider);
-  content: "";
+  content: '';
 }
 
 .menu + .appearance::before,
@@ -245,7 +183,9 @@ const { isHome, hasSidebar } = useLayout()
 
 @media (min-width: 1440px) {
   .VPNavBar.has-sidebar .divider {
-    padding-left: calc((100% - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
+    padding-left: calc(
+      (100% - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width)
+    );
   }
 }
 
@@ -268,4 +208,148 @@ const { isHome, hasSidebar } = useLayout()
     background-color: var(--vp-c-gutter);
   }
 }
-</style>
+
+.title {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid transparent;
+  width: 100%;
+  height: var(--vp-nav-height);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--vp-c-text-1);
+  transition: opacity 0.25s;
+}
+
+@media (min-width: 960px) {
+  .title {
+    flex-shrink: 0;
+  }
+
+  .VPNavBarTitle.has-sidebar .title {
+    border-bottom-color: var(--vp-c-divider);
+  }
+}
+
+:deep(.logo) {
+  margin-right: 8px;
+  height: var(--vp-nav-logo-height);
+}
+
+.VPNavBarMenu {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .VPNavBarMenu {
+    display: flex;
+  }
+}
+
+.VPNavBarMenuLink {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  line-height: var(--vp-nav-height);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--vp-c-text-1);
+  transition: color 0.25s;
+}
+
+.VPNavBarMenuLink.active {
+  color: var(--vp-c-brand-1);
+}
+
+.VPNavBarMenuLink:hover {
+  color: var(--vp-c-brand-1);
+}
+
+.VPNavBarHamburger {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: var(--vp-nav-height);
+}
+
+@media (min-width: 768px) {
+  .VPNavBarHamburger {
+    display: none;
+  }
+}
+
+.container {
+  position: relative;
+  width: 16px;
+  height: 14px;
+  overflow: hidden;
+}
+
+.VPNavBarHamburger:hover .top {
+  top: 0;
+  left: 0;
+  transform: translateX(4px);
+}
+.VPNavBarHamburger:hover .middle {
+  top: 6px;
+  left: 0;
+  transform: translateX(0);
+}
+.VPNavBarHamburger:hover .bottom {
+  top: 12px;
+  left: 0;
+  transform: translateX(8px);
+}
+
+.VPNavBarHamburger.active .top {
+  top: 6px;
+  transform: translateX(0) rotate(225deg);
+}
+.VPNavBarHamburger.active .middle {
+  top: 6px;
+  transform: translateX(16px);
+}
+.VPNavBarHamburger.active .bottom {
+  top: 6px;
+  transform: translateX(0) rotate(135deg);
+}
+
+.VPNavBarHamburger.active:hover .top,
+.VPNavBarHamburger.active:hover .middle,
+.VPNavBarHamburger.active:hover .bottom {
+  background-color: var(--vp-c-text-2);
+  transition:
+    top 0.25s,
+    background-color 0.25s,
+    transform 0.25s;
+}
+
+.top,
+.middle,
+.bottom {
+  position: absolute;
+  width: 16px;
+  height: 2px;
+  background-color: var(--vp-c-text-1);
+  transition:
+    top 0.25s,
+    background-color 0.5s,
+    transform 0.25s;
+}
+
+.top {
+  top: 0;
+  left: 0;
+  transform: translateX(0);
+}
+.middle {
+  top: 6px;
+  left: 0;
+  transform: translateX(8px);
+}
+.bottom {
+  top: 12px;
+  left: 0;
+  transform: translateX(4px);
+}
