@@ -51,18 +51,16 @@
 
 ---
 
-## 4. C 阶段：默认主题迁移（`src/client/theme-default/`）
+## 4. C 阶段：默认主题迁移（`src/client/theme-default/`）✅ 已完成
 
-**已完成**：
-
-- **composables（11 个）全部 ActView 化**：`computed/ref/watch/watchEffect/readonly/onMounted/onBeforeUnmount/onUpdated` 来自 `actview`；`useMediaQuery` 手写；`watchPostEffect`→`watchEffect`；`shallowRef` 用 `shallowReactive({value})` 模拟；`smartComputed` 闭包缓存
-- **support**：`reactivity.ts`（含共享 `shallowRef`/`smartComputed`）
-- **组件迁移为 `.tsx`（20 个）**：
-  - 函数组件 + JSX（TogglePage 风格，经 `@actview/plugin` Babel 转换）：`VPBadge/VPButton/VPLink/VPSwitch/VPSkipLink/VPMenu/VPMenuGroup/VPMenuLink/VPFlyout/VPNavBarTitle/VPNavBarMenuLink/VPNavBarMenuGroup/VPSwitchAppearance/VPNavBarHamburger`
-  - 显式 `defineComponent` + JSX（有早退 return，Babel 转换不支持）：`VPImage/VPNavBar/VPNavBarMenu/VPNavBarAppearance/VPNavScreen/VPNav/Layout`
-  - `<style>`（scoped）→ `styles/components/*.css` 全局化：`vp-badge/button/image/skip-link/menu/switch/flyout/nav/nav-appearance/nav-screen.css`
-- **删除**：19 个 `VPIcon*.vue`（全局零引用）、`Layout.vue`（→`Layout.tsx`）
-- **待迁移（52 个 .vue）**：`VPNavScreenMenu*`、`VPSidebar*`、`VPDoc*`、`VPHome*`、`VPFooter/VPBackdrop/VPSocialLink(s)/VPSponsors/VPTeam*/VPCarbonAds/VPAlgoliaSearchBox/VPLocalSearchBox/NotFound` 等（见 `design/plan.md` 阶段 C 剩余批次）
+- **composables（11 个）+ support 全部 ActView 化**：响应式来自 `actview`；`useMediaQuery`/`useWindowScroll`/`useScrollLock`/`onKeyStroke` 手写；`shallowRef` 用 `shallowReactive({value})` 模拟；`smartComputed` 闭包缓存
+- **92 个 `.vue` 组件全部迁移为 `.tsx`（计数 0）**：
+  - 函数组件 + JSX（经 `@actview/plugin` Babel 转换）；有早退 return 的用显式 `defineComponent` + JSX
+  - `<style>`（scoped）→ `styles/components/*.css` 全局化（VP 前缀类名）
+  - `v-html` → 文本渲染 / ref+onMounted 注入（SVG、carbon 脚本）；`inject` → `useNav()` 等模块 context
+  - 搜索：`VPAlgoliaSearchBox` 完整 docsearch/sidepanel 集成；`VPLocalSearchBox` 最小可用版（minisearch + 防抖 + 键盘导航 + 手写高亮，去 worker/focus-trap/详细视图）
+- **删除**：19 个 `VPIcon*.vue`、`Layout.vue`、全部 `.vue` 主题组件
+- **C4**：`Layout.tsx` 完整版（接入 `VPNav`/`VPSidebar`/`VPContent` 全树）；`without-fonts.ts` 全部命名导出 `.tsx`；`types/` 无 vue 类型引用
 
 ---
 
