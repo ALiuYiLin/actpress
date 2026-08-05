@@ -21,9 +21,9 @@ import {
 import { isAdditionalConfigFile, resolvePages, type SiteConfig } from './config'
 import {
   clearCache,
-  createMarkdownToVueRenderFn,
+  createMarkdownToActViewRenderFn,
   type MarkdownCompileResult
-} from './markdownToVue'
+} from './markdownToActView'
 import { dynamicRoutesPlugin } from './plugins/dynamicRoutesPlugin'
 import { localSearchPlugin } from './plugins/localSearchPlugin'
 import { rewritesPlugin } from './plugins/rewritesPlugin'
@@ -84,12 +84,16 @@ export async function createVitePressPlugin(
     cleanUrls
   } = siteConfig
 
-  let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
+  let markdownToActView: Awaited<
+    ReturnType<typeof createMarkdownToActViewRenderFn>
+  >
 
   // lazy require plugin-vue to respect NODE_ENV in @vue/compiler-x
+  // note: only `.vue` files are compiled by plugin-vue now; `.md` files are
+  // transformed into ActView modules (see markdownToActView.ts) instead.
   const vuePlugin = await import('@vitejs/plugin-vue').then((r) =>
     r.default({
-      include: /\.(?:vue|md)$/,
+      include: /\.vue$/,
       ...userVuePluginOptions
     })
   )
@@ -115,7 +119,7 @@ export async function createVitePressPlugin(
       config = resolvedConfig
       // pre-resolve git timestamps
       if (lastUpdated) await cacheAllGitTimestamps(srcDir)
-      markdownToVue = await createMarkdownToVueRenderFn(
+      markdownToActView = await createMarkdownToActViewRenderFn(
         srcDir,
         markdown,
         config.base,
@@ -203,12 +207,9 @@ export async function createVitePressPlugin(
       }
       if (id.endsWith('.md')) {
         const relativePath = path.posix.relative(srcDir, id)
-        // transform .md files into vueSrc so plugin-vue can handle it
-        const { vueSrc, deadLinks, includes, pageData } = await markdownToVue(
-          code,
-          id,
-          config.publicDir
-        )
+        // transform .md files into an ActView module (createElement-based VNode tree)
+        const { actViewSrc, deadLinks, includes, pageData } =
+          await markdownToActView(code, id, config.publicDir)
         allDeadLinks.push(...deadLinks)
         if (includes.length) {
           includes.forEach((i) => {
@@ -232,7 +233,7 @@ export async function createVitePressPlugin(
             data: payload
           })
         }
-        return processClientJS(vueSrc, id)
+        return processClientJS(actViewSrc, id)
       }
     },
 

@@ -10,7 +10,7 @@ import {
 } from '.'
 import { version } from '../../package.json'
 import { init } from './init/init'
-import { clearCache } from './markdownToVue'
+import { clearCache } from './markdownToActView'
 import { bindShortcuts } from './shortcuts'
 
 if (process.env.DEBUG) {

@@ -119,7 +119,7 @@ export async function resolvePages(
     pages: finalPages,
     dynamicRoutes: finalDynamicRoutes,
     rewrites,
-    // @ts-expect-error internal flag to reload resolution cache in ../markdownToVue.ts
+    // @ts-expect-error internal flag to reload resolution cache in ../markdownToActView.ts
     __dirty: true
   } satisfies Partial<SiteConfig>)
 
@@ -167,7 +167,7 @@ export const dynamicRoutesPlugin = async (
         }
 
         // params are injected with special markers and extracted as part of
-        // __pageData in ../markdownToVue.ts
+        // __pageData in ../markdownToActView.ts
         return `__VP_PARAMS_START${JSON.stringify(params)}__VP_PARAMS_END__${baseContent}`
       }
     },
