@@ -1,0 +1,77 @@
+import { defineComponent, onMounted, ref } from 'actview'
+import { useData } from '../composables/data'
+import { useLayout } from '../composables/layout'
+import { VPLocalNavOutlineDropdown } from './VPLocalNavOutlineDropdown'
+
+/** 手写 useWindowScroll（替代 @vueuse/core） */
+function useWindowScroll() {
+  const y = ref(window.scrollY)
+  const onScroll = () => {
+    y.value = window.scrollY
+  }
+  window.addEventListener('scroll', onScroll, { passive: true })
+  return { y }
+}
+
+export interface VPLocalNavProps {
+  open?: boolean
+  onOpenMenu?: () => void
+}
+
+export const VPLocalNav = defineComponent(function (
+  props: VPLocalNavProps = {}
+) {
+  const { theme } = useData()
+  const { isHome, hasSidebar, headers, hasLocalNav } = useLayout()
+  const { y } = useWindowScroll()
+
+  const navHeight = ref(0)
+  onMounted(() => {
+    navHeight.value = parseInt(
+      getComputedStyle(document.documentElement).getPropertyValue(
+        '--vp-nav-height'
+      )
+    )
+  })
+
+  return function () {
+    if (
+      isHome.value &&
+      !(hasLocalNav.value || hasSidebar.value || y.value >= navHeight.value)
+    ) {
+      return null
+    }
+    const classes = [
+      'VPLocalNav',
+      hasSidebar.value ? 'has-sidebar' : '',
+      !hasLocalNav.value ? 'empty' : '',
+      !hasLocalNav.value && !hasSidebar.value ? 'fixed' : ''
+    ]
+      .filter(Boolean)
+      .join(' ')
+
+    return (
+      <div class={classes}>
+        <div class="container">
+          {hasSidebar.value ? (
+            <button
+              class="menu"
+              aria-expanded={props.open}
+              aria-controls="VPSidebarNav"
+              onclick={props.onOpenMenu}
+            >
+              <span class="vpi-align-left menu-icon" />
+              <span class="menu-text">
+                {theme.value.sidebarMenuLabel || 'Menu'}
+              </span>
+            </button>
+          ) : null}
+          <VPLocalNavOutlineDropdown
+            headers={headers.value}
+            navHeight={navHeight.value}
+          />
+        </div>
+      </div>
+    )
+  }
+})
