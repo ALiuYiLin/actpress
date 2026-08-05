@@ -98,7 +98,7 @@
   "dependencies": {
     "@actview/core": "^1.0.11",
     "@actview/jsx": "^1.0.11",
-    "@actview/plugin": "^1.0.4",
+    "@actview/plugin": "^1.0.5",
     "@actview/router": "^1.0.10",
     "@docsearch/css": "^4.6.3",
     "@docsearch/js": "^4.6.3",

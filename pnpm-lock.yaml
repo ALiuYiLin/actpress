@@ -33,8 +33,8 @@ importers:
         specifier: ^1.0.11
         version: 1.0.11
       '@actview/plugin':
-        specifier: ^1.0.4
-        version: 1.0.4
+        specifier: ^1.0.5
+        version: 1.0.5
       '@actview/router':
         specifier: ^1.0.10
         version: 1.0.10
@@ -354,8 +354,8 @@ packages:
   '@actview/jsx@1.0.11':
     resolution: {integrity: sha512-eMBEs3mQE9yIg1F9qE2nlmPAALRunQ1mlWLJp/rJW7iR1Y3RBNFCBdA7eHFqgQCMHRa5Fcld0NjbADfZPNsS4A==}
 
-  '@actview/plugin@1.0.4':
-    resolution: {integrity: sha512-K1I43nsa0K0wKl3tMm+Gp7aPOgLdcNGJQfmsK7sq0m+5kLbkYtZa4hYXgagNOFb+Cgvhtud5WWTkHsGTf5FT/A==}
+  '@actview/plugin@1.0.5':
+    resolution: {integrity: sha512-Mawy1jRSZvI73Fah31JF4e6gAgrUM1djTO2abKwZn3T3CoYJ+fElvKP5K6/Pb1EkmFQkgSdL3feT49YNhIzgDw==}
 
   '@actview/router@1.0.10':
     resolution: {integrity: sha512-Rms7eCJhWbu7B4bpPYkhmcd2q6j2zYO6B0qVlMNe0P2s4zVMd6igQdihftpxizTcU4iH7iQrnnk1aOwPGQKAYQ==}
@@ -3125,7 +3125,7 @@ snapshots:
 
   '@actview/jsx@1.0.11': {}
 
-  '@actview/plugin@1.0.4':
+  '@actview/plugin@1.0.5':
     dependencies:
       '@babel/core': 8.0.1
 
