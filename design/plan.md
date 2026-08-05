@@ -82,11 +82,10 @@
 
 ### 阶段 C：默认主题重构（`src/client/theme-default/`，92 个 `.vue`）
 
-> **状态：进行中** —— 已完成 5 个 commit 批次（见下），剩余约 56 个 `.vue` 组件
+> **状态：✅ 已完成** —— 92 个 `.vue` 组件全部迁移为 `.tsx`（`find src/client/theme-default -name '*.vue'` 计数 0）
 >
-> 迁移模式已固化：`.vue` → `.tsx`（`defineComponent(props)` → render 返回 `createElement` 树）；
-> `<style>`（scoped）移入 `styles/components/*.css` 全局化（VP 前缀类名，冲突风险低）；
-> `v-html` 改文本渲染（ActView 无 innerHTML）；具名插槽经 props 透传。
+> 迁移模式已固化：`.vue` → `.tsx`；组件统一 **JSX 写法**（`jsx: react-jsx` + `jsxImportSource: @actview/jsx` + `actviewPlugin` Babel 转换，不用手写 `createElement`）；多 return/早退的组件用显式 `defineComponent` + JSX；
+> `<style>`（scoped）移入 `styles/components/*.css` 全局化（VP 前缀类名）；`v-html` 改文本渲染（或 ref+onMounted 注入 SVG/脚本）；具名插槽经 props 透传；`inject` → `useNav()` 等模块 context；`defineAsyncComponent` → 条件渲染 + 静态 import。
 
 - [x] **C1** 图标：19 个 `VPIcon*.vue` 全局零引用 → 直接删除（后续按需以 `.tsx` 创建）
 - [x] **C5** composables（11 个）+ support：全部换 ActView 响应式（`useMediaQuery` 手写替代 vueuse；`watchPostEffect`→`watchEffect`；`shallowRef` 用 `shallowReactive` 模拟；`smartComputed` 闭包缓存）
@@ -95,16 +94,14 @@
   2. `VPLink`/`VPSwitch`/`VPMenu`/`VPMenuGroup`/`VPMenuLink`
   3. `VPFlyout`
   4. `VPNavBar` 树核心：`VPNavBarTitle`/`VPNavBarMenu`/`VPNavBarMenuLink`/`VPNavBarMenuGroup`/`VPNavBarHamburger`（`useWindowScroll` 手写）
-- [ ] 待迁移批次（56 个）：
-  - 导航剩余：`VPNav`、`VPNavScreen*`（7）、`VPNavBarAppearance`/`Extra`/`Search`/`SearchButton`/`SocialLinks`/`Translations`/`AskAiButton`
-  - 侧边栏树：`VPSidebar`/`VPSidebarGroup`/`VPSidebarItem`
-  - 内容树：`VPContent`/`VPDoc`/`VPDocAside*`（4）/`VPDocFooter*`（2）/`VPDocOutlineItem`/`VPPage`
-  - 本地导航：`VPLocalNav`/`VPLocalNavOutlineDropdown`
-  - Home 树：`VPHome`/`VPHomeHero`/`VPHomeContent`/`VPHomeFeatures`/`VPHomeSponsors`/`VPHero`/`VPFeature`/`VPFeatures`
-  - 其它：`VPFooter`/`VPBackdrop`/`VPSocialLink(s)`/`VPSponsors(Grid)`/`VPTeam*`（5）/`VPCarbonAds`/`VPAlgoliaSearchBox`/`VPLocalSearchBox`/`VPSwitchAppearance`/`NotFound`
-- [ ] **C4** 主题 API：`Layout.tsx` 升级为完整版（接入迁移后的 `VPNav`/`VPSidebar`/`VPContent` 等）；`theme.d.ts` 类型去 vue（`ComputedRef`/`ShallowRef`/`DefineComponent` → 本地类型）；`without-fonts.ts` 导出同步
+- [x] 组件批次（已完成，每个功能点一个 commit）：
+  1. `VPNavBarAppearance`/`VPNavScreen*`（8 个，菜单/翻译/外观/社交）+ `VPNavBar` 子组件（Search/SearchButton/Translations/SocialLinks/Extra/AskAiButton）+ `VPSocialLink(s)`
+  2. 赞助/广告：`VPSponsors`/`VPSponsorsGrid`/`VPDocAsideSponsors`/`VPDocAsideCarbonAds`/`VPCarbonAds`
+  3. 团队：`VPTeamPage`/`VPTeamPageTitle`/`VPTeamPageSection`/`VPTeamMembers`/`VPTeamMembersItem`
+  4. 搜索：`VPAlgoliaSearchBox`（docsearch/sidepanel 完整集成，lazy import）+ `VPLocalSearchBox`（**最小可用版**：minisearch 索引 + 防抖搜索 + 键盘导航 + 手写高亮；去掉 worker/focus-trap/详细视图，见文件头注释）
+- [x] **C4** 主题 API：`Layout.tsx` 已为完整版（接入 `VPNav`/`VPSidebar`/`VPContent` 全树）；`without-fonts.ts` 导出全部切为命名导出 `.tsx`；`types/` 下无 `vue` 类型引用
 
-**验收（进行中）**：`.vue` 计数趋零；`vue-tsc` 报错仅来自未迁移 `.vue`（预期）；`tsc -p src/client` 全程通过；133 单测全绿。
+**验收（已通过）**：`.vue` 计数 **0**；`tsc -p src/client` 通过；134 单测全绿（含 `actview-shell` 冒烟：happy-dom 中 `Layout → Content → md 页面组件` 真实渲染）。
 
 ### 阶段 D：构建管线（`src/node/build/`，去掉 SSR 只留静态生成）
 
