@@ -12,16 +12,3 @@ const { theme } = useData()
     :links="theme.socialLinks"
   />
 </template>
-
-<style scoped>
-.VPNavBarSocialLinks {
-  display: none;
-}
-
-@media (min-width: 1280px) {
-  .VPNavBarSocialLinks {
-    display: flex;
-    align-items: center;
-  }
-}
-</style>

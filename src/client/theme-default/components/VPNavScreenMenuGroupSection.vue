@@ -14,17 +14,3 @@ defineProps<{
     <VPNavScreenMenuGroupLink v-for="item in items" :key="item.text" :item />
   </div>
 </template>
-
-<style scoped>
-.VPNavScreenMenuGroupSection {
-  display: block;
-}
-
-.title {
-  line-height: 32px;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--vp-c-text-2);
-  transition: color 0.25s;
-}
-</style>

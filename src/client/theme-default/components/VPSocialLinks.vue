@@ -22,10 +22,3 @@ withDefaults(defineProps<{
     />
   </div>
 </template>
-
-<style scoped>
-.VPSocialLinks {
-  display: flex;
-  justify-content: center;
-}
-</style>

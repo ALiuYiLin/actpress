@@ -35,12 +35,3 @@ defineOptions({ inheritAttrs: false })
     </template>
   </template>
 </template>
-
-<style scoped>
-html:not(.dark) .VPImage.dark {
-  display: none;
-}
-.dark .VPImage.light {
-  display: none;
-}
-</style>

@@ -193,24 +193,3 @@ function isEditingContent(event: KeyboardEvent): boolean {
     </template>
   </div>
 </template>
-
-<style scoped>
-.VPNavBarSearch {
-  display: flex;
-  align-items: center;
-}
-
-@media (min-width: 768px) {
-  .VPNavBarSearch {
-    gap: 8px;
-    flex-grow: 1;
-    padding-left: 24px;
-  }
-}
-
-@media (min-width: 960px) {
-  .VPNavBarSearch {
-    padding-left: 32px;
-  }
-}
-</style>

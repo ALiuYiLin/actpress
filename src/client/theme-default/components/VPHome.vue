@@ -34,15 +34,3 @@ const { frontmatter, theme } = useData()
     <Content v-else />
   </div>
 </template>
-
-<style scoped>
-.VPHome {
-  margin-bottom: 96px;
-}
-
-@media (min-width: 768px) {
-  .VPHome {
-    margin-bottom: 128px;
-  }
-}
-</style>

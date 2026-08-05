@@ -26,15 +26,3 @@ const { theme } = useData()
     </template>
   </nav>
 </template>
-
-<style scoped>
-.VPNavBarMenu {
-  display: none;
-}
-
-@media (min-width: 768px) {
-  .VPNavBarMenu {
-    display: flex;
-  }
-}
-</style>

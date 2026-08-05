@@ -29,26 +29,3 @@ watchPostEffect(() => {
     <span class="vpi-moon moon" />
   </VPSwitch>
 </template>
-
-<style scoped>
-.sun {
-  opacity: 1;
-}
-
-.moon {
-  opacity: 0;
-}
-
-.dark .sun {
-  opacity: 0;
-}
-
-.dark .moon {
-  opacity: 1;
-}
-
-.dark .VPSwitchAppearance :deep(.check) {
-  /*rtl:ignore*/
-  transform: translateX(18px);
-}
-</style>
