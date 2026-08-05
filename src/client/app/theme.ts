@@ -1,6 +1,11 @@
-import type { App, Component as VueComponent } from 'vue'
+import type { Component as VueComponent } from 'vue'
 import type { Awaitable, Ref, SiteData } from '../shared'
 import type { Router } from './router'
+
+/** ActView App 实例（createApp 返回） */
+export interface App {
+  mount(container: string): void
+}
 
 export interface EnhanceAppContext {
   app: App

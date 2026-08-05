@@ -9,7 +9,6 @@ import './styles/components/vp-doc.css'
 import './styles/components/vp-sponsor.css'
 
 import type { Theme } from 'vitepress'
-import VPBadge from './components/VPBadge.vue'
 import { Layout } from './Layout'
 
 export { default as VPBadge } from './components/VPBadge.vue'
@@ -34,10 +33,9 @@ export { default as VPTeamPageTitle } from './components/VPTeamPageTitle.vue'
 export { useLayout } from './composables/layout'
 
 const theme: Theme = {
-  Layout,
-  enhanceApp: ({ app }) => {
-    app.component('Badge', VPBadge)
-  }
+  Layout
+  // enhanceApp 的全局组件注册（app.component）随 Vue 移除；
+  // md 内 <Badge> 等组件标签的解析通道在 C 阶段实现
 }
 
 export default theme

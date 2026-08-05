@@ -1,21 +1,18 @@
 import RawTheme from '@theme/index'
+import { createElement } from '@actview/jsx'
 import {
-  createApp as createClientApp,
-  createSSRApp,
+  createApp as createActViewApp,
   defineComponent,
-  h,
   onMounted,
-  watchEffect,
-  type App
-} from 'vue'
-import { ClientOnly } from './components/ClientOnly'
+  watchEffect
+} from 'actview'
 import { Content } from './components/Content'
 import { useCodeGroups } from './composables/codeGroups'
 import { useCopyCode } from './composables/copyCode'
 import { useUpdateHead } from './composables/head'
 import { usePrefetch } from './composables/preFetch'
-import { dataSymbol, initData, siteDataRef, useData } from './data'
-import { RouterSymbol, createRouter, scrollTo, type Router } from './router'
+import { initData, siteDataRef, useData } from './data'
+import { createRouter, scrollTo, type Router } from './router'
 import { inBrowser, pathToFile } from './utils'
 
 function resolveThemeExtends(theme: typeof RawTheme): typeof RawTheme {
@@ -35,31 +32,31 @@ function resolveThemeExtends(theme: typeof RawTheme): typeof RawTheme {
 
 const Theme = resolveThemeExtends(RawTheme)
 
-const VitePressApp = defineComponent({
-  name: 'VitePressApp',
-  setup() {
-    const { site, lang, dir } = useData()
+const VitePressApp = defineComponent(function (props: any) {
+  const { site, lang, dir } = useData()
 
-    // change the language on the HTML element based on the current lang
-    onMounted(() => {
-      watchEffect(() => {
-        document.documentElement.lang = lang.value
-        document.documentElement.dir = dir.value
-      })
+  // change the language on the HTML element based on the current lang
+  onMounted(() => {
+    watchEffect(() => {
+      document.documentElement.lang = lang.value
+      document.documentElement.dir = dir.value
     })
+  })
 
-    if (import.meta.env.PROD && site.value.router.prefetchLinks) {
-      // in prod mode, enable intersectionObserver based pre-fetch
-      usePrefetch()
-    }
+  if (import.meta.env.PROD && site.value.router.prefetchLinks) {
+    // in prod mode, enable intersectionObserver based pre-fetch
+    usePrefetch()
+  }
 
-    // setup global copy code handler
-    useCopyCode()
-    // setup global code groups handler
-    useCodeGroups()
+  // setup global copy code handler
+  useCopyCode()
+  // setup global code groups handler
+  useCodeGroups()
 
-    if (Theme.setup) Theme.setup()
-    return () => h(Theme.Layout!)
+  if (Theme.setup) Theme.setup()
+
+  return function () {
+    return createElement(Theme.Layout ?? Content, null)
   }
 })
 
@@ -68,30 +65,9 @@ export async function createApp() {
 
   const router = newRouter()
 
-  const app = newApp()
-
-  app.provide(RouterSymbol, router)
+  const app = createActViewApp(VitePressApp)
 
   const data = initData(router.route)
-  app.provide(dataSymbol, data)
-
-  // install global components
-  app.component('Content', Content)
-  app.component('ClientOnly', ClientOnly)
-
-  // expose $frontmatter & $params
-  Object.defineProperties(app.config.globalProperties, {
-    $frontmatter: {
-      get() {
-        return data.frontmatter.value
-      }
-    },
-    $params: {
-      get() {
-        return data.page.value.params
-      }
-    }
-  })
 
   if (Theme.enhanceApp) {
     await Theme.enhanceApp({
@@ -101,14 +77,7 @@ export async function createApp() {
     })
   }
 
-  // devtools 支持已移除（ActView 迁移）
   return { app, router, data }
-}
-
-function newApp(): App {
-  return import.meta.env.PROD
-    ? createSSRApp(VitePressApp)
-    : createClientApp(VitePressApp)
 }
 
 function newRouter(): Router {
@@ -149,7 +118,7 @@ function newRouter(): Router {
     }
 
     return pageModule
-  }, Theme.NotFound)
+  })
 }
 
 if (inBrowser) {
