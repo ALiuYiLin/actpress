@@ -15,6 +15,8 @@ import './styles/components/vp-menu.css'
 import './styles/components/vp-switch.css'
 import './styles/components/vp-flyout.css'
 import './styles/components/vp-nav.css'
+import './styles/components/vp-nav-appearance.css'
+import './styles/components/vp-nav-screen.css'
 
 import type { Theme } from 'vitepress'
 import { Layout } from './Layout'

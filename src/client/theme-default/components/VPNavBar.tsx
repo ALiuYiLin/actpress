@@ -1,6 +1,7 @@
 import { createElement } from '@actview/jsx'
 import { defineComponent, ref } from 'actview'
 import { useLayout } from '../composables/layout'
+import { VPNavBarAppearance } from './VPNavBarAppearance'
 import { VPNavBarHamburger } from './VPNavBarHamburger'
 import { VPNavBarMenu } from './VPNavBarMenu'
 import { VPNavBarTitle } from './VPNavBarTitle'
@@ -68,8 +69,9 @@ export const VPNavBar = defineComponent(function (props: VPNavBarProps = {}) {
               props.navBarContentBefore,
               createElement(VPNavBarMenu, { class: 'menu' }),
               // TODO(C): VPNavBarSearch / VPNavBarTranslations /
-              // VPNavBarAppearance / VPNavBarSocialLinks / VPNavBarExtra
+              // VPNavBarSocialLinks / VPNavBarExtra / VPNavBarAskAiButton
               // 尚未迁移（后续批次）
+              createElement(VPNavBarAppearance, { class: 'appearance' }),
               createElement(VPNavBarHamburger, {
                 class: 'hamburger',
                 active: props.isScreenOpen,
