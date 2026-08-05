@@ -1,0 +1,50 @@
+.VPTeamPage {
+  margin: 96px 0;
+}
+
+@media (min-width: 768px) {
+  .VPTeamPage {
+    margin: 128px 0;
+  }
+}
+
+.VPHome .VPTeamPageTitle {
+  border-top: 1px solid var(--vp-c-gutter);
+  padding-top: 88px !important;
+}
+
+.VPTeamPage .VPTeamPageSection + .VPTeamPageSection,
+.VPTeamPage .VPTeamMembers + .VPTeamPageSection {
+  margin-top: 64px;
+}
+
+.VPTeamPage .VPTeamMembers + .VPTeamMembers {
+  margin-top: 24px;
+}
+
+@media (min-width: 768px) {
+  .VPTeamPage .VPTeamPageTitle + .VPTeamPageSection {
+    margin-top: 16px;
+  }
+
+  .VPTeamPage .VPTeamPageSection + .VPTeamPageSection,
+  .VPTeamPage .VPTeamMembers + .VPTeamPageSection {
+    margin-top: 96px;
+  }
+}
+
+.VPTeamPage .VPTeamMembers {
+  padding: 0 24px;
+}
+
+@media (min-width: 768px) {
+  .VPTeamPage .VPTeamMembers {
+    padding: 0 48px;
+  }
+}
+
+@media (min-width: 960px) {
+  .VPTeamPage .VPTeamMembers {
+    padding: 0 64px;
+  }
+}

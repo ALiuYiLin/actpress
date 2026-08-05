@@ -27,14 +27,14 @@ importers:
   .:
     dependencies:
       '@actview/core':
-        specifier: ^1.0.11
-        version: 1.0.11
+        specifier: ^1.0.12
+        version: 1.0.12
       '@actview/jsx':
         specifier: ^1.0.11
         version: 1.0.11
       '@actview/plugin':
-        specifier: ^1.0.5
-        version: 1.0.5
+        specifier: ^1.0.7
+        version: 1.0.7
       '@actview/router':
         specifier: ^1.0.10
         version: 1.0.10
@@ -63,8 +63,8 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       actview:
-        specifier: ^1.0.10
-        version: 1.0.10
+        specifier: ^1.0.11
+        version: 1.0.11
       focus-trap:
         specifier: ^8.2.2
         version: 8.2.2
@@ -348,14 +348,14 @@ importers:
 
 packages:
 
-  '@actview/core@1.0.11':
-    resolution: {integrity: sha512-XcO2LLVQpbdXT3fqGWiz8WOaZAhHH4QVM7JM4daL5yFTIQzuCli2R6kbTbdqxiCOndOAKsgxQ6RPPXWVBqeSsA==}
+  '@actview/core@1.0.12':
+    resolution: {integrity: sha512-kINSZYH2FQKtPY+k7JZwChNceztmzWrG9nJy/pNzETD+Rn4jtiRO6YVwS6sZTUEf35l+i1Nb6FAhRXeJvsAjGg==}
 
   '@actview/jsx@1.0.11':
     resolution: {integrity: sha512-eMBEs3mQE9yIg1F9qE2nlmPAALRunQ1mlWLJp/rJW7iR1Y3RBNFCBdA7eHFqgQCMHRa5Fcld0NjbADfZPNsS4A==}
 
-  '@actview/plugin@1.0.5':
-    resolution: {integrity: sha512-Mawy1jRSZvI73Fah31JF4e6gAgrUM1djTO2abKwZn3T3CoYJ+fElvKP5K6/Pb1EkmFQkgSdL3feT49YNhIzgDw==}
+  '@actview/plugin@1.0.7':
+    resolution: {integrity: sha512-T6P8Sog9KnB8EYzTZCVt3wopcKmVAgwHpYZvbdbykQM8sgJsQq/fHzUia7miL+I01U2dCY9tk0gLbk2/O+sFHg==}
 
   '@actview/router@1.0.10':
     resolution: {integrity: sha512-Rms7eCJhWbu7B4bpPYkhmcd2q6j2zYO6B0qVlMNe0P2s4zVMd6igQdihftpxizTcU4iH7iQrnnk1aOwPGQKAYQ==}
@@ -1323,8 +1323,8 @@ packages:
     resolution: {integrity: sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==}
     engines: {node: '>=6.5'}
 
-  actview@1.0.10:
-    resolution: {integrity: sha512-lEbfB6DwZO1LB2V4JpnXXqyrew3oLzB5EJR765WG2Of6J7pnDTTXhCvQfq3E7VaBimB0FnaAL/ST7qQXMXOqFA==}
+  actview@1.0.11:
+    resolution: {integrity: sha512-KGpkz/O8JTUxG/P1zyUwbHzTFtnT4Z+83owgADpkF5SgKnRPND/ugeREQty/QfwTSHvjXbkaJ15UB8OjnaGbUQ==}
 
   agent-base@6.0.2:
     resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==}
@@ -3119,19 +3119,19 @@ packages:
 
 snapshots:
 
-  '@actview/core@1.0.11':
+  '@actview/core@1.0.12':
     dependencies:
       '@actview/jsx': 1.0.11
 
   '@actview/jsx@1.0.11': {}
 
-  '@actview/plugin@1.0.5':
+  '@actview/plugin@1.0.7':
     dependencies:
       '@babel/core': 8.0.1
 
   '@actview/router@1.0.10':
     dependencies:
-      '@actview/core': 1.0.11
+      '@actview/core': 1.0.12
       '@actview/jsx': 1.0.11
 
   '@antfu/install-pkg@1.1.0':
@@ -3946,9 +3946,9 @@ snapshots:
     dependencies:
       event-target-shim: 5.0.1
 
-  actview@1.0.10:
+  actview@1.0.11:
     dependencies:
-      '@actview/core': 1.0.11
+      '@actview/core': 1.0.12
       '@actview/jsx': 1.0.11
 
   agent-base@6.0.2:

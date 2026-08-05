@@ -1,0 +1,18 @@
+.VPDocAside {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.VPDocAside .spacer {
+  flex-grow: 1;
+}
+
+.VPDocAside .spacer + .VPDocAsideSponsors,
+.VPDocAside .spacer + .VPDocAsideCarbonAds {
+  margin-top: 24px;
+}
+
+.VPDocAside .VPDocAsideSponsors + .VPDocAsideCarbonAds {
+  margin-top: 16px;
+}
