@@ -1,4 +1,3 @@
-import fs from 'fs-extra'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import * as vite from 'vite'
@@ -14,11 +13,6 @@ import type { SiteConfig } from '../config'
 import { createVitePressPlugin } from '../plugin'
 import { escapeRegExp, sanitizeFileName, slash } from '../shared'
 import { task } from '../utils/task'
-import { buildMPAClient } from './buildMPAClient'
-
-// https://github.com/vitejs/vite/blob/d2aa0969ee316000d3b957d7e879f001e85e369e/packages/vite/src/node/plugins/splitVendorChunk.ts#L14
-const CSS_LANGS_RE =
-  /\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/
 
 const clientDir = normalizePath(
   path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../client')
@@ -26,13 +20,7 @@ const clientDir = normalizePath(
 
 // these deps are also being used in the client code (outside of the theme)
 // exclude them from the theme chunk so there is no circular dependency
-const excludedModules = [
-  '/@siteData',
-  'node_modules/@vueuse/core/',
-  'node_modules/@vueuse/shared/',
-  'node_modules/vue/',
-  clientDir
-]
+const excludedModules = ['/@siteData', clientDir]
 
 // bundles the VitePress app for both client AND server.
 export async function bundle(
@@ -44,7 +32,6 @@ export async function bundle(
   pageToHashMap: Record<string, string>
 }> {
   const pageToHashMap = Object.create(null) as Record<string, string>
-  const clientJSMap = Object.create(null) as Record<string, string>
 
   // define custom rollup input
   // this is a multi-entry build - every page is considered an entry chunk
@@ -74,12 +61,7 @@ export async function bundle(
     cacheDir: config.cacheDir,
     base: config.site.base,
     logLevel: config.vite?.logLevel ?? 'warn',
-    plugins: await createVitePressPlugin(
-      config,
-      ssr,
-      pageToHashMap,
-      clientJSMap
-    ),
+    plugins: await createVitePressPlugin(config, ssr, pageToHashMap),
     ssr: {
       noExternal: ['vitepress', '@docsearch/css']
     },
@@ -87,8 +69,7 @@ export async function bundle(
       ...options,
       emptyOutDir: true,
       ssr,
-      ssrEmitAssets: config.mpa,
-      minify: ssr ? !!config.mpa : (options.minify ?? !process.env.DEBUG),
+      minify: options.minify ?? !process.env.DEBUG,
       outDir: ssr ? config.tempDir : config.outDir,
       cssCodeSplit: false,
       rollupOptions: {
@@ -134,22 +115,12 @@ export async function bundle(
                         ) {
                           return 'framework'
                         }
-                        if (id.includes('plugin-vue:export-helper')) {
-                          return 'framework'
-                        }
                         if (
                           id.includes(`${clientDir}/app`) &&
                           id !== `${clientDir}/app/index.js`
                         ) {
                           return 'framework'
                         }
-                        if (
-                          isEagerChunk(id, ctx.getModuleInfo) &&
-                          /@vue\/(runtime|shared|reactivity)/.test(id)
-                        ) {
-                          return 'framework'
-                        }
-
                         if (
                           (id.startsWith(`${clientDir}/theme-default`) ||
                             !excludedModules.some((i) => id.includes(i))) &&
@@ -174,37 +145,17 @@ export async function bundle(
   let clientResult!: Rollup.RollupOutput | null
   let serverResult!: Rollup.RollupOutput
 
+  // client bundle：浏览器产物；server bundle：node 构建期渲染入口
+  // （app.js 导出 render()，页面 chunk 导出 __pageData）。
+  // 两者均为单次构建；vue/SSR 已移除，server bundle 只服务静态生成。
   await task('building client + server bundles', async () => {
-    clientResult = config.mpa
-      ? null
-      : ((await build(await resolveViteConfig(false))) as Rollup.RollupOutput)
+    clientResult = (await build(
+      await resolveViteConfig(false)
+    )) as Rollup.RollupOutput
     serverResult = (await build(
       await resolveViteConfig(true)
     )) as Rollup.RollupOutput
   })
-
-  if (config.mpa) {
-    // in MPA mode, we need to copy over the non-js asset files from the
-    // server build since there is no client-side build.
-    await Promise.all(
-      serverResult.output.map(async (chunk) => {
-        if (!chunk.fileName.endsWith('.js')) {
-          const tempPath = path.resolve(config.tempDir, chunk.fileName)
-          const outPath = path.resolve(config.outDir, chunk.fileName)
-          await fs.copy(tempPath, outPath)
-        }
-      })
-    )
-    // also copy over public dir
-    const publicDir = path.resolve(config.srcDir, 'public')
-    if (fs.existsSync(publicDir)) {
-      await fs.copy(publicDir, config.outDir)
-    }
-    // build <script client> bundle
-    if (Object.keys(clientJSMap).length) {
-      clientResult = await buildMPAClient(clientJSMap, config)
-    }
-  }
 
   // sort pageToHashMap to ensure stable output
   const sortedPageToHashMap = Object.create(null) as Record<string, string>
@@ -217,22 +168,7 @@ export async function bundle(
   return { clientResult, serverResult, pageToHashMap: sortedPageToHashMap }
 }
 
-const cache = new Map<string, boolean>()
 const cacheTheme = new Map<string, boolean>()
-
-/**
- * Check if a module is statically imported by at least one entry.
- */
-function isEagerChunk(id: string, getModuleInfo: Rollup.GetModuleInfo) {
-  if (
-    id.includes('node_modules') &&
-    !CSS_LANGS_RE.test(id) &&
-    staticImportedByEntry(id, getModuleInfo, cache)
-  ) {
-    return true
-  }
-}
-
 function staticImportedByEntry(
   id: string,
   getModuleInfo: Rollup.GetModuleInfo,

@@ -5,7 +5,6 @@ import { createRequire } from 'node:module'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import pMap from 'p-map'
-import { packageDirectorySync } from 'package-directory'
 import * as vite from 'vite'
 import type { BuildOptions, Rollup } from 'vite'
 import { resolveConfig, type SiteConfig } from '../config'
@@ -23,7 +22,6 @@ export async function build(
   root?: string,
   buildOptions: BuildOptions & {
     base?: string
-    mpa?: string
     onAfterConfigResolve?: (siteConfig: SiteConfig) => Awaitable<void>
   } = {}
 ) {
@@ -48,16 +46,9 @@ export async function build(
   await buildOptions.onAfterConfigResolve?.(siteConfig)
   delete buildOptions.onAfterConfigResolve
 
-  const unlinkVue = linkVue()
-
   if (buildOptions.base) {
     siteConfig.site.base = buildOptions.base
     delete buildOptions.base
-  }
-
-  if (buildOptions.mpa) {
-    siteConfig.mpa = true
-    delete buildOptions.mpa
   }
 
   if (buildOptions.outDir) {
@@ -66,7 +57,7 @@ export async function build(
   }
 
   try {
-    const { clientResult, serverResult, pageToHashMap } = await bundle(
+    const { clientResult, pageToHashMap } = await bundle(
       siteConfig,
       buildOptions
     )
@@ -88,13 +79,11 @@ export async function build(
             chunk.facadeModuleId?.endsWith('.js')
         ) as Rollup.OutputChunk)
 
-      const cssChunk = (
-        siteConfig.mpa ? serverResult : clientResult!
-      ).output.find(
+      const cssChunk = clientResult!.output.find(
         (chunk) => chunk.type === 'asset' && chunk.fileName.endsWith('.css')
       ) as Rollup.OutputAsset
 
-      const assets = (siteConfig.mpa ? serverResult : clientResult!).output
+      const assets = clientResult!.output
         .filter(
           (chunk) => chunk.type === 'asset' && !chunk.fileName.endsWith('.css')
         )
@@ -174,7 +163,6 @@ export async function build(
       pageToHashMap
     )
   } finally {
-    unlinkVue()
     if (!process.env.DEBUG) {
       fs.rmSync(siteConfig.tempDir, {
         recursive: true,
@@ -193,30 +181,10 @@ export async function build(
   )
 }
 
-function linkVue() {
-  const root = packageDirectorySync()
-  if (root) {
-    const dest = path.resolve(root, 'node_modules/vue')
-    // if user did not install vue by themselves, link VitePress' version
-    if (!fs.existsSync(dest)) {
-      const src = path.dirname(createRequire(import.meta.url).resolve('vue'))
-      fs.ensureSymlinkSync(src, dest, 'junction')
-      return () => {
-        fs.unlinkSync(dest)
-      }
-    }
-  }
-  return () => {}
-}
-
 function generateMetadataScript(
   pageToHashMap: Record<string, string>,
   config: SiteConfig
 ) {
-  if (config.mpa) {
-    return { html: '', inHead: false }
-  }
-
   // We embed the hash map and site config strings into each page directly
   // so that it doesn't alter the main chunk's hash on every build.
   // It's also embedded as a string and JSON.parsed from the client because

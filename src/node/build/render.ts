@@ -1,4 +1,3 @@
-import { isBooleanAttr } from '@vue/shared'
 import fs from 'fs-extra'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
@@ -14,7 +13,6 @@ import {
   notFoundPageData,
   resolveSiteDataByRoute,
   sanitizeFileName,
-  slash,
   type HeadConfig,
   type PageData,
   type SSGContext
@@ -77,7 +75,7 @@ export async function renderPage(
     : ''
 
   let preloadLinks =
-    config.mpa || (!hasCustom404 && page === '404.md')
+    !hasCustom404 && page === '404.md'
       ? []
       : result && appChunk
         ? [
@@ -137,23 +135,6 @@ export async function renderPage(
     })) || []
   )
 
-  let inlinedScript = ''
-  if (config.mpa && result) {
-    const matchingChunk = result.output.find(
-      (chunk) =>
-        chunk.type === 'chunk' &&
-        chunk.facadeModuleId === slash(path.join(config.srcDir, page))
-    ) as Rollup.OutputChunk
-    if (matchingChunk) {
-      if (!matchingChunk.code.includes('import')) {
-        inlinedScript = `<script type="module">${matchingChunk.code}</script>`
-        fs.removeSync(path.resolve(config.outDir, matchingChunk.fileName))
-      } else {
-        inlinedScript = `<script type="module" src="${siteData.base}${matchingChunk.fileName}"></script>`
-      }
-    }
-  }
-
   const dir = pageData.frontmatter.dir || siteData.dir || 'ltr'
 
   const html = `<!DOCTYPE html>
@@ -185,7 +166,6 @@ export async function renderPage(
   <body>${teleports?.body || ''}
     <div id="app">${page === '404.md' ? '' : content}</div>
     ${metadataScript.inHead ? '' : metadataScript.html}
-    ${inlinedScript}
   </body>
 </html>`
 
@@ -253,6 +233,40 @@ async function renderHead(head: HeadConfig[]): Promise<string> {
     })
   )
   return tags.join('\n    ')
+}
+
+// 自研布尔属性集合（替代 @vue/shared isBooleanAttr）
+// 覆盖 head 中常见的 HTML 布尔属性；带 `data-`/`aria-` 前缀的按非布尔处理
+const BOOLEAN_ATTRS = new Set([
+  'allowfullscreen',
+  'async',
+  'autofocus',
+  'autoplay',
+  'checked',
+  'controls',
+  'default',
+  'defer',
+  'disabled',
+  'formnovalidate',
+  'hidden',
+  'inert',
+  'ismap',
+  'itemscope',
+  'loop',
+  'multiple',
+  'muted',
+  'nomodule',
+  'novalidate',
+  'open',
+  'playsinline',
+  'readonly',
+  'required',
+  'reversed',
+  'selected'
+])
+
+function isBooleanAttr(key: string): boolean {
+  return BOOLEAN_ATTRS.has(key)
 }
 
 function renderAttrs(attrs: Record<string, string>): string {
