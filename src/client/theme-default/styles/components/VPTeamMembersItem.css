@@ -12,33 +12,33 @@
   padding: 32px;
 }
 
-.VPTeamMembersItem.small .data {
+.VPTeamMembersItem.small .profile .data {
   padding-top: 20px;
 }
 
-.VPTeamMembersItem.small .avatar {
+.VPTeamMembersItem.small .profile .avatar {
   width: 64px;
   height: 64px;
 }
 
-.VPTeamMembersItem.small .name {
+.VPTeamMembersItem.small .profile .data .name {
   line-height: 24px;
   font-size: 16px;
 }
 
-.VPTeamMembersItem.small .affiliation {
+.VPTeamMembersItem.small .profile .data .affiliation {
   padding-top: 4px;
   line-height: 20px;
   font-size: 14px;
 }
 
-.VPTeamMembersItem.small .desc {
+.VPTeamMembersItem.small .profile .data .desc {
   padding-top: 12px;
   line-height: 20px;
   font-size: 14px;
 }
 
-.VPTeamMembersItem.small .links {
+.VPTeamMembersItem.small .profile .data .links {
   margin: 0 -16px -20px;
   padding: 10px 0 0;
 }
@@ -47,34 +47,34 @@
   padding: 48px 32px;
 }
 
-.VPTeamMembersItem.medium .data {
+.VPTeamMembersItem.medium .profile .data {
   padding-top: 24px;
   text-align: center;
 }
 
-.VPTeamMembersItem.medium .avatar {
+.VPTeamMembersItem.medium .profile .avatar {
   width: 96px;
   height: 96px;
 }
 
-.VPTeamMembersItem.medium .name {
+.VPTeamMembersItem.medium .profile .data .name {
   letter-spacing: 0.15px;
   line-height: 28px;
   font-size: 20px;
 }
 
-.VPTeamMembersItem.medium .affiliation {
+.VPTeamMembersItem.medium .profile .data .affiliation {
   padding-top: 4px;
   font-size: 16px;
 }
 
-.VPTeamMembersItem.medium .desc {
+.VPTeamMembersItem.medium .profile .data .desc {
   padding-top: 16px;
   max-width: 288px;
   font-size: 16px;
 }
 
-.VPTeamMembersItem.medium .links {
+.VPTeamMembersItem.medium .profile .data .links {
   margin: 0 -16px -12px;
   padding: 16px 12px 0;
 }
@@ -84,11 +84,11 @@
   background-color: var(--vp-c-bg-soft);
 }
 
-.VPTeamMembersItem .data {
+.VPTeamMembersItem .profile .data {
   text-align: center;
 }
 
-.VPTeamMembersItem .avatar {
+.VPTeamMembersItem .profile .avatar {
   position: relative;
   flex-shrink: 0;
   margin: 0 auto;
@@ -96,7 +96,7 @@
   box-shadow: var(--vp-shadow-3);
 }
 
-.VPTeamMembersItem .avatar-img {
+.VPTeamMembersItem .profile .avatar .avatar-img {
   position: absolute;
   inset: 0;
   margin: 0;
@@ -104,44 +104,44 @@
   object-fit: cover;
 }
 
-.VPTeamMembersItem .name {
+.VPTeamMembersItem .profile .data .name {
   margin: 0;
   font-weight: 600;
 }
 
-.VPTeamMembersItem .affiliation {
+.VPTeamMembersItem .profile .data .affiliation {
   margin: 0;
   font-weight: 500;
   color: var(--vp-c-text-2);
 }
 
-.VPTeamMembersItem .org.link {
+.VPTeamMembersItem .profile .data .affiliation .org.link {
   color: var(--vp-c-text-2);
   transition: color 0.25s;
 }
 
-.VPTeamMembersItem .org.link:hover {
+.VPTeamMembersItem .profile .data .affiliation .org.link:hover {
   color: var(--vp-c-brand-1);
 }
 
-.VPTeamMembersItem .desc {
+.VPTeamMembersItem .profile .data .desc {
   margin: 0 auto;
 }
 
-.VPTeamMembersItem .desc a {
+.VPTeamMembersItem .profile .data .desc a {
   font-weight: 500;
   color: var(--vp-c-brand-1);
   text-decoration-style: dotted;
   transition: color 0.25s;
 }
 
-.VPTeamMembersItem .links {
+.VPTeamMembersItem .profile .data .links {
   display: flex;
   justify-content: center;
   height: 56px;
 }
 
-.VPTeamMembersItem .sp-link {
+.VPTeamMembersItem .sp .sp-link {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -163,7 +163,7 @@
   background-color: var(--vp-c-sponsor);
 }
 
-.VPTeamMembersItem .sp-icon {
+.VPTeamMembersItem .sp .sp-link .sp-icon {
   margin-right: 8px;
   font-size: 16px;
 }

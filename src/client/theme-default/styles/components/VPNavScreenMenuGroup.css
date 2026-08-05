@@ -23,7 +23,7 @@
   color: var(--vp-c-brand-1);
 }
 
-.VPNavScreenMenuGroup.open .button-icon {
+.VPNavScreenMenuGroup.open .button .button-icon {
   /*rtl:ignore*/
   transform: rotate(45deg);
 }
@@ -45,15 +45,15 @@
   color: var(--vp-c-brand-1);
 }
 
-.VPNavScreenMenuGroup .button-icon {
+.VPNavScreenMenuGroup .button .button-icon {
   transition: transform 0.25s;
 }
 
-.VPNavScreenMenuGroup .group:first-child {
+.VPNavScreenMenuGroup .items .group:first-child {
   padding-top: 0px;
 }
 
-.VPNavScreenMenuGroup .group + .group,
-.VPNavScreenMenuGroup .group + .item {
+.VPNavScreenMenuGroup .items .group + .group,
+.VPNavScreenMenuGroup .items .group + .item {
   padding-top: 4px;
 }

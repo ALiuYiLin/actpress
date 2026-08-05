@@ -40,7 +40,7 @@
   align-items: center;
 }
 
-.VPLocalNav .menu {
+.VPLocalNav .container .menu {
   display: flex;
   align-items: center;
   line-height: 24px;
@@ -50,29 +50,29 @@
   transition: color 0.5s;
 }
 
-.VPLocalNav .menu:hover {
+.VPLocalNav .container .menu:hover {
   color: var(--vp-c-text-1);
   transition: color 0.25s;
 }
 
 @media (min-width: 960px) {
-  .VPLocalNav .menu {
+  .VPLocalNav .container .menu {
     display: none;
   }
 }
 
-.VPLocalNav .menu-icon {
+.VPLocalNav .container .menu .menu-icon {
   margin-right: 8px;
   font-size: 14px;
 }
 
-.VPLocalNav .menu,
+.VPLocalNav .container .menu,
 .VPLocalNav .VPLocalNavOutlineDropdown > button {
   padding: 12px 24px 11px;
 }
 
 @media (min-width: 768px) {
-  .VPLocalNav .menu,
+  .VPLocalNav .container .menu,
   .VPLocalNav .VPLocalNavOutlineDropdown > button {
     padding: 12px 32px 11px;
   }

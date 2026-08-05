@@ -9,8 +9,8 @@
 
 .VPNavBarSearchButton .text,
 .VPNavBarSearchButton .keys,
-:root.mac .VPNavBarSearchButton .key-ctrl,
-:root:not(.mac) .VPNavBarSearchButton .key-cmd {
+:root.mac .VPNavBarSearchButton .keys .key-ctrl,
+:root:not(.mac) .VPNavBarSearchButton .keys .key-cmd {
   display: none;
 }
 

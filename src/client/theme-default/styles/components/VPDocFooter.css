@@ -15,7 +15,7 @@
   }
 }
 
-.VPDocFooter .edit-link-button {
+.VPDocFooter .edit-info .edit-link .edit-link-button {
   display: flex;
   align-items: center;
   border: 0;
@@ -26,11 +26,11 @@
   transition: color 0.25s;
 }
 
-.VPDocFooter .edit-link-button:hover {
+.VPDocFooter .edit-info .edit-link .edit-link-button:hover {
   color: var(--vp-c-brand-2);
 }
 
-.VPDocFooter .edit-link-icon {
+.VPDocFooter .edit-info .edit-link .edit-link-button .edit-link-icon {
   margin-right: 8px;
 }
 
@@ -48,7 +48,7 @@
   }
 }
 
-.VPDocFooter .pager-link {
+.VPDocFooter .prev-next .pager .pager-link {
   display: block;
   border: 1px solid var(--vp-c-divider);
   border-radius: 8px;
@@ -58,16 +58,16 @@
   transition: border-color 0.25s;
 }
 
-.VPDocFooter .pager-link:hover {
+.VPDocFooter .prev-next .pager .pager-link:hover {
   border-color: var(--vp-c-brand-1);
 }
 
-.VPDocFooter .pager-link.next {
+.VPDocFooter .prev-next .pager .pager-link.next {
   margin-left: auto;
   text-align: right;
 }
 
-.VPDocFooter .desc {
+.VPDocFooter .prev-next .pager .pager-link .desc {
   display: block;
   line-height: 20px;
   font-size: 12px;
@@ -75,7 +75,7 @@
   color: var(--vp-c-text-2);
 }
 
-.VPDocFooter .title {
+.VPDocFooter .prev-next .pager .pager-link .title {
   display: block;
   line-height: 20px;
   font-size: 14px;

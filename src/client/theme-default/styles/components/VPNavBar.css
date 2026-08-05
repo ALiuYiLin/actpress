@@ -42,7 +42,7 @@
   }
 }
 
-.VPNavBar .container {
+.VPNavBar .wrapper .container {
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
@@ -51,29 +51,29 @@
   pointer-events: none;
 }
 
-.VPNavBar .container > .title,
-.VPNavBar .container > .content {
+.VPNavBar .wrapper .container > .title,
+.VPNavBar .wrapper .container > .content {
   pointer-events: none;
 }
 
-.VPNavBar .container * {
+.VPNavBar .wrapper .container * {
   pointer-events: auto;
 }
 
 @media (min-width: 960px) {
-  .VPNavBar.has-sidebar .container {
+  .VPNavBar.has-sidebar .wrapper .container {
     max-width: 100%;
   }
 }
 
-.VPNavBar .title {
+.VPNavBar .wrapper .container .title {
   flex-shrink: 0;
   height: calc(var(--vp-nav-height) - 1px);
   transition: background-color 0.5s;
 }
 
 @media (min-width: 960px) {
-  .VPNavBar.has-sidebar .title {
+  .VPNavBar.has-sidebar .wrapper .container .title {
     position: absolute;
     top: 0;
     left: 0;
@@ -86,7 +86,7 @@
 }
 
 @media (min-width: 1440px) {
-  .VPNavBar.has-sidebar .title {
+  .VPNavBar.has-sidebar .wrapper .container .title {
     padding-left: max(
       32px,
       calc((100% - (var(--vp-layout-max-width) - 64px)) / 2)
@@ -98,12 +98,12 @@
   }
 }
 
-.VPNavBar .content {
+.VPNavBar .wrapper .container .content {
   flex-grow: 1;
 }
 
 @media (min-width: 960px) {
-  .VPNavBar.has-sidebar .content {
+  .VPNavBar.has-sidebar .wrapper .container .content {
     position: relative;
     z-index: 1;
     padding-left: var(--vp-sidebar-width);
@@ -112,7 +112,7 @@
 }
 
 @media (min-width: 1440px) {
-  .VPNavBar.has-sidebar .content {
+  .VPNavBar.has-sidebar .wrapper .container .content {
     padding-left: calc(
       (100% - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width)
     );
@@ -120,7 +120,7 @@
   }
 }
 
-.VPNavBar .content-body {
+.VPNavBar .wrapper .container .content .content-body {
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -129,26 +129,60 @@
 }
 
 @media (min-width: 960px) {
-  .VPNavBar:not(.home.top) .content-body {
+  .VPNavBar:not(.home.top) .wrapper .container .content .content-body {
     position: relative;
     background-color: var(--vp-nav-bg-color);
   }
 
-  .VPNavBar:not(.has-sidebar):not(.home.top) .content-body {
+  .VPNavBar:not(.has-sidebar):not(.home.top)
+    .wrapper
+    .container
+    .content
+    .content-body {
     background-color: transparent;
   }
 
-  .VPNavBar .content-body {
+  .VPNavBar .wrapper .container .content .content-body {
     margin-right: -100vw;
     padding-right: 100vw;
   }
 }
 
-.VPNavBar .menu + .translations::before,
-.VPNavBar .menu + .appearance::before,
-.VPNavBar .menu + .social-links::before,
-.VPNavBar .translations + .appearance::before,
-.VPNavBar .appearance + .social-links::before {
+.VPNavBar
+  .wrapper
+  .container
+  .content
+  .content-body
+  .menu
+  + .translations::before,
+.VPNavBar
+  .wrapper
+  .container
+  .content
+  .content-body
+  .menu
+  + .appearance::before,
+.VPNavBar
+  .wrapper
+  .container
+  .content
+  .content-body
+  .menu
+  + .social-links::before,
+.VPNavBar
+  .wrapper
+  .container
+  .content
+  .content-body
+  .translations
+  + .appearance::before,
+.VPNavBar
+  .wrapper
+  .container
+  .content
+  .content-body
+  .appearance
+  + .social-links::before {
   margin-right: 8px;
   margin-left: 8px;
   width: 1px;
@@ -157,16 +191,34 @@
   content: '';
 }
 
-.VPNavBar .menu + .appearance::before,
-.VPNavBar .translations + .appearance::before {
+.VPNavBar
+  .wrapper
+  .container
+  .content
+  .content-body
+  .menu
+  + .appearance::before,
+.VPNavBar
+  .wrapper
+  .container
+  .content
+  .content-body
+  .translations
+  + .appearance::before {
   margin-right: 16px;
 }
 
-.VPNavBar .appearance + .social-links::before {
+.VPNavBar
+  .wrapper
+  .container
+  .content
+  .content-body
+  .appearance
+  + .social-links::before {
   margin-left: 16px;
 }
 
-.VPNavBar .social-links {
+.VPNavBar .wrapper .container .content .content-body .social-links {
   margin-right: -8px;
 }
 
@@ -189,18 +241,18 @@
   }
 }
 
-.VPNavBar .divider-line {
+.VPNavBar .divider .divider-line {
   width: 100%;
   height: 1px;
   transition: background-color 0.5s;
 }
 
-.VPNavBar:not(.home) .divider-line {
+.VPNavBar:not(.home) .divider .divider-line {
   background-color: var(--vp-c-gutter);
 }
 
 @media (min-width: 960px) {
-  .VPNavBar:not(.home.top) .divider-line {
+  .VPNavBar:not(.home.top) .divider .divider-line {
     background-color: var(--vp-c-gutter);
   }
 

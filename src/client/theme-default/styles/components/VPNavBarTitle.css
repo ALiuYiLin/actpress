@@ -20,7 +20,7 @@
   }
 }
 
-.VPNavBarTitle .logo {
+.VPNavBarTitle .title .logo {
   margin-right: 8px;
   height: var(--vp-nav-logo-height);
 }

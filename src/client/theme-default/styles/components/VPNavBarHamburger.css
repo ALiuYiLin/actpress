@@ -19,38 +19,38 @@
   overflow: hidden;
 }
 
-.VPNavBarHamburger:hover .top {
+.VPNavBarHamburger:hover .container .top {
   top: 0;
   left: 0;
   transform: translateX(4px);
 }
-.VPNavBarHamburger:hover .middle {
+.VPNavBarHamburger:hover .container .middle {
   top: 6px;
   left: 0;
   transform: translateX(0);
 }
-.VPNavBarHamburger:hover .bottom {
+.VPNavBarHamburger:hover .container .bottom {
   top: 12px;
   left: 0;
   transform: translateX(8px);
 }
 
-.VPNavBarHamburger.active .top {
+.VPNavBarHamburger.active .container .top {
   top: 6px;
   transform: translateX(0) rotate(225deg);
 }
-.VPNavBarHamburger.active .middle {
+.VPNavBarHamburger.active .container .middle {
   top: 6px;
   transform: translateX(16px);
 }
-.VPNavBarHamburger.active .bottom {
+.VPNavBarHamburger.active .container .bottom {
   top: 6px;
   transform: translateX(0) rotate(135deg);
 }
 
-.VPNavBarHamburger.active:hover .top,
-.VPNavBarHamburger.active:hover .middle,
-.VPNavBarHamburger.active:hover .bottom {
+.VPNavBarHamburger.active:hover .container .top,
+.VPNavBarHamburger.active:hover .container .middle,
+.VPNavBarHamburger.active:hover .container .bottom {
   background-color: var(--vp-c-text-2);
   transition:
     top 0.25s,
@@ -58,9 +58,9 @@
     transform 0.25s;
 }
 
-.VPNavBarHamburger .top,
-.VPNavBarHamburger .middle,
-.VPNavBarHamburger .bottom {
+.VPNavBarHamburger .container .top,
+.VPNavBarHamburger .container .middle,
+.VPNavBarHamburger .container .bottom {
   position: absolute;
   width: 16px;
   height: 2px;
@@ -71,17 +71,17 @@
     transform 0.25s;
 }
 
-.VPNavBarHamburger .top {
+.VPNavBarHamburger .container .top {
   top: 0;
   left: 0;
   transform: translateX(0);
 }
-.VPNavBarHamburger .middle {
+.VPNavBarHamburger .container .middle {
   top: 6px;
   left: 0;
   transform: translateX(8px);
 }
-.VPNavBarHamburger .bottom {
+.VPNavBarHamburger .container .bottom {
   top: 12px;
   left: 0;
   transform: translateX(4px);

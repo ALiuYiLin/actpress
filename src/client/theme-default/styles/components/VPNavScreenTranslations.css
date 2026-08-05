@@ -15,15 +15,15 @@
   color: var(--vp-c-text-1);
 }
 
-.VPNavScreenTranslations .icon {
+.VPNavScreenTranslations .title .icon {
   font-size: 16px;
 }
 
-.VPNavScreenTranslations .icon.lang {
+.VPNavScreenTranslations .title .icon.lang {
   margin-right: 8px;
 }
 
-.VPNavScreenTranslations .icon.chevron {
+.VPNavScreenTranslations .title .icon.chevron {
   margin-left: 4px;
 }
 
@@ -31,7 +31,7 @@
   padding: 4px 0 0 24px;
 }
 
-.VPNavScreenTranslations .link {
+.VPNavScreenTranslations .list .item .link {
   line-height: 32px;
   font-size: 13px;
   color: var(--vp-c-text-1);

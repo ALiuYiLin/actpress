@@ -24,7 +24,7 @@
   margin-bottom: 20px;
 }
 
-.VPFeature .icon {
+.VPFeature .box .icon {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,13 +37,13 @@
   transition: background-color 0.25s;
 }
 
-.VPFeature .title {
+.VPFeature .box .title {
   line-height: 24px;
   font-size: 16px;
   font-weight: 600;
 }
 
-.VPFeature .details {
+.VPFeature .box .details {
   flex-grow: 1;
   padding-top: 8px;
   line-height: 24px;
@@ -52,16 +52,16 @@
   color: var(--vp-c-text-2);
 }
 
-.VPFeature ul.details {
+.VPFeature .box ul.details {
   list-style-type: disc;
   padding-left: 14px;
 }
 
-.VPFeature .link-text {
+.VPFeature .box .link-text {
   padding-top: 8px;
 }
 
-.VPFeature .link-text-value {
+.VPFeature .box .link-text .link-text-value {
   display: flex;
   align-items: center;
   font-size: 14px;
@@ -69,6 +69,6 @@
   color: var(--vp-c-brand-1);
 }
 
-.VPFeature .link-text-icon {
+.VPFeature .box .link-text .link-text-value .link-text-icon {
   margin-left: 6px;
 }
