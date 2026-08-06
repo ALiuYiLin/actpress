@@ -75,31 +75,40 @@ Inside your layout component, it works just like a normal Vite + Vue 3 applicati
 
 The most basic layout component needs to contain a [`<Content />`](../reference/runtime-api#content) component:
 
-```vue [.vitepress/theme/Layout.vue]
-<template>
-  <h1>Custom Layout!</h1>
+```tsx [.vitepress/theme/Layout.tsx]
+import { defineComponent } from 'actview'
+import { Content } from 'vitepress'
 
-  <!-- this is where markdown content will be rendered -->
-  <Content />
-</template>
+export const Layout = defineComponent(function () {
+  return function () {
+    return (
+      <div>
+        <h1>Custom Layout!</h1>
+        {/* this is where markdown content will be rendered */}
+        <Content />
+      </div>
+    )
+  }
+})
 ```
 
 The above layout simply renders every page's markdown as HTML. The first improvement we can add is to handle 404 errors:
 
-```vue{1-4,9-12}
-<script setup>
-import { useData } from 'vitepress'
-const { page } = useData()
-</script>
+```tsx
+import { defineComponent } from 'actview'
+import { useData, Content } from 'vitepress'
 
-<template>
-  <h1>Custom Layout!</h1>
-
-  <div v-if="page.isNotFound">
-    Custom 404 page!
-  </div>
-  <Content v-else />
-</template>
+export const Layout = defineComponent(function () {
+  const { page } = useData()
+  return function () {
+    return (
+      <div>
+        <h1>Custom Layout!</h1>
+        {page.value.isNotFound ? <div>Custom 404 page!</div> : <Content />}
+      </div>
+    )
+  }
+})
 ```
 
 The [`useData()`](../reference/runtime-api#usedata) helper provides us with all the runtime data we need to conditionally render different layouts. One of the other data we can access is the current page's frontmatter. We can leverage this to allow the end user to control the layout in each page. For example, the user can indicate the page should use a special home page layout with:
@@ -112,44 +121,55 @@ layout: home
 
 And we can adjust our theme to handle this:
 
-```vue{3,12-14}
-<script setup>
-import { useData } from 'vitepress'
-const { page, frontmatter } = useData()
-</script>
+```tsx
+import { defineComponent } from 'actview'
+import { useData, Content } from 'vitepress'
 
-<template>
-  <h1>Custom Layout!</h1>
-
-  <div v-if="page.isNotFound">
-    Custom 404 page!
-  </div>
-  <div v-if="frontmatter.layout === 'home'">
-    Custom home page!
-  </div>
-  <Content v-else />
-</template>
+export const Layout = defineComponent(function () {
+  const { page, frontmatter } = useData()
+  return function () {
+    return (
+      <div>
+        <h1>Custom Layout!</h1>
+        {page.value.isNotFound ? (
+          <div>Custom 404 page!</div>
+        ) : frontmatter.value.layout === 'home' ? (
+          <div>Custom home page!</div>
+        ) : (
+          <Content />
+        )}
+      </div>
+    )
+  }
+})
 ```
 
 You can, of course, split the layout into more components:
 
-```vue{3-5,12-15}
-<script setup>
+```tsx
+import { defineComponent } from 'actview'
 import { useData } from 'vitepress'
-import NotFound from './NotFound.vue'
-import Home from './Home.vue'
-import Page from './Page.vue'
+import NotFound from './NotFound'
+import Home from './Home'
+import Page from './Page' // <Page /> renders <Content />
 
-const { page, frontmatter } = useData()
-</script>
-
-<template>
-  <h1>Custom Layout!</h1>
-
-  <NotFound v-if="page.isNotFound" />
-  <Home v-if="frontmatter.layout === 'home'" />
-  <Page v-else /> <!-- <Page /> renders <Content /> -->
-</template>
+export const Layout = defineComponent(function () {
+  const { page, frontmatter } = useData()
+  return function () {
+    return (
+      <div>
+        <h1>Custom Layout!</h1>
+        {page.value.isNotFound ? (
+          <NotFound />
+        ) : frontmatter.value.layout === 'home' ? (
+          <Home />
+        ) : (
+          <Page />
+        )}
+      </div>
+    )
+  }
+})
 ```
 
 Consult the [Runtime API Reference](../reference/runtime-api) for everything available in theme components. In addition, you can leverage [Build-Time Data Loading](./data-loading) to generate data-driven layout - for example, a page that lists all blog posts in the current project.

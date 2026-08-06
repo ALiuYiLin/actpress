@@ -127,7 +127,7 @@ export default {
 
 ```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
-import MyLayout from './MyLayout.vue'
+import MyLayout from './MyLayout'
 
 export default {
   extends: DefaultTheme,
@@ -136,34 +136,34 @@ export default {
 }
 ```
 
-```vue [.vitepress/theme/MyLayout.vue]
-<script setup>
+```tsx [.vitepress/theme/MyLayout.tsx]
+import { defineComponent } from 'actview'
 import DefaultTheme from 'vitepress/theme'
 
 const { Layout } = DefaultTheme
-</script>
 
-<template>
-  <Layout>
-    <template #aside-outline-before>
-      My custom sidebar top content
-    </template>
-  </Layout>
-</template>
+export const MyLayout = defineComponent(function () {
+  return function () {
+    // ActView 无具名插槽：以 props 透传替代（见下方 LayoutProps 支持列表）
+    return <Layout sidebarNavBefore={<div>My custom sidebar top content</div>} />
+  }
+})
 ```
-
 也可以使用渲染函数。
 
 ```js [.vitepress/theme/index.js]
-import { h } from 'vue'
+import { createElement } from '@actview/jsx'
 import DefaultTheme from 'vitepress/theme'
-import MyComponent from './MyComponent.vue'
+import MyComponent from './MyComponent'
 
 export default {
   extends: DefaultTheme,
-  Layout() {
-    return h(DefaultTheme.Layout, null, {
-      'aside-outline-before': () => h(MyComponent)
+  Layout(props) {
+    // ActView 无具名插槽：DefaultTheme.Layout 的插槽等价物是 props
+    //（sidebarNavBefore/sidebarNavAfter/pageTop/pageBottom 等，见 LayoutProps）
+    return createElement(DefaultTheme.Layout, {
+      ...props,
+      sidebarNavBefore: createElement(MyComponent)
     })
   }
 }
@@ -217,80 +217,22 @@ export default {
 
 可以扩展默认主题以在切换颜色模式时提供自定义过渡动画。例如：
 
-```vue [.vitepress/theme/Layout.vue]
-<script setup lang="ts">
-import { useData } from 'vitepress'
+```tsx [.vitepress/theme/Layout.tsx]
+import { defineComponent } from 'actview'
 import DefaultTheme from 'vitepress/theme'
-import { nextTick, provide } from 'vue'
 
-const { isDark } = useData()
-
-const enableTransitions = () =>
-  'startViewTransition' in document &&
-  window.matchMedia('(prefers-reduced-motion: no-preference)').matches
-
-provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
-  if (!enableTransitions()) {
-    isDark.value = !isDark.value
-    return
+export const Layout = defineComponent(function () {
+  return function () {
+    return <DefaultTheme.Layout />
   }
-
-  const clipPath = [
-    `circle(0px at ${x}px ${y}px)`,
-    `circle(${Math.hypot(
-      Math.max(x, innerWidth - x),
-      Math.max(y, innerHeight - y)
-    )}px at ${x}px ${y}px)`
-  ]
-
-  await document.startViewTransition(async () => {
-    isDark.value = !isDark.value
-    await nextTick()
-  }).ready
-
-  document.documentElement.animate(
-    { clipPath: isDark.value ? clipPath.reverse() : clipPath },
-    {
-      duration: 300,
-      easing: 'ease-in',
-      fill: 'forwards',
-      pseudoElement: `::view-transition-${isDark.value ? 'old' : 'new'}(root)`
-    }
-  )
 })
-</script>
-
-<template>
-  <DefaultTheme.Layout />
-</template>
-
-<style>
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
-}
-
-::view-transition-old(root),
-.dark::view-transition-new(root) {
-  z-index: 1;
-}
-
-::view-transition-new(root),
-.dark::view-transition-old(root) {
-  z-index: 9999;
-}
-
-.VPSwitchAppearance {
-  width: 22px !important;
-}
-
-.VPSwitchAppearance .check {
-  transform: none !important;
-}
-</style>
 ```
 
+> **ActView 无 `provide`/`inject`**：Vue 版通过 `provide('toggle-appearance', ...)` 自定义外观切换
+> 动画的方式在 ActView 中不可用（`VPSwitchAppearance` 的 toggle 逻辑是硬编码的
+> `isDark.value = !isDark.value`）。如需自定义切换动画，请 fork
+> `VPSwitchAppearance` 并修改其中的 toggle 函数，例如加入
+> `document.startViewTransition` 动画；`::view-transition-*` 等全局样式请放入全局 CSS。
 结果（**注意！**：画面闪烁、快速闪现、强光刺激）:
 
 <details>

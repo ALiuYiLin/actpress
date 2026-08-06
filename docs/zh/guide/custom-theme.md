@@ -75,31 +75,40 @@ export default {
 
 最基本的布局组件需要包含一个 [`<Content />`](../reference/runtime-api#content) 组件：
 
-```vue [.vitepress/theme/Layout.vue]
-<template>
-  <h1>Custom Layout!</h1>
+```tsx [.vitepress/theme/Layout.tsx]
+import { defineComponent } from 'actview'
+import { Content } from 'vitepress'
 
-  <!-- 此处将渲染 markdown 内容 -->
-  <Content />
-</template>
+export const Layout = defineComponent(function () {
+  return function () {
+    return (
+      <div>
+        <h1>Custom Layout!</h1>
+        {/* 此处将渲染 markdown 内容 */}
+        <Content />
+      </div>
+    )
+  }
+})
 ```
 
 上面的布局只是将每个页面的 markdown 渲染为 HTML。我们添加的第一个改进是处理 404 错误：
 
-```vue{1-4,9-12}
-<script setup>
-import { useData } from 'vitepress'
-const { page } = useData()
-</script>
+```tsx
+import { defineComponent } from 'actview'
+import { useData, Content } from 'vitepress'
 
-<template>
-  <h1>Custom Layout!</h1>
-
-  <div v-if="page.isNotFound">
-    Custom 404 page!
-  </div>
-  <Content v-else />
-</template>
+export const Layout = defineComponent(function () {
+  const { page } = useData()
+  return function () {
+    return (
+      <div>
+        <h1>Custom Layout!</h1>
+        {page.value.isNotFound ? <div>Custom 404 page!</div> : <Content />}
+      </div>
+    )
+  }
+})
 ```
 
 [`useData()`](../reference/runtime-api#usedata) 为我们提供了所有的运行时数据，以便我们根据不同条件渲染不同的布局。我们可以访问的另一个数据是当前页面的 frontmatter。通过利用这个数据，可以让用户单独控制每个页面的布局。例如，用户可以指定一个页面是否使用特殊的主页布局：
@@ -112,44 +121,55 @@ layout: home
 
 并且我们可以调整主题进行处理：
 
-```vue{3,12-14}
-<script setup>
-import { useData } from 'vitepress'
-const { page, frontmatter } = useData()
-</script>
+```tsx
+import { defineComponent } from 'actview'
+import { useData, Content } from 'vitepress'
 
-<template>
-  <h1>Custom Layout!</h1>
-
-  <div v-if="page.isNotFound">
-    Custom 404 page!
-  </div>
-  <div v-if="frontmatter.layout === 'home'">
-    Custom home page!
-  </div>
-  <Content v-else />
-</template>
+export const Layout = defineComponent(function () {
+  const { page, frontmatter } = useData()
+  return function () {
+    return (
+      <div>
+        <h1>Custom Layout!</h1>
+        {page.value.isNotFound ? (
+          <div>Custom 404 page!</div>
+        ) : frontmatter.value.layout === 'home' ? (
+          <div>Custom home page!</div>
+        ) : (
+          <Content />
+        )}
+      </div>
+    )
+  }
+})
 ```
 
 当然你可以将布局切分为不同的组件：
 
-```vue{3-5,12-15}
-<script setup>
+```tsx
+import { defineComponent } from 'actview'
 import { useData } from 'vitepress'
-import NotFound from './NotFound.vue'
-import Home from './Home.vue'
-import Page from './Page.vue'
+import NotFound from './NotFound'
+import Home from './Home'
+import Page from './Page' // <Page /> renders <Content />
 
-const { page, frontmatter } = useData()
-</script>
-
-<template>
-  <h1>Custom Layout!</h1>
-
-  <NotFound v-if="page.isNotFound" />
-  <Home v-if="frontmatter.layout === 'home'" />
-  <Page v-else /> <!-- <Page /> renders <Content /> -->
-</template>
+export const Layout = defineComponent(function () {
+  const { page, frontmatter } = useData()
+  return function () {
+    return (
+      <div>
+        <h1>Custom Layout!</h1>
+        {page.value.isNotFound ? (
+          <NotFound />
+        ) : frontmatter.value.layout === 'home' ? (
+          <Home />
+        ) : (
+          <Page />
+        )}
+      </div>
+    )
+  }
+})
 ```
 
 请查看[运行时 API 参考](../reference/runtime-api)获取主题组件中所有可用内容。此外，可以利用[构建时数据加载](./data-loading)来生成数据驱动布局——例如，一个列出当前项目中所有博客文章的页面。
