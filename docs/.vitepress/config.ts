@@ -17,13 +17,7 @@ const ogImage = new URL('/vitepress-og.jpg', siteUrl).href
 
 const localeToOgLocaleMap: Record<string, string> = {
   root: 'en_US',
-  zh: 'zh_CN',
-  pt: 'pt_BR',
-  ru: 'ru_RU',
-  es: 'es_ES',
-  ko: 'ko_KR',
-  fa: 'fa_IR',
-  ja: 'ja_JP'
+  zh: 'zh_CN'
 }
 
 export default defineConfig({
@@ -57,20 +51,8 @@ export default defineConfig({
         const { localeIndex = 'root' } = env
         const codeCopyButtonTitle = (() => {
           switch (localeIndex) {
-            case 'es':
-              return 'Copiar código'
-            case 'fa':
-              return 'کپی کد'
-            case 'ko':
-              return '코드 복사'
-            case 'pt':
-              return 'Copiar código'
-            case 'ru':
-              return 'Скопировать код'
             case 'zh':
               return '复制代码'
-            case 'ja':
-              return 'コードをコピー'
             default:
               return 'Copy code'
           }
@@ -124,13 +106,7 @@ export default defineConfig({
 
   locales: {
     root: { label: 'English', lang: 'en-US', dir: 'ltr' },
-    zh: { label: '简体中文', lang: 'zh-Hans', dir: 'ltr' },
-    pt: { label: 'Português', lang: 'pt-BR', dir: 'ltr' },
-    ru: { label: 'Русский', lang: 'ru-RU', dir: 'ltr' },
-    es: { label: 'Español', lang: 'es', dir: 'ltr' },
-    ko: { label: '한국어', lang: 'ko-KR', dir: 'ltr' },
-    fa: { label: 'فارسی', lang: 'fa-IR', dir: 'rtl' },
-    ja: { label: '日本語', lang: 'ja', dir: 'ltr' }
+    zh: { label: '简体中文', lang: 'zh-Hans', dir: 'ltr' }
   },
 
   vite: {
