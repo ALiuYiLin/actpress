@@ -1,4 +1,4 @@
-import { defineComponent, ref, watch } from 'actview'
+import { defineComponent, watch } from 'actview'
 import { useData } from '../composables/data'
 import { useLangs } from '../composables/langs'
 import { VPFlyout } from './VPFlyout'
@@ -8,10 +8,9 @@ export const VPNavBarTranslations = defineComponent(function (props: any = {}) {
   const { theme } = useData()
   const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
 
-  // watch 监视 localeLinks：变化时递增 key 强制重建列表（规避 patch 累积）
-  const listKey = ref(0)
-  watch(localeLinks, () => {
-    listKey.value++
+  // 调试：切换语言时输出 localeLinks，观察数组是否累积
+  watch(localeLinks, (val) => {
+    console.log('[localeLinks]', JSON.stringify(val))
   })
 
   return function () {
@@ -23,7 +22,7 @@ export const VPNavBarTranslations = defineComponent(function (props: any = {}) {
         icon="vpi-languages"
         label={theme.value.langMenuLabel || 'Change language'}
       >
-        <div class="items" key={listKey.value}>
+        <div class="items">
           <p class="title">{currentLang.value.label}</p>
           {localeLinks.value.map((locale) => (
             <VPMenuLink
