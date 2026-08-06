@@ -77,7 +77,10 @@ export const VPNavBarSearch = defineComponent(function (props: any = {}) {
         loadAndOpen('search')
       }
     }
-    document.addEventListener('keydown', onKeydown)
+    // 原 Vue 版用 @vueuse onKeyStroke（onMounted 时机注册）；ActView 无全局
+    // 事件工具，手写监听必须放 onMounted —— setup 顶层执行会在静态生成
+    // （renderToString，node 环境）时引用 document 崩溃
+    onMounted(() => document.addEventListener('keydown', onKeydown))
     onUnmounted(() => document.removeEventListener('keydown', onKeydown))
   }
   // #endregion
@@ -95,7 +98,7 @@ export const VPNavBarSearch = defineComponent(function (props: any = {}) {
         showSearch.value = true
       }
     }
-    document.addEventListener('keydown', onKeydown)
+    onMounted(() => document.addEventListener('keydown', onKeydown))
     onUnmounted(() => document.removeEventListener('keydown', onKeydown))
   }
   // #endregion
