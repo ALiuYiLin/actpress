@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitepress'
+import { defineConfig } from 'actpress'
 
 export default defineConfig({
   themeConfig: {

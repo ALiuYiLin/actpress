@@ -3,9 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vitepress dev",
-    "build": "vitepress build",
-    "preview": "vitepress preview",
+    "dev": "actpress dev",
+    "build": "actpress build",
+    "preview": "actpress preview",
     "lunaria:build": "lunaria build",
     "lunaria:open": "open-cli .vitepress/dist/_translations/index.html"
   },
@@ -14,7 +14,7 @@
     "markdown-it-mathjax3": "^4.3.2",
     "open-cli": "^8.0.0",
     "postcss-rtlcss": "^6.0.0",
-    "vitepress": "workspace:*",
+    "actpress": "workspace:*",
     "vitepress-plugin-group-icons": "^1.7.5",
     "vitepress-plugin-llms": "^1.13.2"
   }

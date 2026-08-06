@@ -1,4 +1,4 @@
-import { createContentLoader } from 'vitepress'
+import { createContentLoader } from 'actpress'
 
 export default createContentLoader('data-loading/content/*.md', {
   includeSrc: true,

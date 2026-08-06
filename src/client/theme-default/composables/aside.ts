@@ -1,5 +1,5 @@
 import { computed, ref } from 'actview'
-import type { Ref } from 'vitepress'
+import type { Ref } from 'actpress'
 import { inBrowser } from '../../shared'
 import { useLayout } from './layout'
 

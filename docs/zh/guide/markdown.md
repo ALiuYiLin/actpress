@@ -252,7 +252,7 @@ Wraps in a `<div class="vp-raw">`
 - 创建 `docs/postcss.config.mjs` 文件并将以下内容添加到其中：
 
   ```js
-  import { postcssIsolateStyles } from 'vitepress'
+  import { postcssIsolateStyles } from 'actpress'
 
   export default {
     plugins: [postcssIsolateStyles()]
@@ -681,7 +681,7 @@ const line4 = 'This is line 4'
 
 ```js [config.js]
 /**
- * @type {import('vitepress').UserConfig}
+ * @type {import('actpress').UserConfig}
  */
 const config = {
   // ...
@@ -691,7 +691,7 @@ export default config
 ```
 
 ```ts [config.ts]
-import type { UserConfig } from 'vitepress'
+import type { UserConfig } from 'actpress'
 
 const config: UserConfig = {
   // ...
@@ -709,7 +709,7 @@ export default config
 
 ```js [config.js]
 /**
- * @type {import('vitepress').UserConfig}
+ * @type {import('actpress').UserConfig}
  */
 const config = {
   // ...
@@ -719,7 +719,7 @@ export default config
 ```
 
 ```ts [config.ts]
-import type { UserConfig } from 'vitepress'
+import type { UserConfig } from 'actpress'
 
 const config: UserConfig = {
   // ...
@@ -906,7 +906,7 @@ export default {
 VitePress 使用 [markdown-it](https://github.com/markdown-it/markdown-it) 作为 Markdown 渲染器。上面提到的很多扩展功能都是通过自定义插件实现的。可以使用 `.vitepress/config.js` 中的 `markdown` 选项来进一步自定义 `markdown-it` 实例。
 
 ```js
-import { defineConfig } from 'vitepress'
+import { defineConfig } from 'actpress'
 import markdownItAnchor from 'markdown-it-anchor'
 import markdownItFoo from 'markdown-it-foo'
 

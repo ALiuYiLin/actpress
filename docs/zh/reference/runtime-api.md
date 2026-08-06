@@ -62,7 +62,7 @@ interface PageData {
 
 ```tsx
 <script lang="ts" setup>
-import { useData } from 'vitepress'
+import { useData } from 'actpress'
 
 const { theme } = useData()
 </script>
@@ -162,7 +162,7 @@ title: Hello
 ---
 
 <script lang="ts" setup>
-import { useData } from 'vitepress'
+import { useData } from 'actpress'
 
 const { frontmatter } = useData()
 </script>
@@ -176,7 +176,7 @@ const { frontmatter } = useData()
 
 ```md
 <script lang="ts" setup>
-import { useRoute } from 'vitepress'
+import { useRoute } from 'actpress'
 
 const route = useRoute()
 </script>

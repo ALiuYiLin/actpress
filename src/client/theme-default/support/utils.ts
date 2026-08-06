@@ -1,4 +1,4 @@
-import { withBase } from 'vitepress'
+import { withBase } from 'actpress'
 import { isExternal, treatAsHtml } from '../../shared'
 import { useData } from '../composables/data'
 

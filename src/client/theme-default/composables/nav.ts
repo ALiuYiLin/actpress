@@ -1,6 +1,6 @@
-import { useRoute } from 'vitepress'
+import { useRoute } from 'actpress'
 import { ref, watch } from 'actview'
-import type { InjectionKey } from 'vitepress'
+import type { InjectionKey } from 'actpress'
 
 export function useNav() {
   const isScreenOpen = ref(false)

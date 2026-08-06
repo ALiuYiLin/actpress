@@ -142,7 +142,7 @@ const line2 = 'This is line 2'
 
 ```js [config.js]
 /**
- * @type {import('vitepress').UserConfig}
+ * @type {import('actpress').UserConfig}
  */
 const config = {
   // ...
@@ -152,7 +152,7 @@ export default config
 ```
 
 ```ts [config.ts]
-import type { UserConfig } from 'vitepress'
+import type { UserConfig } from 'actpress'
 
 const config: UserConfig = {
   // ...

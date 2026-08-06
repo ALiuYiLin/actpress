@@ -1,6 +1,6 @@
-import type { DefaultTheme } from 'vitepress/theme'
+import type { DefaultTheme } from 'actpress/theme'
 import { onBeforeUnmount, onMounted, onUpdated } from 'actview'
-import type { Ref } from 'vitepress'
+import type { Ref } from 'actpress'
 import { throttleAndDebounce } from '../support/utils'
 import { useAside } from './aside'
 

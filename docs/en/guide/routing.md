@@ -267,7 +267,7 @@ If you are using TypeScript, you can wrap the loader with `defineRoutes` from `v
 
 ```ts
 // packages/[pkg].paths.ts
-import { defineRoutes } from 'vitepress'
+import { defineRoutes } from 'actpress'
 
 export default defineRoutes({
   watch: ['../data/**/*.json'],
@@ -407,7 +407,7 @@ You can use the params to pass additional data to each page. The Markdown route 
 
 ```md
 <script lang="ts" setup>
-import { useRoute } from 'vitepress'
+import { useRoute } from 'actpress'
 
 const route = useRoute()
 </script>
@@ -420,7 +420,7 @@ You can also access the current page's params via the [`useData`](../reference/r
 
 ```tsx
 <script lang="ts" setup>
-import { useData } from 'vitepress'
+import { useData } from 'actpress'
 
 const { params } = useData()
 

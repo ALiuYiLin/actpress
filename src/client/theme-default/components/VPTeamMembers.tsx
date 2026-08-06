@@ -1,4 +1,4 @@
-import type { DefaultTheme } from 'vitepress/theme'
+import type { DefaultTheme } from 'actpress/theme'
 import { VPTeamMembersItem } from './VPTeamMembersItem'
 
 export interface VPTeamMembersProps {

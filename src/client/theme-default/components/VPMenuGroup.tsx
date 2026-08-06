@@ -1,4 +1,4 @@
-import type { DefaultTheme } from 'vitepress/theme'
+import type { DefaultTheme } from 'actpress/theme'
 import { VPMenuLink } from './VPMenuLink'
 
 export interface VPMenuGroupProps {

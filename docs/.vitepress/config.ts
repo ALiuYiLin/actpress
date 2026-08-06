@@ -1,8 +1,4 @@
-import {
-  defineConfig,
-  resolveSiteDataByRoute,
-  type HeadConfig
-} from 'vitepress'
+import { defineConfig, resolveSiteDataByRoute, type HeadConfig } from 'actpress'
 import {
   groupIconMdPlugin,
   groupIconVitePlugin,

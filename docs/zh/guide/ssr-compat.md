@@ -52,7 +52,7 @@ if (!import.meta.env.SSR) {
 因为 [`Theme.enhanceApp`](./custom-theme#theme-interface) 可以是异步的，所以可以有条件地导入并注册访问浏览器 API 的 Vue 插件：
 
 ```js [.vitepress/theme/index.js]
-/** @type {import('vitepress').Theme} */
+/** @type {import('actpress').Theme} */
 export default {
   // ...
   async enhanceApp({ app }) {
@@ -66,7 +66,7 @@ export default {
 
 如果使用 TypeScript:
 ```ts [.vitepress/theme/index.ts]
-import type { Theme } from 'vitepress'
+import type { Theme } from 'actpress'
 
 export default {
   // ...
@@ -85,7 +85,7 @@ VitePress 为导入 Vue 组件提供了一个方便的辅助函数，该组件�
 
 ```tsx
 <script lang="ts" setup>
-import { defineClientComponent } from 'vitepress'
+import { defineClientComponent } from 'actpress'
 
 const ClientComp = defineClientComponent(() => {
   return import('component-that-access-window-on-import')
@@ -101,7 +101,7 @@ const ClientComp = defineClientComponent(() => {
 
 ```tsx
 <script lang="ts" setup>
-import { defineClientComponent } from 'vitepress'
+import { defineClientComponent } from 'actpress'
 
 const ClientComp = defineClientComponent(
   () => import('component-that-access-window-on-import'),

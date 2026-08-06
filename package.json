@@ -1,5 +1,5 @@
 {
-  "name": "vitepress",
+  "name": "actpress",
   "version": "2.0.0-alpha.17",
   "description": "Vite & ActView powered static site generator",
   "keywords": [
@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/vuejs/vitepress/issues"
   },
-  "repository": "github:vuejs/vitepress",
+  "repository": "github:ALiuYiLin/actpress",
   "license": "MIT",
   "author": "Evan You",
   "type": "module",
@@ -38,7 +38,7 @@
   "main": "dist/node/index.js",
   "types": "types/index.d.ts",
   "bin": {
-    "vitepress": "bin/vitepress.js"
+    "actpress": "bin/vitepress.js"
   },
   "files": [
     "bin",
@@ -96,7 +96,7 @@
     "*": "prettier --experimental-cli --ignore-unknown --write"
   },
   "dependencies": {
-    "@actview/core": "^1.0.16",
+    "@actview/core": "^1.0.18",
     "@actview/jsx": "^1.0.11",
     "@actview/plugin": "^1.0.7",
     "@actview/router": "^1.0.10",
@@ -108,7 +108,7 @@
     "@shikijs/transformers": "^4.3.0",
     "@shikijs/types": "^4.3.0",
     "@types/markdown-it": "^14.1.2",
-    "actview": "^1.0.15",
+    "actview": "^1.0.17",
     "focus-trap": "^8.2.2",
     "minisearch": "^7.2.0",
     "shiki": "^4.3.0",

@@ -32,7 +32,7 @@ editLink: true
 ---
 
 <script lang="ts" setup>
-import { useData } from 'vitepress'
+import { useData } from 'actpress'
 
 const { frontmatter } = useData()
 </script>

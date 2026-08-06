@@ -1,5 +1,5 @@
 import { computed, shallowReactive } from 'actview'
-import type { Ref } from 'vitepress'
+import type { Ref } from 'actpress'
 
 /**
  * ActView 无 shallowRef：用 shallowReactive 包一层 { value } 模拟。

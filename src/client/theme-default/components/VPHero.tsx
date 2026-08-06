@@ -1,4 +1,4 @@
-import type { DefaultTheme } from 'vitepress/theme'
+import type { DefaultTheme } from 'actpress/theme'
 import { VPButton } from './VPButton'
 import { VPImage } from './VPImage'
 

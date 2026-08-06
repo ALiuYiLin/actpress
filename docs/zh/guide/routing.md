@@ -329,7 +329,7 @@ export default {
 
 ```md
 <script lang="ts" setup>
-import { useRoute } from 'vitepress'
+import { useRoute } from 'actpress'
 
 const route = useRoute()
 </script>
@@ -342,7 +342,7 @@ const route = useRoute()
 
 ```tsx
 <script lang="ts" setup>
-import { useData } from 'vitepress'
+import { useData } from 'actpress'
 
 const { params } = useData()
 

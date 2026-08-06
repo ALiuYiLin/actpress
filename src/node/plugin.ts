@@ -123,7 +123,7 @@ export async function createVitePressPlugin(
   // 且排在用户 normal 插件之前）之前把 .md 转成 JS，否则它会 parse md 原文
   // 报 "Failed to parse source for import analysis ... invalid JS syntax"。
   const vitePressPlugin: Plugin = {
-    name: 'vitepress',
+    name: 'actpress',
     enforce: 'pre',
 
     async configResolved(resolvedConfig) {
@@ -161,7 +161,7 @@ export async function createVitePressPlugin(
           __ASSETS_DIR__: JSON.stringify(siteConfig.assetsDir)
         },
         optimizeDeps: {
-          exclude: ['@docsearch/js', '@docsearch/sidepanel-js', 'vitepress']
+          exclude: ['@docsearch/js', '@docsearch/sidepanel-js', 'actpress']
         },
         server: {
           fs: {

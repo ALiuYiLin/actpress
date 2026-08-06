@@ -1,4 +1,4 @@
-import type { InjectionKey } from 'vitepress'
+import type { InjectionKey } from 'actpress'
 import { markRaw, nextTick, reactive, readonly } from 'actview'
 import type { Awaitable, PageData, PageDataPayload } from '../shared'
 import { notFoundPageData, treatAsHtml } from '../shared'

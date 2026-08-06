@@ -68,7 +68,7 @@ interface PageData {
 
 ```tsx
 <script lang="ts" setup>
-import { useData } from 'vitepress'
+import { useData } from 'actpress'
 
 const { theme } = useData()
 </script>
@@ -169,7 +169,7 @@ title: Hello
 ---
 
 <script lang="ts" setup>
-import { useData } from 'vitepress'
+import { useData } from 'actpress'
 
 const { frontmatter } = useData()
 </script>
@@ -183,7 +183,7 @@ Directly access current page's [dynamic route params](../guide/routing#dynamic-r
 
 ```md
 <script lang="ts" setup>
-import { useRoute } from 'vitepress'
+import { useRoute } from 'actpress'
 
 const route = useRoute()
 </script>

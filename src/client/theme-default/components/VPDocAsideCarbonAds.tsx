@@ -1,5 +1,5 @@
 import { defineComponent } from 'actview'
-import type { DefaultTheme } from 'vitepress/theme'
+import type { DefaultTheme } from 'actpress/theme'
 import { VPCarbonAds } from './VPCarbonAds'
 
 export interface VPDocAsideCarbonAdsProps {

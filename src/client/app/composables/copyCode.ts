@@ -1,4 +1,4 @@
-import { inBrowser } from 'vitepress'
+import { inBrowser } from 'actpress'
 import { isShell } from '../../shared'
 
 const ignoredNodes = ['.vp-copy-ignore', '.diff.remove'].join(', ')

@@ -1,5 +1,5 @@
 import { computed, defineComponent, nextTick, onMounted, ref } from 'actview'
-import type { DefaultTheme } from 'vitepress/theme'
+import type { DefaultTheme } from 'actpress/theme'
 
 export interface VPSocialLinkProps {
   icon: DefaultTheme.SocialLinkIcon

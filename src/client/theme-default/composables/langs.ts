@@ -1,6 +1,6 @@
 import { computed } from 'actview'
-import type { DefaultTheme } from 'vitepress/theme'
-import type { Ref } from 'vitepress'
+import type { DefaultTheme } from 'actpress/theme'
+import type { Ref } from 'actpress'
 import type { VitePressData } from '../../app/data'
 import { ensureStartingSlash } from '../support/utils'
 import { useData } from './data'

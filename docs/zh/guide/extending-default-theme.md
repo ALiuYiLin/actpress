@@ -24,7 +24,7 @@ VitePress 默认的主题已经针对文档进行了优化，并且可以进行�
 可以通过覆盖根级别的 CSS 变量来自定义默认主题的 CSS：
 
 ```js [.vitepress/theme/index.js]
-import DefaultTheme from 'vitepress/theme'
+import DefaultTheme from 'actpress/theme'
 import './custom.css'
 
 export default DefaultTheme
@@ -47,7 +47,7 @@ VitePress 使用 [Inter](https://rsms.me/inter/) 作为默认字体，并且将�
 为了避免在生成后的输出中包含 Inter 字体，请从 `vitepress/theme-without-fonts` 中导入主题：
 
 ```js [.vitepress/theme/index.js]
-import DefaultTheme from 'vitepress/theme-without-fonts'
+import DefaultTheme from 'actpress/theme-without-fonts'
 import './my-fonts.css'
 
 export default DefaultTheme
@@ -93,9 +93,9 @@ export default {
 ## 注册全局组件 {#registering-global-components}
 
 ```js [.vitepress/theme/index.js]
-import DefaultTheme from 'vitepress/theme'
+import DefaultTheme from 'actpress/theme'
 
-/** @type {import('vitepress').Theme} */
+/** @type {import('actpress').Theme} */
 export default {
   extends: DefaultTheme,
   enhanceApp({ app }) {
@@ -107,8 +107,8 @@ export default {
 
 如果使用 TypeScript:
 ```ts [.vitepress/theme/index.ts]
-import type { Theme } from 'vitepress'
-import DefaultTheme from 'vitepress/theme'
+import type { Theme } from 'actpress'
+import DefaultTheme from 'actpress/theme'
 
 export default {
   extends: DefaultTheme,
@@ -126,7 +126,7 @@ export default {
 默认主题的 `<Layout/>` 组件有一些插槽，能够被用来在页面的特定位置注入内容。下面这个例子展示了将一个组件注入到 outline 之前：
 
 ```js [.vitepress/theme/index.js]
-import DefaultTheme from 'vitepress/theme'
+import DefaultTheme from 'actpress/theme'
 import MyLayout from './MyLayout'
 
 export default {
@@ -138,7 +138,7 @@ export default {
 
 ```tsx [.vitepress/theme/MyLayout.tsx]
 import { defineComponent } from 'actview'
-import DefaultTheme from 'vitepress/theme'
+import DefaultTheme from 'actpress/theme'
 
 const { Layout } = DefaultTheme
 
@@ -153,7 +153,7 @@ export const MyLayout = defineComponent(function () {
 
 ```js [.vitepress/theme/index.js]
 import { createElement } from '@actview/jsx'
-import DefaultTheme from 'vitepress/theme'
+import DefaultTheme from 'actpress/theme'
 import MyComponent from './MyComponent'
 
 export default {
@@ -219,7 +219,7 @@ export default {
 
 ```tsx [.vitepress/theme/Layout.tsx]
 import { defineComponent } from 'actview'
-import DefaultTheme from 'vitepress/theme'
+import DefaultTheme from 'actpress/theme'
 
 export const Layout = defineComponent(function () {
   return function () {
@@ -254,7 +254,7 @@ export const Layout = defineComponent(function () {
 
 ```ts
 import { fileURLToPath, URL } from 'node:url'
-import { defineConfig } from 'vitepress'
+import { defineConfig } from 'actpress'
 
 export default defineConfig({
   vite: {

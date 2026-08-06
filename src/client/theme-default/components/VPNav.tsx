@@ -1,5 +1,5 @@
 import { computed, defineComponent, watchEffect } from 'actview'
-import { inBrowser } from 'vitepress'
+import { inBrowser } from 'actpress'
 import { useData } from '../composables/data'
 import { useNav } from '../composables/nav'
 import { VPNavBar } from './VPNavBar'

@@ -56,7 +56,7 @@ In this case it is recommended to wrap the path with the [`withBase` helper](../
 
 ```tsx
 <script lang="ts" setup>
-import { withBase, useData } from 'vitepress'
+import { withBase, useData } from 'actpress'
 
 const { theme } = useData()
 </script>

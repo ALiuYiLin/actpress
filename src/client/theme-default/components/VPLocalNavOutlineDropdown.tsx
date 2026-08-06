@@ -1,6 +1,6 @@
 import { defineComponent, nextTick, ref, watch } from 'actview'
-import { inBrowser, onContentUpdated } from 'vitepress'
-import type { DefaultTheme } from 'vitepress/theme'
+import { inBrowser, onContentUpdated } from 'actpress'
+import type { DefaultTheme } from 'actpress/theme'
 import { useData } from '../composables/data'
 import { resolveTitle } from '../composables/outline'
 import { VPDocOutlineItem } from './VPDocOutlineItem'

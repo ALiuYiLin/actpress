@@ -1,4 +1,4 @@
-import type { DefaultTheme } from 'vitepress/theme'
+import type { DefaultTheme } from 'actpress/theme'
 import {
   computed,
   onMounted,
@@ -7,7 +7,7 @@ import {
   watch,
   watchEffect
 } from 'actview'
-import type { Ref } from 'vitepress'
+import type { Ref } from 'actpress'
 import { isActive } from '../../shared'
 import { hasActiveLink as containsActiveLink } from '../support/sidebar'
 import { useData } from './data'

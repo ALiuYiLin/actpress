@@ -56,7 +56,7 @@ description: 了解如何在 VitePress 中引用和处理静态资源，如图�
 
 ```tsx
 <script lang="ts" setup>
-import { withBase, useData } from 'vitepress'
+import { withBase, useData } from 'actpress'
 
 const { theme } = useData()
 </script>

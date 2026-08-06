@@ -1,4 +1,4 @@
-import { inBrowser, onContentUpdated } from 'vitepress'
+import { inBrowser, onContentUpdated } from 'actpress'
 
 export function useCodeGroups() {
   if (import.meta.env.DEV) {

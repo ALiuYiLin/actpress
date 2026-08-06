@@ -30,7 +30,7 @@ export default {
 If you need to dynamically generate the config, you can also default export a function. For example:
 
 ```ts
-import { defineConfig } from 'vitepress'
+import { defineConfig } from 'actpress'
 
 export default async () => {
   const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
@@ -57,7 +57,7 @@ export default async () => {
 You can also use top-level `await`. For example:
 
 ```ts
-import { defineConfig } from 'vitepress'
+import { defineConfig } from 'actpress'
 
 const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
 
@@ -86,7 +86,7 @@ export default defineConfig({
 Using the `defineConfig` helper will provide TypeScript-powered intellisense for config options. Assuming your IDE supports it, this should work in both JavaScript and TypeScript.
 
 ```js
-import { defineConfig } from 'vitepress'
+import { defineConfig } from 'actpress'
 
 export default defineConfig({
   // ...
@@ -98,7 +98,7 @@ export default defineConfig({
 By default, `defineConfig` helper expects the theme config type from default theme:
 
 ```ts
-import { defineConfig } from 'vitepress'
+import { defineConfig } from 'actpress'
 
 export default defineConfig({
   themeConfig: {
@@ -110,7 +110,7 @@ export default defineConfig({
 If you use a custom theme and want type checks for the theme config, you'll need to use `defineConfigWithTheme` instead, and pass the config type for your custom theme via a generic argument:
 
 ```ts
-import { defineConfigWithTheme } from 'vitepress'
+import { defineConfigWithTheme } from 'actpress'
 import type { ThemeConfig } from 'your-theme'
 
 export default defineConfigWithTheme<ThemeConfig>({
@@ -153,7 +153,7 @@ The `defineAdditionalConfig` helper can be used to get TypeScript-powered intell
 For example, for a site with multiple languages we might want a different `description` for each language. We could add `es/config.ts` with the following content:
 
 ```ts
-import { defineAdditionalConfig } from 'vitepress'
+import { defineAdditionalConfig } from 'actpress'
 
 export default defineAdditionalConfig({
   description: 'Generador de Sitios Estáticos desarrollado con Vite y Vue.'

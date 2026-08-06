@@ -28,7 +28,7 @@ Object.keys(argv).forEach((key) => {
 })
 
 const logVersion = (logger: Logger) => {
-  logger.info(`\n  ${c.green(`${c.bold('vitepress')} v${version}`)}\n`, {
+  logger.info(`\n  ${c.green(`${c.bold('actpress')} v${version}`)}\n`, {
     clear: !logger.hasWarned
   })
 }

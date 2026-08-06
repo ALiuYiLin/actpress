@@ -1,8 +1,8 @@
 import { createRequire } from 'module'
-import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
+import { defineAdditionalConfig, type DefaultTheme } from 'actpress'
 
 const require = createRequire(import.meta.url)
-const pkg = require('vitepress/package.json')
+const pkg = require('actpress/package.json')
 
 export default defineAdditionalConfig({
   description: 'Vite & Vue powered static site generator.',

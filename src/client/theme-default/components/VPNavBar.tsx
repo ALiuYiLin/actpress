@@ -1,5 +1,5 @@
 import { defineComponent, ref } from 'actview'
-import { inBrowser } from 'vitepress'
+import { inBrowser } from 'actpress'
 import { useLayout } from '../composables/layout'
 import { VPNavBarAppearance } from './VPNavBarAppearance'
 import { VPNavBarAskAiButton } from './VPNavBarAskAiButton'

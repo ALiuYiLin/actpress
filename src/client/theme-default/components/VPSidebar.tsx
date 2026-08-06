@@ -1,5 +1,5 @@
 import { defineComponent, ref, watch } from 'actview'
-import { inBrowser } from 'vitepress'
+import { inBrowser } from 'actpress'
 import { useLayout } from '../composables/layout'
 import { VPSidebarGroup } from './VPSidebarGroup'
 

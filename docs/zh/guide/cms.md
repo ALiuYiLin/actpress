@@ -15,7 +15,7 @@ description: 使用动态路由和数据加载器将 VitePress 连接到无头 C
 
     ```js
     // posts/[id].paths.js
-    import { loadEnv } from 'vitepress'
+    import { loadEnv } from 'actpress'
 
     const env = loadEnv('', process.cwd())
     ```
@@ -46,7 +46,7 @@ description: 使用动态路由和数据加载器将 VitePress 连接到无头 C
 
     ```md
     <script lang="ts" setup>
-    import { useRoute } from 'vitepress'
+    import { useRoute } from 'actpress'
 
     const route = useRoute()
     </script>

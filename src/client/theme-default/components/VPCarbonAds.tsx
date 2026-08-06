@@ -1,5 +1,5 @@
 import { defineComponent, ref, watch } from 'actview'
-import type { DefaultTheme } from 'vitepress/theme'
+import type { DefaultTheme } from 'actpress/theme'
 import { onMounted } from 'actview'
 import { useAside } from '../composables/aside'
 import { useData } from '../composables/data'

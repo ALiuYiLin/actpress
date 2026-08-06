@@ -32,7 +32,7 @@ Changing locale to say `zh` will change the URL from `/foo` (or `/en/foo/`) to `
 Set `themeConfig.i18nRouting` to a function to customize the locale link. The function receives the current VitePress data, the current hash, and the target locale key, and returns the target link.
 
 ```ts
-import { defineConfig } from 'vitepress'
+import { defineConfig } from 'actpress'
 
 export default defineConfig({
   themeConfig: {
@@ -507,7 +507,7 @@ interface {
 
 ```tsx
 <script lang="ts" setup>
-import { useLayout } from 'vitepress/theme'
+import { useLayout } from 'actpress/theme'
 
 const { hasSidebar } = useLayout()
 </script>

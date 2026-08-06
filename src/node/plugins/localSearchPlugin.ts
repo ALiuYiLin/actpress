@@ -152,7 +152,7 @@ export async function localSearchPlugin(
 
     config: () => ({
       optimizeDeps: {
-        include: ['vitepress > minisearch']
+        include: ['actpress > minisearch']
       }
     }),
 

@@ -15,7 +15,7 @@ Since each CMS will work differently, here we can only provide a generic workflo
 
     ```js
     // posts/[id].paths.js
-    import { loadEnv } from 'vitepress'
+    import { loadEnv } from 'actpress'
 
     const env = loadEnv('', process.cwd())
     ```
@@ -46,7 +46,7 @@ Since each CMS will work differently, here we can only provide a generic workflo
 
     ```md
     <script lang="ts" setup>
-    import { useRoute } from 'vitepress'
+    import { useRoute } from 'actpress'
 
     const route = useRoute()
     </script>

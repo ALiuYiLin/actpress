@@ -1,6 +1,6 @@
 import { defineComponent } from 'actview'
-import type { DefaultTheme } from 'vitepress/theme'
-import { withBase } from 'vitepress'
+import type { DefaultTheme } from 'actpress/theme'
+import { withBase } from 'actpress'
 
 export interface VPImageProps {
   image: DefaultTheme.ThemeableImage

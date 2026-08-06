@@ -5,11 +5,11 @@
   "scripts": {
     "test": "vitest run",
     "watch": "DEBUG=1 vitest",
-    "site:dev": "vitepress",
+    "site:dev": "actpress",
     "site:build": "vitepress build",
     "site:preview": "vitepress preview"
   },
   "devDependencies": {
-    "vitepress": "workspace:*"
+    "actpress": "workspace:*"
   }
 }

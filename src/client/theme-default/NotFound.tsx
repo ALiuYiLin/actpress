@@ -1,4 +1,4 @@
-import { withBase } from 'vitepress'
+import { withBase } from 'actpress'
 import { useData } from './composables/data'
 import { useLangs } from './composables/langs'
 

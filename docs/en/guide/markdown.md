@@ -274,7 +274,7 @@ Wraps in a `<div class="vp-raw">`
 - Create a file named `docs/postcss.config.mjs` and add this to it:
 
   ```js
-  import { postcssIsolateStyles } from 'vitepress'
+  import { postcssIsolateStyles } from 'actpress'
 
   export default {
     plugins: [postcssIsolateStyles()]
@@ -703,7 +703,7 @@ You can group multiple code blocks like this:
 
 ```js [config.js]
 /**
- * @type {import('vitepress').UserConfig}
+ * @type {import('actpress').UserConfig}
  */
 const config = {
   // ...
@@ -713,7 +713,7 @@ export default config
 ```
 
 ```ts [config.ts]
-import type { UserConfig } from 'vitepress'
+import type { UserConfig } from 'actpress'
 
 const config: UserConfig = {
   // ...
@@ -731,7 +731,7 @@ export default config
 
 ```js [config.js]
 /**
- * @type {import('vitepress').UserConfig}
+ * @type {import('actpress').UserConfig}
  */
 const config = {
   // ...
@@ -741,7 +741,7 @@ export default config
 ```
 
 ```ts [config.ts]
-import type { UserConfig } from 'vitepress'
+import type { UserConfig } from 'actpress'
 
 const config: UserConfig = {
   // ...
@@ -1012,7 +1012,7 @@ export default {
 VitePress uses [markdown-it](https://github.com/markdown-it/markdown-it) as the Markdown renderer. A lot of the extensions above are implemented via custom plugins. You can further customize the `markdown-it` instance using the `markdown` option in `.vitepress/config.js`:
 
 ```js
-import { defineConfig } from 'vitepress'
+import { defineConfig } from 'actpress'
 import markdownItAnchor from 'markdown-it-anchor'
 import markdownItFoo from 'markdown-it-foo'
 

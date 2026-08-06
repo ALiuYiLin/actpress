@@ -1,5 +1,5 @@
 import { onBeforeUnmount, onMounted } from 'actview'
-import type { Ref } from 'vitepress'
+import type { Ref } from 'actpress'
 import { throttleAndDebounce } from '../support/utils'
 
 export interface GridSetting {

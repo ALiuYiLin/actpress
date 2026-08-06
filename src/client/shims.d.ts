@@ -5,13 +5,13 @@ declare const __CARBON__: boolean
 declare const __ASSETS_DIR__: string
 
 declare module '@siteData' {
-  import type { SiteData } from 'vitepress'
+  import type { SiteData } from 'actpress'
   const data: SiteData
   export default data
 }
 
 declare module '@theme/index' {
-  import type { Theme } from 'vitepress'
+  import type { Theme } from 'actpress'
   const theme: Theme
   export default theme
 }

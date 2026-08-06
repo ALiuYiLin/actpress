@@ -6,8 +6,8 @@
     "declarationDir": "../../dist/client-types",
     "types": ["../../client.d.ts", "@types/node"],
     "paths": {
-      "vitepress": ["./index.ts"],
-      "vitepress/theme": ["../../theme.d.ts"]
+      "actpress": ["./index.ts"],
+      "actpress/theme": ["../../theme.d.ts"]
     }
   },
   "include": ["."]

@@ -1,4 +1,4 @@
-import { defineRoutes } from 'vitepress'
+import { defineRoutes } from 'actpress'
 import paths from './paths'
 
 export default defineRoutes({

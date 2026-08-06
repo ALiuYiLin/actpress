@@ -1,4 +1,4 @@
-import type { DefaultTheme } from 'vitepress/theme'
+import type { DefaultTheme } from 'actpress/theme'
 
 export interface VPDocOutlineItemProps {
   headers: DefaultTheme.OutlineItem[]

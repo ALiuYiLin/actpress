@@ -1,5 +1,5 @@
 import { onBeforeUnmount, readonly, ref, watch } from 'actview'
-import type { Ref } from 'vitepress'
+import type { Ref } from 'actpress'
 import { inBrowser } from '../../shared'
 
 interface UseFlyoutOptions {
