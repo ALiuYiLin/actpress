@@ -45,9 +45,15 @@ Since each CMS will work differently, here we can only provide a generic workflo
 3. Render the content in the page:
 
     ```md
-    # {{ $params.title }}
+    <script lang="ts" setup>
+    import { useRoute } from 'vitepress'
 
-    - by {{ $params.author }} on {{ $params.date }}
+    const route = useRoute()
+    </script>
+
+    # {route.params.title}
+
+    - by {route.params.author} on {route.params.date}
 
     <!-- @content -->
     ```

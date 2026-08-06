@@ -31,7 +31,13 @@ title: Docs with VitePress
 editLink: true
 ---
 
-# {{ $frontmatter.title }}
+<script lang="ts" setup>
+import { useData } from 'vitepress'
+
+const { frontmatter } = useData()
+</script>
+
+# {frontmatter.value.title}
 
 Guide content
 ```

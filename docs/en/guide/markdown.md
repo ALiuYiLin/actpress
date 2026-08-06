@@ -341,11 +341,11 @@ export default {
 ````
 
 ````
-```html
+```tsx
 <ul>
-  <li v-for="todo in todos" :key="todo.id">
-    {{ todo.text }}
-  </li>
+  {todos.map((todo) => (
+    <li key={todo.id}>{todo.text}</li>
+  ))}
 </ul>
 ```
 ````
@@ -359,11 +359,11 @@ export default {
 }
 ```
 
-```html
+```tsx
 <ul>
-  <li v-for="todo in todos" :key="todo.id">
-    {{ todo.text }}
-  </li>
+  {todos.map((todo) => (
+    <li key={todo.id}>{todo.text}</li>
+  ))}
 </ul>
 ```
 

@@ -328,8 +328,14 @@ export default {
 可以使用参数将附加数据传递到每个页面。Markdown 路由文件可以通过 `$params` 全局属性访问 Vue 表达式中的当前页面参数：
 
 ```md
-- package name: {{ $params.pkg }}
-- version: {{ $params.version }}
+<script lang="ts" setup>
+import { useRoute } from 'vitepress'
+
+const route = useRoute()
+</script>
+
+- package name: {route.params.pkg}
+- version: {route.params.version}
 ```
 
 还可以通过 [`useData`](../reference/runtime-api#usedata) 运行时 API 访问当前页面的参数。这在 Markdown 文件和 Vue 组件中都可用：

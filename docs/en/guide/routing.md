@@ -406,8 +406,14 @@ The `watch` option works the same way as in [data loaders](./data-loading#data-f
 You can use the params to pass additional data to each page. The Markdown route file can access the current page params in Vue expressions via the `$params` global property:
 
 ```md
-- package name: {{ $params.pkg }}
-- version: {{ $params.version }}
+<script lang="ts" setup>
+import { useRoute } from 'vitepress'
+
+const route = useRoute()
+</script>
+
+- package name: {route.params.pkg}
+- version: {route.params.version}
 ```
 
 You can also access the current page's params via the [`useData`](../reference/runtime-api#usedata) runtime API. This is available in both Markdown files and Vue components:

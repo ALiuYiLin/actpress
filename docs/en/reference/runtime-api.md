@@ -66,16 +66,14 @@ interface PageData {
 
 **Example:**
 
-```vue
-<script setup>
+```tsx
+<script lang="ts" setup>
 import { useData } from 'vitepress'
 
 const { theme } = useData()
 </script>
 
-<template>
-  <h1>{{ theme.footer.copyright }}</h1>
-</template>
+<h1>{theme.value.footer.copyright}</h1>
 ```
 
 ## `useRoute` <Badge type="info" text="composable" />
@@ -166,7 +164,13 @@ Directly access current page's [frontmatter](../guide/frontmatter) data in Vue e
 title: Hello
 ---
 
-# {{ $frontmatter.title }}
+<script lang="ts" setup>
+import { useData } from 'vitepress'
+
+const { frontmatter } = useData()
+</script>
+
+# {frontmatter.value.title}
 ```
 
 ## `$params` <Badge type="info" text="template global" />
@@ -174,6 +178,12 @@ title: Hello
 Directly access current page's [dynamic route params](../guide/routing#dynamic-routes) in Vue expressions.
 
 ```md
-- package name: {{ $params.pkg }}
-- version: {{ $params.version }}
+<script lang="ts" setup>
+import { useRoute } from 'vitepress'
+
+const route = useRoute()
+</script>
+
+- package name: {route.params.pkg}
+- version: {route.params.version}
 ```

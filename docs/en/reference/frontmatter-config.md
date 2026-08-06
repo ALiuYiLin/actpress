@@ -19,7 +19,13 @@ editLink: true
 You can access frontmatter data via the `$frontmatter` global in Vue expressions:
 
 ```md
-{{ $frontmatter.title }}
+<script lang="ts" setup>
+import { useData } from 'vitepress'
+
+const { frontmatter } = useData()
+</script>
+
+{frontmatter.value.title}
 ```
 
 ## title

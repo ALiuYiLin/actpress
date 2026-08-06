@@ -26,12 +26,12 @@ export default {
 
 然后，可以在 `.md` 页面和 `.vue` 组件中使用 `data` 具名导出从该文件中导入数据：
 
-```vue
-<script setup>
+```tsx
+<script lang="ts" setup>
 import { data } from './example.data.js'
 </script>
 
-<pre>{{ data }}</pre>
+<pre>{JSON.stringify(data, null, 2)}</pre>
 ```
 
 输出：
@@ -117,20 +117,20 @@ interface ContentData {
 
 默认情况下只提供 `url` 和 `frontmatter`。这是因为加载的数据将作为 JSON 内联在客户端 bundle 中，我们需要谨慎考虑其大小。下面的例子展示了如何使用数据构建最小的博客索引页面：
 
-```vue
-<script setup>
+```tsx
+<script lang="ts" setup>
 import { data as posts } from './posts.data.js'
 </script>
 
-<template>
-  <h1>All Blog Posts</h1>
-  <ul>
-    <li v-for="post of posts">
-      <a :href="post.url">{{ post.frontmatter.title }}</a>
-      <span>by {{ post.frontmatter.author }}</span>
+<h1>All Blog Posts</h1>
+<ul>
+  {posts.map((post) => (
+    <li>
+      <a href={post.url}>{post.frontmatter.title}</a>
+      <span>by {post.frontmatter.author}</span>
     </li>
-  </ul>
-</template>
+  ))}
+</ul>
 ```
 
 ### 选项 {#options}

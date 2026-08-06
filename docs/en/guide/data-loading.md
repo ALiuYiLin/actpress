@@ -26,12 +26,12 @@ The loader module is evaluated only in Node.js, so you can import Node APIs and 
 
 You can then import data from this file in `.md` pages and `.vue` components using the `data` named export:
 
-```vue
-<script setup>
+```tsx
+<script lang="ts" setup>
 import { data } from './example.data.js'
 </script>
 
-<pre>{{ data }}</pre>
+<pre>{JSON.stringify(data, null, 2)}</pre>
 ```
 
 Output:
@@ -117,20 +117,20 @@ interface ContentData {
 
 By default, only `url` and `frontmatter` are provided. This is because the loaded data will be inlined as JSON in the client bundle, so we need to be cautious about its size. Here's an example using the data to build a minimal blog index page:
 
-```vue
-<script setup>
+```tsx
+<script lang="ts" setup>
 import { data as posts } from './posts.data.js'
 </script>
 
-<template>
-  <h1>All Blog Posts</h1>
-  <ul>
-    <li v-for="post of posts">
-      <a :href="post.url">{{ post.frontmatter.title }}</a>
-      <span>by {{ post.frontmatter.author }}</span>
+<h1>All Blog Posts</h1>
+<ul>
+  {posts.map((post) => (
+    <li>
+      <a href={post.url}>{post.frontmatter.title}</a>
+      <span>by {post.frontmatter.author}</span>
     </li>
-  </ul>
-</template>
+  ))}
+</ul>
 ```
 
 ### Options

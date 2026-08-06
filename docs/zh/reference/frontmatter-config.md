@@ -19,7 +19,13 @@ editLink: true
 可以通过 Vue 表达式中的 `$frontmatter` 全局变量访问 frontmatter 数据：
 
 ```md
-{{ $frontmatter.title }}
+<script lang="ts" setup>
+import { useData } from 'vitepress'
+
+const { frontmatter } = useData()
+</script>
+
+{frontmatter.value.title}
 ```
 
 ## title

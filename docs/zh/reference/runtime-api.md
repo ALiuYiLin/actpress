@@ -60,16 +60,14 @@ interface PageData {
 
 **示例：**
 
-```vue
-<script setup>
+```tsx
+<script lang="ts" setup>
 import { useData } from 'vitepress'
 
 const { theme } = useData()
 </script>
 
-<template>
-  <h1>{{ theme.footer.copyright }}</h1>
-</template>
+<h1>{theme.value.footer.copyright}</h1>
 ```
 
 ## `useRoute` <Badge type="info" text="composable" />
@@ -159,7 +157,13 @@ interface Router {
 title: Hello
 ---
 
-# {{ $frontmatter.title }}
+<script lang="ts" setup>
+import { useData } from 'vitepress'
+
+const { frontmatter } = useData()
+</script>
+
+# {frontmatter.value.title}
 ```
 
 ## `$params` <Badge type="info" text="template global" />
@@ -167,6 +171,12 @@ title: Hello
 在 Vue 表达式中直接访问当前页面的[动态路由参数](../guide/routing#dynamic-routes)。
 
 ```md
-- package name: {{ $params.pkg }}
-- version: {{ $params.version }}
+<script lang="ts" setup>
+import { useRoute } from 'vitepress'
+
+const route = useRoute()
+</script>
+
+- package name: {route.params.pkg}
+- version: {route.params.version}
 ```
