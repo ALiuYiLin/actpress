@@ -340,11 +340,10 @@ const route = useRoute()
 
 还可以通过 [`useData`](../reference/runtime-api#usedata) 运行时 API 访问当前页面的参数。这在 Markdown 文件和 Vue 组件中都可用：
 
-```vue
-<script setup>
+```tsx
+<script lang="ts" setup>
 import { useData } from 'vitepress'
 
-// params 是一个 Vue ref
 const { params } = useData()
 
 console.log(params.value)

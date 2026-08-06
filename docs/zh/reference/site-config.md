@@ -490,7 +490,7 @@ export default {
 
 ### appearance
 
-- 类型：`boolean | 'dark' | 'force-dark' | import('@vueuse/core').UseDarkOptions`
+- 类型：`boolean | 'dark' | 'force-dark' | 'force-auto'`
 - 默认值： `true`
 
 是否启用深色模式 (通过将 `.dark` 类添加到 `<html>` 元素)。

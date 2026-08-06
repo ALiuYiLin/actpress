@@ -48,20 +48,18 @@ You do **not** need to update it when you change the `base` config value in this
 
 However, if you are authoring a theme component that links to assets dynamically, e.g. an image whose `src` is based on a theme config value:
 
-```vue
-<img :src="theme.logoPath" />
+```tsx
+<img src={theme.value.logoPath} />
 ```
 
 In this case it is recommended to wrap the path with the [`withBase` helper](../reference/runtime-api#withbase) provided by VitePress:
 
-```vue
-<script setup>
+```tsx
+<script lang="ts" setup>
 import { withBase, useData } from 'vitepress'
 
 const { theme } = useData()
 </script>
 
-<template>
-  <img :src="withBase(theme.logoPath)" />
-</template>
+<img src={withBase(theme.value.logoPath)} />
 ```

@@ -125,11 +125,15 @@ interface Router {
 
 `<Content />` 组件显示渲染的 markdown 内容。在[创建自己的主题时](../guide/custom-theme)很有用。
 
-```vue
-<template>
-  <h1>Custom Layout!</h1>
-  <Content />
-</template>
+```tsx
+function CustomLayout() {
+  return (
+    <div>
+      <h1>Custom Layout!</h1>
+      <Content />
+    </div>
+  )
+}
 ```
 
 ## `<ClientOnly />` <Badge type="info" text="component" />
@@ -140,7 +144,7 @@ interface Router {
 
 如果正在使用或演示对 SSR 不友好的组件 (例如，包含自定义指令)，可以将它们包装在 `ClientOnly` 组件中。
 
-```vue-html
+```tsx
 <ClientOnly>
   <NonSSRFriendlyComponent />
 </ClientOnly>

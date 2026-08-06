@@ -418,11 +418,10 @@ const route = useRoute()
 
 You can also access the current page's params via the [`useData`](../reference/runtime-api#usedata) runtime API. This is available in both Markdown files and Vue components:
 
-```vue
-<script setup>
+```tsx
+<script lang="ts" setup>
 import { useData } from 'vitepress'
 
-// params is a Vue ref
 const { params } = useData()
 
 console.log(params.value)

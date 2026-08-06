@@ -521,7 +521,7 @@ When set to `true`, the production app will be built in [MPA Mode](../guide/mpa-
 
 ### appearance
 
-- Type: `boolean | 'dark' | 'force-dark' | 'force-auto' | import('@vueuse/core').UseDarkOptions`
+- Type: `boolean | 'dark' | 'force-dark' | 'force-auto'`
 - Default: `true`
 
 Whether to enable dark mode (by adding the `.dark` class to the `<html>` element).

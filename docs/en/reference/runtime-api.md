@@ -132,11 +132,15 @@ Appends the configured [`base`](./site-config#base) to a given URL path. Also se
 
 The `<Content />` component displays the rendered markdown contents. Useful [when creating your own theme](../guide/custom-theme).
 
-```vue
-<template>
-  <h1>Custom Layout!</h1>
-  <Content />
-</template>
+```tsx
+function CustomLayout() {
+  return (
+    <div>
+      <h1>Custom Layout!</h1>
+      <Content />
+    </div>
+  )
+}
 ```
 
 ## `<ClientOnly />` <Badge type="info" text="component" />
@@ -147,7 +151,7 @@ Because VitePress applications are server-rendered in Node.js when generating st
 
 If you are using or demoing components that are not SSR-friendly (for example, contain custom directives), you can wrap them inside the `ClientOnly` component.
 
-```vue-html
+```tsx
 <ClientOnly>
   <NonSSRFriendlyComponent />
 </ClientOnly>

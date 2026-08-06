@@ -48,20 +48,18 @@ description: 了解如何在 VitePress 中引用和处理静态资源，如图�
 
 但是如果你正在编写一个主题组件，它动态地链接到资源，例如一个图片，它的 `src` 基于主题配置：
 
-```vue
-<img :src="theme.logoPath" />
+```tsx
+<img src={theme.value.logoPath} />
 ```
 
 在这种情况下，建议使用 VitePress 提供的 [`withBase` helper](../reference/runtime-api#withbase) 来包括路径：
 
-```vue
-<script setup>
+```tsx
+<script lang="ts" setup>
 import { withBase, useData } from 'vitepress'
 
 const { theme } = useData()
 </script>
 
-<template>
-  <img :src="withBase(theme.logoPath)" />
-</template>
+<img src={withBase(theme.value.logoPath)} />
 ```

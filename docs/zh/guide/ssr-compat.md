@@ -25,8 +25,8 @@ description: 确保 VitePress 主题组件和自定义代码兼容服务端渲�
 
 ### 在 mounted 钩子中导入 {#importing-in-mounted-hook}
 
-```vue
-<script setup>
+```tsx
+<script lang="ts" setup>
 import { onMounted } from 'actview'
 
 onMounted(() => {
@@ -83,8 +83,8 @@ export default {
 
 VitePress 为导入 Vue 组件提供了一个方便的辅助函数，该组件可以在导入时访问浏览器 API。
 
-```vue
-<script setup>
+```tsx
+<script lang="ts" setup>
 import { defineClientComponent } from 'vitepress'
 
 const ClientComp = defineClientComponent(() => {
@@ -99,37 +99,19 @@ const ClientComp = defineClientComponent(() => {
 
 还可以将 props/children/slots 传递给目标组件：
 
-```vue
-<script setup>
-import { ref } from 'actview'
+```tsx
+<script lang="ts" setup>
 import { defineClientComponent } from 'vitepress'
 
-const clientCompRef = ref(null)
 const ClientComp = defineClientComponent(
   () => import('component-that-access-window-on-import'),
-
-  // 参数传递给 h() - https://cn.vuejs.org/api/render-function.html#h
-  [
-    {
-      ref: clientCompRef
-    },
-    {
-      default: () => 'default slot',
-      foo: () => h('div', 'foo'),
-      bar: () => [h('span', 'one'), h('span', 'two')]
-    }
-  ],
-
-  // 组件加载后的回调，可以是异步的
+  // ActView 版忽略 props/children/slots 参数（lazy 实现），如需透传请在
+  // 使用处直接传 JSX 属性
   () => {
-    console.log(clientCompRef.value)
+    console.log('component loaded')
   }
 )
 </script>
 
-<template>
-  <ClientComp />
-</template>
-```
-
-目标组件将仅在 wrapper 组件的 mounted 钩子中导入。
+<ClientComp />
+```目标组件将仅在 wrapper 组件的 mounted 钩子中导入。

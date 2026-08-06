@@ -505,14 +505,12 @@ interface {
 
 **Example:**
 
-```vue
-<script setup>
+```tsx
+<script lang="ts" setup>
 import { useLayout } from 'vitepress/theme'
 
 const { hasSidebar } = useLayout()
 </script>
 
-<template>
-  <div v-if="hasSidebar">Only show when sidebar exists</div>
-</template>
+{hasSidebar.value ? <div>Only show when sidebar exists</div> : null}
 ```
