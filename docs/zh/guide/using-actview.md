@@ -4,11 +4,11 @@ description: 在 VitePress 的 Markdown 文件中直接使用 ActView 组件与�
 
 # 在 Markdown 中使用 ActView {#using-actview-in-markdown}
 
-在 VitePress 中，每个 Markdown 文件都被编译成一个 [ActView](https://github.com/ALiuYiLin/JSX-Demo) 模块。你可以用 `<script lang="ts" setup>` 块写页面逻辑，用 `<script lang="tsx">` 块定义可复用组件——**两个 script 块合并到同一个模块顶层作用域**，组件可以直接引用 setup 里定义的变量。然后在 Markdown 正文中按名称引用这些组件。
+在 VitePress 中，每个 Markdown 文件都被编译成一个 [ActView](https://github.com/ALiuYiLin/JSX-Demo) 模块。所有 `<script>` 块（无论 `lang="tsx"`、`setup` 与否）的内容都会**提升到模块顶层，共享同一作用域**——你在里面定义的变量、函数、组件，都可以在 Markdown 正文中按名称引用。
 
-Markdown 正文本身被编译为 JSX（没有模板编译器）：只有**组件引用**是动态的——其余都是静态 HTML。**没有 `{{ }}` 插值，也没有 `v-*` 指令。**需要动态内容时，在 `<script lang="tsx">` 中定义组件，正文用组件引用。
+Markdown 正文本身被编译为 JSX（没有模板编译器）：只有**组件引用**是动态的——其余都是静态 HTML。**没有 `{{ }}` 插值，也没有 `v-*` 指令。**需要动态内容时，在 `<script>` 块中定义组件，正文用组件引用。
 
-## 双 script 块共享作用域
+## script 块共享作用域
 
 下面这段 Markdown 就写在当前文档的正文里——它真实编译、真实渲染：
 
@@ -45,7 +45,7 @@ export function Counter() {
 }
 </style>
 
-点击上面的按钮试试——它就是当前页面里真实运行的 ActView 组件。它由两个 script 块共同构成：
+点击上面的按钮试试——它就是当前页面里真实运行的 ActView 组件。它由两个 `<script>` 块和一个 `<style>` 块共同构成：
 
 ````md
 <script lang="ts" setup>
@@ -65,35 +65,36 @@ export function Counter() {
 编译后等价于这样一个 `.tsx` 模块：
 
 ```tsx
-// ---- 两个 script 块合并到模块顶层，共享同一作用域 ----
+// ---- 各 <script> 块内容合并到模块顶层，共享同一作用域 ----
 import { ref } from 'actview'
 
-const count = ref(0)              // <script lang="ts" setup> 的内容 → 模块顶层
+const count = ref(0)              // <script> 块的内容 → 模块顶层
 
-export function Counter() {       // <script lang="tsx"> 的具名导出 → 模块顶层
+export function Counter() {       // <script> 块的具名导出 → 模块顶层
   return <button onclick={() => count.value++}>{count.value}</button>
 }
 
 // ---- 页面默认组件：渲染 Markdown 正文，引用具名组件 ----
-export default function () {
-  return (
+import { defineComponent } from 'actview'
+export default defineComponent(function () {
+  return () => (
     <div>
       <h1>Markdown Content</h1>
       <Counter />
     </div>
   )
-}
+})
 ```
 
 关键点：
 
-- **共享作用域**：`Counter` 可以直接闭包引用 setup 块里的 `count`，点击按钮会更新组件。
+- **共享作用域**：`Counter` 可以直接闭包引用 `<script>` 块里的 `count`，点击按钮会更新组件。
 - 具名导出组件（`export function X`）在编译期被 `defineComponent` 包裹（由 `@actview/plugin` 完成），因此可以直接在正文中使用。
 - 页面默认组件由编译器自动生成，渲染 Markdown 正文；正文中出现的 PascalCase 标签会被解析为具名导出组件的引用。
 
 ## 页面逻辑与组件状态
 
-最常见的用法：setup 块保存状态，tsx 块定义读取/修改该状态的组件。动态内容全部写在组件内，正文只放组件引用。下面同样是真实运行的：
+最常见的用法：在 `<script>` 块里同时定义状态和读取/修改该状态的组件。动态内容全部写在组件内，正文只放组件引用。下面同样是真实运行的：
 
 <script lang="ts" setup>
 import { ref } from 'actview'
@@ -194,7 +195,7 @@ export const Greeting = defineComponent(function () {
 
 ## 使用导入的组件
 
-仅少数页面用到的组件可以在 setup 或 tsx 块中导入。例如当前文档在正文中真实渲染了 `ModalDemo` 组件：
+仅少数页面用到的组件可以在 `<script>` 块中导入。例如当前文档在正文中真实渲染了 `ModalDemo` 组件：
 
 <script lang="tsx">
 import { ModalDemo } from '../../components/ModalDemo'
