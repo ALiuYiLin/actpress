@@ -66,6 +66,8 @@ import './styles/components/VPTeamMembersItem.css'
 import './styles/components/VPTeamPage.css'
 import './styles/components/VPTeamPageSection.css'
 import './styles/components/VPTeamPageTitle.css'
+import './styles/components/Layout.css'
+import './styles/components/NotFound.css'
 
 import type { Theme } from 'vitepress'
 import { Layout } from './Layout'

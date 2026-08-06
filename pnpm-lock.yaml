@@ -27,8 +27,8 @@ importers:
   .:
     dependencies:
       '@actview/core':
-        specifier: ^1.0.12
-        version: 1.0.12
+        specifier: ^1.0.15
+        version: 1.0.15
       '@actview/jsx':
         specifier: ^1.0.11
         version: 1.0.11
@@ -63,8 +63,8 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       actview:
-        specifier: ^1.0.11
-        version: 1.0.11
+        specifier: ^1.0.14
+        version: 1.0.14
       focus-trap:
         specifier: ^8.2.2
         version: 8.2.2
@@ -348,8 +348,8 @@ importers:
 
 packages:
 
-  '@actview/core@1.0.12':
-    resolution: {integrity: sha512-kINSZYH2FQKtPY+k7JZwChNceztmzWrG9nJy/pNzETD+Rn4jtiRO6YVwS6sZTUEf35l+i1Nb6FAhRXeJvsAjGg==}
+  '@actview/core@1.0.15':
+    resolution: {integrity: sha512-NlKclC5N9fxl/jFu44BfgYGwW92PoIayfZHy19Y5KAc+pSPZBxTOtgWs+xujDg/H0ajG13tz99VY/w9aFup91A==}
 
   '@actview/jsx@1.0.11':
     resolution: {integrity: sha512-eMBEs3mQE9yIg1F9qE2nlmPAALRunQ1mlWLJp/rJW7iR1Y3RBNFCBdA7eHFqgQCMHRa5Fcld0NjbADfZPNsS4A==}
@@ -1323,8 +1323,8 @@ packages:
     resolution: {integrity: sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==}
     engines: {node: '>=6.5'}
 
-  actview@1.0.11:
-    resolution: {integrity: sha512-KGpkz/O8JTUxG/P1zyUwbHzTFtnT4Z+83owgADpkF5SgKnRPND/ugeREQty/QfwTSHvjXbkaJ15UB8OjnaGbUQ==}
+  actview@1.0.14:
+    resolution: {integrity: sha512-DdJj8Oq+t0OVk5S3l0zSsSK8Nio2CuZr+b+/4FSpojxg9suiwfYsevgC1WQnzvPavK6IDIbqqeJJL4CDS8dEaw==}
 
   agent-base@6.0.2:
     resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==}
@@ -3119,7 +3119,7 @@ packages:
 
 snapshots:
 
-  '@actview/core@1.0.12':
+  '@actview/core@1.0.15':
     dependencies:
       '@actview/jsx': 1.0.11
 
@@ -3131,7 +3131,7 @@ snapshots:
 
   '@actview/router@1.0.10':
     dependencies:
-      '@actview/core': 1.0.12
+      '@actview/core': 1.0.15
       '@actview/jsx': 1.0.11
 
   '@antfu/install-pkg@1.1.0':
@@ -3946,9 +3946,9 @@ snapshots:
     dependencies:
       event-target-shim: 5.0.1
 
-  actview@1.0.11:
+  actview@1.0.14:
     dependencies:
-      '@actview/core': 1.0.12
+      '@actview/core': 1.0.15
       '@actview/jsx': 1.0.11
 
   agent-base@6.0.2:
