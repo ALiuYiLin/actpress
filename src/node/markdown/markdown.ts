@@ -10,7 +10,6 @@ import {
   headersPlugin,
   type HeadersPluginOptions
 } from '@mdit-vue/plugin-headers'
-import { sfcPlugin, type SfcPluginOptions } from '@mdit-vue/plugin-sfc'
 import { titlePlugin } from '@mdit-vue/plugin-title'
 import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
 import { slugify as defaultSlugify } from '@mdit-vue/shared'
@@ -180,11 +179,6 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    */
   headers?: HeadersPluginOptions | boolean
   /**
-   * Options for `@mdit-vue/plugin-sfc`
-   * @see https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-sfc
-   */
-  sfc?: SfcPluginOptions
-  /**
    * Options for `@mdit-vue/plugin-toc`
    * @see https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-toc
    */
@@ -230,6 +224,57 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
 }
 
 export type MarkdownRenderer = MarkdownItAsync
+
+/**
+ * 匹配独占一行的 `<script ...>...</script>` 块：
+ * 带 `lang="tsx"` 或 `setup` 属性的（页面逻辑代码）→ 提取提升到模块顶层；
+ * 其他（如 `<script>console.log(...)</script>`）→ 当 HTML 原样渲染。
+ */
+const TSX_SCRIPT_BLOCK_RE =
+  /^<script\b[^>]*(?:\blang=["']tsx["']|\bsetup\b)[^>]*>([\s\S]*)<\/script>\s*$/is
+
+/**
+ * 自定义 SFC 提取插件（替代 @mdit-vue/plugin-sfc）。
+ *
+ * 提取 `<script lang="tsx">` 与 `<script setup>` 块到 `env.sfcBlocks.scripts`，
+ * 供 markdownToActView 提升到模块顶层共享作用域。
+ * 其余所有标签（普通 `<script>`、`<style>`、custom block 等）一律留在 HTML
+ * 原样渲染——「md = 一个 tsx 文件，其他标签当 HTML」。
+ */
+function tsxSfcPlugin(md: MarkdownRenderer) {
+  const htmlBlockRule = md.renderer.rules.html_block
+  md.renderer.rules.html_block = (
+    tokens: any[],
+    idx: number,
+    options: any,
+    env: any,
+    self: any
+  ) => {
+    if (!env) return htmlBlockRule!(tokens, idx, options, env, self)
+    // 懒初始化 sfcBlocks 契约（与 @mdit-vue/plugin-sfc 一致）
+    if (!env.sfcBlocks) {
+      env.sfcBlocks = {
+        template: null,
+        script: null,
+        scriptSetup: null,
+        scripts: [],
+        styles: [],
+        customBlocks: []
+      }
+    }
+    const content = tokens[idx].content
+    const match = content.match(TSX_SCRIPT_BLOCK_RE)
+    if (!match) return htmlBlockRule!(tokens, idx, options, env, self)
+    env.sfcBlocks.scripts.push({
+      type: 'script',
+      content,
+      contentStripped: match[1],
+      tagOpen: content.slice(0, content.indexOf('>') + 1),
+      tagClose: '</script>'
+    })
+    return ''
+  }
+}
 
 // highlight is marked as any to avoid type conflicts with plugins expecting
 // regular markdown-it which has sync highlight function. Such plugins will fail
@@ -358,7 +403,10 @@ export async function createMarkdownRenderer(
     })
   }
 
-  sfcPlugin(md, options.sfc)
+  // 自定义 SFC 提取：只提取 `<script lang="tsx">` 块（含 `<script lang="tsx" setup>`）
+  // 到 env.sfcBlocks.scripts（内容提升到模块顶层共享作用域）。
+  // 其余 `<script>` / `<style>` / 其他标签一律留在 HTML 原样渲染（当 HTML）。
+  tsxSfcPlugin(md)
   titlePlugin(md)
   tocPlugin(md, {
     slugify,

@@ -4,68 +4,210 @@ description: 在 VitePress 的 Markdown 文件中直接使用 ActView 组件与�
 
 # 在 Markdown 中使用 ActView {#using-actview-in-markdown}
 
-在 VitePress 中，每个 Markdown 文件都被编译成一个 [ActView](https://github.com/ALiuYiLin/JSX-Demo) 组件。你可以用 `<script lang="ts" setup>` 块添加页面级逻辑，用 `<script lang="tsx">` 块定义可复用组件，并在 Markdown 正文中直接引用这些组件。
+在 VitePress 中，每个 Markdown 文件都被编译成一个 [ActView](https://github.com/ALiuYiLin/JSX-Demo) 模块。你可以用 `<script lang="ts" setup>` 块写页面逻辑，用 `<script lang="tsx">` 块定义可复用组件——**两个 script 块合并到同一个模块顶层作用域**，组件可以直接引用 setup 里定义的变量。然后在 Markdown 正文中按名称引用这些组件。
 
-Markdown 正文本身被编译为 JSX（没有模板编译器）：只有**组件引用**是动态的——其余都是静态 HTML。**没有 `{{ }}` 插值，也没有 `v-*` 指令。**
+Markdown 正文本身被编译为 JSX（没有模板编译器）：只有**组件引用**是动态的——其余都是静态 HTML。**没有 `{{ }}` 插值，也没有 `v-*` 指令。**需要动态内容时，在 `<script lang="tsx">` 中定义组件，正文用组件引用。
 
-## 使用 `<script lang="ts" setup>` 添加页面逻辑
+## 双 script 块共享作用域
 
-`<script lang="ts" setup>` 块定义页面的状态与逻辑。其内容进入页面组件的 setup 函数（每次挂载执行一次；ref 是响应式的）：
-
-````md
----
-hello: world
----
+下面这段 Markdown 就写在当前文档的正文里——它真实编译、真实渲染：
 
 <script lang="ts" setup>
 import { ref } from 'actview'
-
 const count = ref(0)
-const inc = () => count.value++
 </script>
 
-# Markdown Content
+<script lang="tsx">
+export function Counter() {
+  return (
+    <button class="counter-btn" onclick={() => count.value++}>
+      {count.value}
+    </button>
+  )
+}
+</script>
 
-The count is: {count.value}
+<Counter />
 
-<button onclick={inc}>Increment</button>
+<style>
+.counter-btn {
+  padding: 8px 20px;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  background: #42b883;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(66, 184, 131, 0.4);
+}
+.counter-btn:hover {
+  background: #33a06f;
+}
+</style>
+
+点击上面的按钮试试——它就是当前页面里真实运行的 ActView 组件。它由两个 script 块共同构成：
+
+````md
+<script lang="ts" setup>
+import { ref } from 'actview'
+const count = ref(0)
+</script>
+
+<script lang="tsx">
+export function Counter() {
+  return <button onclick={() => count.value++}>{count.value}</button>
+}
+</script>
+
+<Counter />
 ````
 
-注意：在 Markdown 正文（即 JSX）中引用 setup 块的变量时，需要**显式写 `.value`**——没有模板自动解包。
+编译后等价于这样一个 `.tsx` 模块：
 
-## 使用 `<script lang="tsx">` 定义可复用组件
+```tsx
+// ---- 两个 script 块合并到模块顶层，共享同一作用域 ----
+import { ref } from 'actview'
 
-`<script lang="tsx">` 块持有**具名导出**，位于模块顶层。任何在这里导出的组件都可以在 Markdown 正文中按名称使用：
+const count = ref(0)              // <script lang="ts" setup> 的内容 → 模块顶层
+
+export function Counter() {       // <script lang="tsx"> 的具名导出 → 模块顶层
+  return <button onclick={() => count.value++}>{count.value}</button>
+}
+
+// ---- 页面默认组件：渲染 Markdown 正文，引用具名组件 ----
+export default function () {
+  return (
+    <div>
+      <h1>Markdown Content</h1>
+      <Counter />
+    </div>
+  )
+}
+```
+
+关键点：
+
+- **共享作用域**：`Counter` 可以直接闭包引用 setup 块里的 `count`，点击按钮会更新组件。
+- 具名导出组件（`export function X`）在编译期被 `defineComponent` 包裹（由 `@actview/plugin` 完成），因此可以直接在正文中使用。
+- 页面默认组件由编译器自动生成，渲染 Markdown 正文；正文中出现的 PascalCase 标签会被解析为具名导出组件的引用。
+
+## 页面逻辑与组件状态
+
+最常见的用法：setup 块保存状态，tsx 块定义读取/修改该状态的组件。动态内容全部写在组件内，正文只放组件引用。下面同样是真实运行的：
+
+<script lang="ts" setup>
+import { ref } from 'actview'
+const count2 = ref(0)
+</script>
+
+<script lang="tsx">
+export function Counter2() {
+  return (
+    <p>
+      当前计数: {count2.value}
+      <button onclick={() => count2.value++}>Increment</button>
+    </p>
+  )
+}
+</script>
+
+<Counter2 />
+
+````md
+<script lang="ts" setup>
+import { ref } from 'actview'
+const count2 = ref(0)
+</script>
+
+<script lang="tsx">
+export function Counter2() {
+  return (
+    <p>
+      当前计数: {count2.value}
+      <button onclick={() => count2.value++}>Increment</button>
+    </p>
+  )
+}
+</script>
+
+<Counter2 />
+````
+
+- 正文是静态的，**不能**写 `{count2.value}` 之类的表达式（会作为字面文本渲染）。需要展示状态时，在组件内部写 JSX：`{count2.value}` 在组件里是合法的。
+- 事件绑定必须在组件内以 JSX 函数形式书写：`onclick={() => count2.value++}`。
+
+## 可复用组件与属性透传
+
+`<script lang="tsx">` 块持有**具名导出**，位于模块顶层。任何在这里导出的组件都可以在 Markdown 正文中按名称使用，并支持静态属性透传。下面真实渲染一个带属性透传的按钮：
+
+<script lang="tsx">
+export function MyButton(props: any) {
+  return <button className="mybutton" {...props}>Click</button>
+}
+</script>
+
+<MyButton size="lg" />
 
 ````md
 <script lang="tsx">
-export function MyButton() {
-  return <button className="mybutton">Click</button>
+export function MyButton(props: any) {
+  return <button className="mybutton" {...props}>Click</button>
 }
 </script>
 
 <MyButton size="lg" />
 ````
 
-
 - 标签名必须匹配一个具名导出，且为 **PascalCase**（`MyButton`），否则会被当作未知组件（编译期发出警告）。
 - **静态属性会透传给组件**：`<MyButton size="lg" />` 以 `size: 'lg'` 渲染 `MyButton`。
 - 以普通函数（`export function X()`）写成的组件会在编译期被 `defineComponent` 包裹。
 
+## 使用 `<script lang="tsx" setup>` 写 JSX 逻辑
+
+如果页面逻辑本身需要书写 JSX 表达式，可以直接用 `<script lang="tsx" setup>` 组合写法。定义后仍需通过组件或正文中的组件引用使用——这里定义一个渲染 `greeting` 的组件。注意：`Greeting` 返回的是变量（`return greeting`），无法被 `@actview/plugin` 的裸函数转换识别，需要显式用 `defineComponent` 包裹：
+
+<script lang="tsx" setup>
+import { defineComponent } from 'actview'
+const greeting = <strong>Hello</strong>
+export const Greeting = defineComponent(function () {
+  return () => greeting
+})
+</script>
+
+<Greeting />
+
+````md
+<script lang="tsx" setup>
+import { defineComponent } from 'actview'
+const greeting = <strong>Hello</strong>
+export const Greeting = defineComponent(function () {
+  return () => greeting
+})
+</script>
+
+<Greeting />
+````
+
+::: tip
+`export function X() { return <JSX /> }` 这种**直接返回 JSX 字面量**的组件会被 `@actview/plugin` 自动包裹成 `defineComponent`；但如果组件返回的是**变量或表达式**（如 `return greeting`），编译器无法静态判断它是不是组件，需要用 `defineComponent` 显式包裹。
+:::
+
 ## 使用导入的组件
 
-仅少数页面用到的组件可以在 setup 或 tsx 块中导入：
+仅少数页面用到的组件可以在 setup 或 tsx 块中导入。例如当前文档在正文中真实渲染了 `ModalDemo` 组件：
+
+<script lang="tsx">
+import { ModalDemo } from '../../components/ModalDemo'
+</script>
+
+<ModalDemo />
 
 ````md
 <script lang="tsx">
-import CustomComponent from '../components/CustomComponent'
-export function MyButton() {
-  return <button className="mybutton">Click</button>
-}
+import { ModalDemo } from '../../components/ModalDemo'
 </script>
 
-<CustomComponent />
-<MyButton />
+<ModalDemo />
 ````
 
 ## 不支持的语法
@@ -76,25 +218,27 @@ Vue 模板特性**不会**在 Markdown 中被编译——它们会作为字面�
 | --- | --- |
 | `{{ expr }}` 插值 | ❌ 字面文本 |
 | `v-if` / `v-for` / `v-html` / `v-bind` / `v-on` 指令 | ❌ 字面属性 |
-| `<style>` / `<style scoped>` / `<style module>` 块 | ❌ 编译期警告（请使用全局样式或组件样式） |
 | 字符串 `onclick="..."` 属性 | ❌ 丢弃并警告（JSX 事件必须是函数） |
 
-请改用 `<script lang="ts" setup>` 变量 + JSX 表达式：
+请把这些逻辑放进 `<script lang="tsx">` 组件内部：
 
 ````md
-<script lang="ts" setup>
+<script lang="tsx">
 import { ref } from 'actview'
 const items = ref(['a', 'b', 'c'])
-const count = ref(0)
+
+export function ItemList() {
+  return (
+    <ul>
+      {items.value.map((i) => (
+        <li key={i}>{i}</li>
+      ))}
+    </ul>
+  )
+}
 </script>
 
-<ul>
-  {items.value.map((i) => (
-    <li key={i}>{i}</li>
-  ))}
-</ul>
-
-<p>{count.value}</p>
+<ItemList />
 ````
 
 ## 在标题中使用组件

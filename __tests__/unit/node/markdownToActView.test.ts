@@ -154,7 +154,7 @@ describe('node/markdownToActView', () => {
     // __pageData 导出
     expect(mod.__pageData).toMatchObject({ title: 'Hi' })
 
-    // 组件模型：defineComponent 产物 → __setup(props) 返回 render
+    // 页面组件是 defineComponent 产物：__setup(props) 返回 render，render() 返回 JSX
     const page = mod.default
     expect(page.__setup).toBeTypeOf('function')
     const renderTree = page.__setup({})()
