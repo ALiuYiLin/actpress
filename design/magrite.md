@@ -222,3 +222,97 @@ if (id.endsWith('.md')) {
 - `src/node/cli.ts`、`src/node/build/build.ts`、`src/node/plugins/dynamicRoutesPlugin.ts`（引用/注释更新）
 - `__tests__/unit/node/markdownToActView.test.ts`、`__tests__/unit/node/markdownToActView.serializer.test.ts`（新增）
 - 附注：`src/node/shared.ts` 是 `scripts/copyShared.js` 的生成物（被 .gitignore 忽略）；本次发现其过期导致 `isShell`/`isObject` 缺失，重新运行 `node scripts/copyShared.js` 即恢复（源 `src/shared/shared.ts` 本就包含这些导出）。
+
+---
+
+## 8. 主题组件迁移：`.vue` → `.tsx` 映射规则（C 阶段 92 个组件沉淀）
+
+> 默认主题全部 92 个 `.vue` 已迁移为 `.tsx`。以下是从中沉淀的**可复用映射规则**，
+> 供后续（ActView 生态/其他项目）迁移 Vue 组件时参考。
+
+### 8.1 结构骨架
+
+| Vue SFC | ActView TSX |
+|---|---|
+| `<template>…</template>` | render 函数返回的 JSX |
+| `<script setup lang="ts">` | `defineComponent(function () { … })` 的函数体（setup） |
+| `<script lang="ts">`（非 setup） | 模块顶层代码 |
+| `<style scoped>` | 全局 CSS（组件前缀类名，见 8.4） |
+| `export default { name: 'X' }` | `export const X = defineComponent(function () { … })` |
+
+```tsx
+// 迁移模板
+import { defineComponent, ref } from 'actview'
+import { useData } from '../composables/data'
+
+export const X = defineComponent(function (props: XProps = {}) {
+  // —— <script setup> 体 ——
+  const { theme } = useData()
+  const open = ref(false)
+
+  // —— render（原 <template>）——
+  return function () {
+    return (
+      <div class="X">
+        {open.value ? <span>…</span> : null}
+      </div>
+    )
+  }
+})
+```
+
+### 8.2 模板语法 → JSX 映射表
+
+| Vue 模板 | ActView JSX |
+|---|---|
+| `{{ expr }}` | `{expr}`（**ref 需显式 `.value`**，无自动解包） |
+| `v-if="cond"` | `{cond ? <A/> : null}`（**必须在 render 内判断**，见 8.5） |
+| `v-else` / `v-else-if` | JSX 三元嵌套 |
+| `v-for="(item, i) in items" :key="k"` | `{items.map((item, i) => <li key={k}>…</li>)}` |
+| `v-bind:foo="e"` / `:foo="e"` | `foo={e}` |
+| `v-on:click="fn"` / `@click` | `onclick={fn}`（函数引用，不能是字符串） |
+| `v-html="raw"` | **无 innerHTML**：`<div ref={(el) => { if (el) el.innerHTML = raw }} />`（或文本渲染） |
+| `v-show` | 条件渲染（`cond ? el : null`）或 style `display` |
+| `class="a" :class="b"` | `class={['a', b].filter(Boolean).join(' ')}` |
+| `style="{ color: 'red' }"` | `style={{ color: 'red' }}`（对象）或字符串 |
+| `v-model` | 手动 `value={x.value} oninput={(e) => (x.value = e.target.value)}` |
+| `<template #name>` 具名插槽 | **无具名插槽**：改为 props 透传（子组件 props 声明 `xxx?: any`） |
+| `<slot />` | props 里的 `children` / 指定 prop |
+| `<Teleport to="body">` | 内置 `<Teleport>`（构建期可用，无动画钩子） |
+| `<Transition>` | 内置 `<Transition>` **最小可用**（动画钩子丢弃；`<transition>` 类名保留在 CSS） |
+| `<component :is="x">` | 变量组件：`{x ? createElement(x, …) : null}`（注意 JSX 大写标签是静态引用） |
+| 布尔属性 `disabled` | `disabled`（或 `disabled={true}`）；`false` 移除 |
+
+### 8.3 `<script setup>` 语句映射
+
+| Vue | ActView |
+|---|---|
+| `import { ref, computed, watch, watchEffect, readonly } from 'vue'` | 同名 import 自 `'actview'` |
+| `import { useRoute, useData } from 'vitepress'` | 同（`vitepress` 导出兼容） |
+| `defineProps<{…}>()` / `props` 对象 | 函数参数 `props` + 接口 `interface XProps { …; [key: string]: any }` |
+| `defineEmits` / `emit('x')` | 回调 props：`onX?: () => void`，调用 `props.onX?.()` |
+| `provide(key, v)` / `inject(key)` | **无 provide/inject**：模块级 context 单例（`let currentX` + setter）或 props 透传 |
+| `useSlots()` | 读 props 的 `children` / 对应 prop |
+| `onMounted` / `onUnmounted` | `onMounted` / `onUnmounted`（actview）——**浏览器 API 只能放钩子回调/事件内**（静态生成会执行 setup，不能放 setup 顶层，见 8.5） |
+| 顶层 `await` / `import.meta` | 不支持（setup 同步；生成器会 NOTE 提示） |
+| `defineAsyncComponent` | `lazy`（actview）或 `defineClientComponent`（vitepress utils） |
+| 全局组件注册（`app.component('Badge', X)`） | **无全局注册**：显式 import + 使用 |
+
+### 8.4 样式迁移（scoped → 全局）
+
+- `<style scoped>` 的规则 → 全局 CSS 文件（如 `styles/components/vp-xxx.css`），**类名保留原样**（组件根类如 `.VPButton` 已唯一），但**子元素选择器需补组件前缀**：
+  - `.VPDoc` 里的 `.content` → `.VPDoc .content`（否则同名类（`.title`/`.container`/`.icon` 等）跨组件互相覆盖）
+- `:deep(.foo)` → 展开为后代选择器（`.组件 .foo`）；`:slotted(.x)` → `.组件 .x`；`:root`/`:host` 保持全局
+- 与 vue-baseline 的完整缺失清单见 `design/loss.md`（186 条裸类 → 已补 `scoped-restore.css`）
+
+### 8.5 高频坑（迁移时必须检查）
+
+1. **setup 早退（本次最严重的坑）**：函数组件 `if (!x) return null` 只在 **mount（setup）时判断一次**；路由切换后 render 重跑，早退条件依赖的响应式值可能已变化 → render 读 `undefined.x` 崩溃。
+   **规则：条件判断与后续引用全部移入 render 函数**；setup 必须返回 render 函数（`return function () { const v = x.value; if (!v) return null; … }`）。
+2. **裸函数组件**：`export function X()` 是裸函数，渲染器 `isComponentVNode` 只认 `{ __setup }`——依赖 `@actview/plugin`（Babel）在 vite 管线转换，或 node 侧显式 `defineComponent` 包裹。
+3. **render 返回 Fragment（`<>`）的组件带 key 挂载**：core 的 `patchKeyedChildren` 曾丢失/崩溃（见 `design/bug.md` 与 JSX-Demo 1.0.13+ 修复）；升级 core 后需回归。
+4. **回调 ref**：`ref={(el) => {…}}` 是 ActView 支持的回调形态（`typeof ref === 'function'`）。
+5. **class/style 透传**：core 1.0.16 起 `mergeAttrsToRoot` 白名单透传 `class`/`style`/`id`/`on*` 到单根元素；**业务 props（如 `features`）不会透传**（1.0.15 全量透传会泄漏，已在 1.0.16 修复）。
+6. **`onMounted` 里的 `document`**：静态生成（`renderToString`）会执行 setup 但**不执行 mounted 钩子**；浏览器 API 若写在 setup 顶层（如 `document.addEventListener`）会在 build 时崩——必须放 `onMounted` 回调内。
+7. **`shallowRef`**：actview 无 `shallowRef` 导出——用 `shallowReactive({ value: x })` 模拟（见 `composables/support/reactivity.ts`，实际在 `theme-default/support/reactivity.ts`）。
+8. **watch 数组/多源**：actview watch 支持 `watch([a, b], fn)`（core 1.0.11+ 修复混合数组）；`immediate` 选项可用。
