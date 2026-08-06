@@ -141,7 +141,9 @@ export async function build(
             usedIcons
           )
         },
-        { concurrency: siteConfig.buildConcurrency }
+        // ActView 的 router/data 是模块级单例（无 provide/inject），并发渲染
+        // 会串页（页面组件/内容互相污染）→ 串行渲染
+        { concurrency: 1 }
       )
 
       const icons = require('@iconify-json/simple-icons/icons.json')
