@@ -27,7 +27,7 @@ description: 确保 VitePress 主题组件和自定义代码兼容服务端渲�
 
 ```vue
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted } from 'actview'
 
 onMounted(() => {
   import('./lib-that-access-window-on-import').then((module) => {
@@ -101,7 +101,7 @@ const ClientComp = defineClientComponent(() => {
 
 ```vue
 <script setup>
-import { ref } from 'vue'
+import { ref } from 'actview'
 import { defineClientComponent } from 'vitepress'
 
 const clientCompRef = ref(null)

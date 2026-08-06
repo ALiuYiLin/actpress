@@ -27,7 +27,7 @@ Some components or libraries access browser APIs **on import**. To use code that
 
 ```vue
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted } from 'actview'
 
 onMounted(() => {
   import('./lib-that-access-window-on-import').then((module) => {
@@ -101,7 +101,7 @@ You can also pass props/children/slots to the target component:
 
 ```vue
 <script setup>
-import { ref } from 'vue'
+import { ref } from 'actview'
 import { defineClientComponent } from 'vitepress'
 
 const clientCompRef = ref(null)
