@@ -46,16 +46,16 @@
   max-width: 288px;
 }
 
-.VPNavScreen .menu + .translations,
-.VPNavScreen .menu + .appearance,
-.VPNavScreen .translations + .appearance {
+.VPNavScreen .container .menu + .translations,
+.VPNavScreen .container .menu + .appearance,
+.VPNavScreen .container .translations + .appearance {
   margin-top: 24px;
 }
 
-.VPNavScreen .menu + .social-links {
+.VPNavScreen .container .menu + .social-links {
   margin-top: 16px;
 }
 
-.VPNavScreen .appearance + .social-links {
+.VPNavScreen .container .appearance + .social-links {
   margin-top: 16px;
 }

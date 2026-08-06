@@ -14,7 +14,7 @@
   font-weight: 500;
 }
 
-.VPDocAsideOutline .outline-marker {
+.VPDocAsideOutline .content .outline-marker {
   position: absolute;
   top: 32px;
   left: -1px;
@@ -30,7 +30,7 @@
     opacity 0.25s;
 }
 
-.VPDocAsideOutline .outline-title {
+.VPDocAsideOutline .content .outline-title {
   line-height: 32px;
   font-size: 14px;
   font-weight: 600;

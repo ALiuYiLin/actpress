@@ -17,7 +17,7 @@
   color: var(--vp-c-text-1);
 }
 
-.VPLocalNavOutlineDropdown .icon {
+.VPLocalNavOutlineDropdown .open .icon {
   display: inline-block;
   vertical-align: middle;
   margin-left: 2px;
@@ -31,7 +31,7 @@
     font-size: 14px;
   }
 
-  .VPLocalNavOutlineDropdown .icon {
+  .VPLocalNavOutlineDropdown .open .icon {
     font-size: 16px;
   }
 }
@@ -64,11 +64,11 @@
   }
 }
 
-.VPLocalNavOutlineDropdown .header {
+.VPLocalNavOutlineDropdown .items .header {
   background-color: var(--vp-c-bg-soft);
 }
 
-.VPLocalNavOutlineDropdown .top-link {
+.VPLocalNavOutlineDropdown .items .header .top-link {
   display: block;
   padding: 0 16px;
   line-height: 48px;
@@ -77,7 +77,7 @@
   color: var(--vp-c-brand-1);
 }
 
-.VPLocalNavOutlineDropdown .outline {
+.VPLocalNavOutlineDropdown .items .outline {
   padding: 8px 0;
   background-color: var(--vp-c-bg-soft);
 }

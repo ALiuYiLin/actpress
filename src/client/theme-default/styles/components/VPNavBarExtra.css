@@ -15,7 +15,7 @@
   }
 }
 
-.VPNavBarExtra .trans-title {
+.VPNavBarExtra .group .trans-title {
   padding: 0 24px 0 12px;
   line-height: 32px;
   font-size: 14px;
@@ -23,21 +23,21 @@
   color: var(--vp-c-text-1);
 }
 
-.VPNavBarExtra .item.appearance,
-.VPNavBarExtra .item.social-links {
+.VPNavBarExtra .group .item.appearance,
+.VPNavBarExtra .group .item.social-links {
   display: flex;
   align-items: center;
   padding: 0 12px;
 }
 
-.VPNavBarExtra .item.appearance {
+.VPNavBarExtra .group .item.appearance {
   min-width: 176px;
 }
 
-.VPNavBarExtra .appearance-action {
+.VPNavBarExtra .group .item .appearance-action {
   margin-right: -2px;
 }
 
-.VPNavBarExtra .social-links-list {
+.VPNavBarExtra .group .item .social-links-list {
   margin: -4px -8px;
 }

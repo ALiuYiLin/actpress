@@ -34,18 +34,18 @@
   max-width: 1152px;
 }
 
-.VPHomeSponsors .love {
+.VPHomeSponsors .container .header .love {
   margin: 0 auto;
   width: fit-content;
   font-size: 28px;
   color: var(--vp-c-text-3);
 }
 
-.VPHomeSponsors .icon {
+.VPHomeSponsors .container .header .love .icon {
   display: inline-block;
 }
 
-.VPHomeSponsors .message {
+.VPHomeSponsors .container .header .message {
   margin: 0 auto;
   padding-top: 10px;
   max-width: 320px;
@@ -56,11 +56,11 @@
   color: var(--vp-c-text-2);
 }
 
-.VPHomeSponsors .sponsors {
+.VPHomeSponsors .container .sponsors {
   padding-top: 32px;
 }
 
-.VPHomeSponsors .action {
+.VPHomeSponsors .container .action {
   padding-top: 40px;
   text-align: center;
 }

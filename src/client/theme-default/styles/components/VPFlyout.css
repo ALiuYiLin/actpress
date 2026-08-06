@@ -7,19 +7,19 @@
   transition: color 0.25s;
 }
 
-.VPFlyout:hover .text {
+.VPFlyout:hover .button .text {
   color: var(--vp-c-text-2);
 }
 
-.VPFlyout:hover .icon {
+.VPFlyout:hover .button .icon {
   fill: var(--vp-c-text-2);
 }
 
-.VPFlyout.active .text {
+.VPFlyout.active .button .text {
   color: var(--vp-c-brand-1);
 }
 
-.VPFlyout.active:hover .text {
+.VPFlyout.active:hover .button .text {
   color: var(--vp-c-brand-2);
 }
 
@@ -45,7 +45,7 @@
   transition: color 0.5s;
 }
 
-.VPFlyout .text {
+.VPFlyout .button .text {
   display: flex;
   align-items: center;
   line-height: var(--vp-nav-height);
@@ -55,17 +55,17 @@
   transition: color 0.25s;
 }
 
-.VPFlyout .option-icon {
+.VPFlyout .button .text .option-icon {
   margin-right: 0px;
   font-size: 16px;
 }
 
-.VPFlyout .text-icon {
+.VPFlyout .button .text .text-icon {
   margin-left: 4px;
   font-size: 14px;
 }
 
-.VPFlyout .icon {
+.VPFlyout .button .icon {
   font-size: 20px;
   transition: fill 0.25s;
 }

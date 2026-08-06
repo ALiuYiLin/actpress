@@ -42,7 +42,7 @@
   padding-top: 20px;
 }
 
-.NotFound .link {
+.NotFound .action .link {
   display: inline-block;
   border: 1px solid var(--vp-c-brand-1);
   border-radius: 16px;
@@ -55,7 +55,7 @@
     color 0.25s;
 }
 
-.NotFound .link:hover {
+.NotFound .action .link:hover {
   border-color: var(--vp-c-brand-2);
   color: var(--vp-c-brand-2);
 }

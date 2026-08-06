@@ -32,8 +32,8 @@
   text-align: center;
 }
 
-.VPFooter .message,
-.VPFooter .copyright {
+.VPFooter .container .message,
+.VPFooter .container .copyright {
   line-height: 24px;
   font-size: 14px;
   font-weight: 500;
