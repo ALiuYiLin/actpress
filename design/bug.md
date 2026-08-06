@@ -76,3 +76,90 @@ setCurrentInstance(null);
 
 - 修复后：`vitepress build docs` 不再输出该警告（其他警告如 Babel deopt 除外）。
 - 回归：`renderToString` 产物不变（组件树序列化正确）；客户端 `createApp` 渲染的 mounted 钩子行为不变。
+
+---
+
+## BUG-002 · 语言切换时 `VPNavBarExtra .group.translations` 的 `trans-title` DOM 累积（core 多次渲染下 unmount 移除错误节点）
+
+**状态**：已定位，未修复（core 侧，JSX-Demo 待修）
+
+### 场景
+
+- `dev`（真实浏览器，`@actview/core@1.0.16`）。
+- 桌面端导航栏 `VPNavBarExtra`（extra 菜单）——鼠标悬停展开 → 点击语言链接切换语言（en ↔ zh），**切换前菜单保持展开状态**。
+- 注意：**不是** `VPNavBarTranslations`（单独的语言 flyout），是 `VPNavBarExtra` 里的 `.group.translations` 区块（`src/client/theme-default/components/VPNavBarExtra.tsx`）。
+
+### 现象
+
+每次切换语言，`.group.translations` 内的 `<p class="trans-title">` **净增 1 个**（不随切换替换）：
+
+```
+初始（en 页）  : <p>English</p> <VPMenuLink href=/zh/>
+切到 zh        : <p>English</p> <p>简体中文</p> <VPMenuLink href=/>        ← 2 个 p
+切回 en        : <p>English</p> <p>简体中文</p> <p>English</p> ...        ← 3 个 p
+再切 zh        : 4 个 p ...
+```
+
+- `VPMenuLink`（有 key）恒为 1 个、内容正确替换 → **不累积**。
+- `localeLinks` 数组本身正常（watch 输出无累积）→ 排除数据层。
+- 加 `key="trans-title"` 后**仍累积** → 不是「无 key 节点」的简单问题。
+
+### 根因（@actview/core）
+
+语言切换触发 `VPNavBarExtra` **多次重渲染**（route.data / localeIndex / site 响应式分批更新，真实浏览器异步调度分多次；happy-dom 同步 flush 合并为一次，故 happy-dom 复现不了）。
+
+每次重渲染，`patchKeyedChildren` 对 `.group.translations` 的 children `[p(无 key), VPMenuLink(有 key)]` 执行 **mount 新 p + unmount 旧 p**。给 core 注入日志证实 unmount 被调用且 el 非空：
+
+```
+[keyed] UNMOUNT idx 0 key null type p el true
+[unmount] collectDomEls 1        ← el 非空、收集到 1 个 DOM 节点
+```
+
+但切换后旧 p 仍残留、新 p 追加（MutationObserver + innerHTML dump 证实）。**结论**：`unmount` 里 `removeChild(vnode.el)` 移除的节点**不是实际残留的那个节点**——多次连续渲染间 **vnode.el 与实际 DOM 脱节**（vnode 树引用错乱），旧节点未被真正移除。
+
+有 key 的 `VPMenuLink` 因 keyed 匹配走 `patch` 更新同一节点（不 mount+unmount），故不受影响。
+
+### 触发路径（组件结构）
+
+```
+VPNavBarExtra (defineComponent, useLangs)
+  └─ <VPFlyout>                          ← 组件，props.children 透传
+      └─ <VPMenu items={undefined}>      ← 组件，children = props.children
+          └─ {cond ? <div class="group translations">
+              <p class="trans-title">    ← 无 key，累积
+              {localeLinks.map(<VPMenuLink key={locale.link}>)}  ← 有 key，正常
+```
+
+关键：children 经两层组件 props 透传 + 条件渲染 + 短时间连续多次响应式更新。
+
+### 影响
+
+- 语言菜单选项无限累积，菜单 DOM 越来越大，最终影响交互与性能。
+- 仅 `VPNavBarExtra` 的语言区块受影响；`VPNavBarTranslations`（单独 flyout）实测正常。
+
+### 修复方向（JSX-Demo 侧）
+
+核心是保证 **patch / mount / insertBefore 移动 DOM 后 vnode.el 与实际 DOM 保持同步**，unmount 能命中正确的节点：
+
+1. 检查 `patchKeyedChildren` / `patchChildren` 的每个分支：`mountVNode`、`patch`、`insertBefore` 移动节点后，对应 vnode 的 `el`（及组件 `vnode.el` / `subTree.el`）是否更新。
+2. 重点验证「同一组件短时间连续多次 update（queueJob 分批 flush）」时，`oldList`（`oldVnode.__avChildren`）里的 vnode 与 DOM 的对应关系是否错位。
+3. 混合列表（无 key 元素 + 有 key 组件）是必现组合；unmount 时建议「keyed 索引 + el」双保险定位。
+
+### 复现（JSX-Demo 侧最小用例）
+
+```tsx
+// 混合列表：无 key 的 <p> + 有 key 的 <span>，连续 2+ 次切换
+const lang = ref('en')
+<div>
+  <p class="title">{lang.value === 'en' ? 'English' : '中文'}</p>
+  {lang.value === 'en' ? <span key="zh">zh</span> : <span key="en">en</span>}
+</div>
+// lang: 'en' → 'zh' → 'en' → 'zh'，每次切换后断言 p 数量恒为 1
+```
+
+注意：**happy-dom 不重现**（同步 flush 合并渲染），需真实浏览器（playwright）验证。
+
+### 验证
+
+- 修复后：`dev` 下语言连续切换 5+ 次，`.group.translations .trans-title` 数量恒为 1。
+- 回归：`pnpm test:unit`（148）+ `tsc -p src/client`；其他 keyed 列表（导航菜单、sidebar）不回归。
