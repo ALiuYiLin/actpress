@@ -1,5 +1,5 @@
 import { ref, watch } from 'actview'
-import { useRoute } from 'actpress'
+import { useRoute } from '@actview/press'
 import { useData } from '../composables/data'
 
 export function VPSkipLink() {

@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid'
 import path from 'node:path'
 import { fileURLToPath, URL } from 'node:url'
 import { chromium } from 'playwright-chromium'
-import { createServer, scaffold, ScaffoldThemeType } from 'actpress'
+import { createServer, scaffold, ScaffoldThemeType } from '@actview/press'
 
 const tempDir = fileURLToPath(new URL('./.temp', import.meta.url))
 const getTempRoot = () => path.join(tempDir, nanoid())

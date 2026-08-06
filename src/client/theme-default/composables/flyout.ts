@@ -1,5 +1,5 @@
 import { onBeforeUnmount, readonly, ref, watch } from 'actview'
-import type { Ref } from 'actpress'
+import type { Ref } from '@actview/press'
 import { inBrowser } from '../../shared'
 
 interface UseFlyoutOptions {

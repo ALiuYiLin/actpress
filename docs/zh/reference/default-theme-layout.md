@@ -54,7 +54,7 @@ layout: foo
 这将在上下文中查找注册名为 `foo` 的组件。例如，可以在 `.vitepress/theme/index.ts` 中全局注册组件：
 
 ```ts
-import DefaultTheme from 'actpress/theme'
+import DefaultTheme from '@actview/press/theme'
 import Foo from './Foo.vue'
 
 export default {

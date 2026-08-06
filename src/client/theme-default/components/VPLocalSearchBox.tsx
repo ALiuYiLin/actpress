@@ -10,7 +10,7 @@
 
 import { defineComponent, onMounted, ref, watch } from 'actview'
 import type { SearchResult } from 'minisearch'
-import { useRouter } from 'actpress'
+import { useRouter } from '@actview/press'
 import { Teleport } from 'actview'
 import { escapeRegExp } from '../../shared'
 import { useData } from '../composables/data'

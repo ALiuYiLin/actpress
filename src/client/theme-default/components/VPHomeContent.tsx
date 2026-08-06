@@ -1,5 +1,5 @@
 import { defineComponent, ref } from 'actview'
-import { inBrowser } from 'actpress'
+import { inBrowser } from '@actview/press'
 
 /** 手写 useWindowSize（替代 @vueuse/core，仅关注宽度） */
 function useWindowWidth() {

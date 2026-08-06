@@ -1,5 +1,5 @@
 import { defineComponent, onBeforeUnmount, onMounted, ref } from 'actview'
-import type { DefaultTheme } from 'actpress/theme'
+import type { DefaultTheme } from '@actview/press/theme'
 import { VPSidebarItem } from './VPSidebarItem'
 
 export interface VPSidebarGroupProps {

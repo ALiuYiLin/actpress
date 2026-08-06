@@ -1,6 +1,6 @@
 import siteData from '@siteData'
 import { computed, readonly, ref, shallowReactive, watch } from 'actview'
-import type { InjectionKey } from 'actpress'
+import type { InjectionKey } from '@actview/press'
 import {
   APPEARANCE_KEY,
   createTitle,

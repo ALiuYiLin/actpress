@@ -1,4 +1,4 @@
-import { inBrowser, onContentUpdated } from 'actpress'
+import { inBrowser, onContentUpdated } from '@actview/press'
 
 export function useCodeGroups() {
   if (import.meta.env.DEV) {

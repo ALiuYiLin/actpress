@@ -88,7 +88,7 @@ export default {
 当构建一个内容为主的站点时，我们经常需要创建一个“归档”或“索引”页面：一个我们可以列出内容中的所有可用条目的页面，例如博客文章或 API 页面。我们**可以**直接使用数据加载 API 实现这一点，但由于这会经常使用，VitePress 还提供了一个 `createContentLoader` 辅助函数来简化这个过程：
 
 ```js [posts.data.js]
-import { createContentLoader } from 'actpress'
+import { createContentLoader } from '@actview/press'
 
 export default createContentLoader('posts/*.md', /* options */)
 ```
@@ -138,7 +138,7 @@ import { data as posts } from './posts.data.js'
 默认数据可能不适合所有需求——可以选择使用选项转换数据：
 
 ```js [posts.data.js]
-import { createContentLoader } from 'actpress'
+import { createContentLoader } from '@actview/press'
 
 export default createContentLoader('posts/*.md', {
   includeSrc: true, // 包含原始 markdown 源?
@@ -218,7 +218,7 @@ interface ContentOptions<T = ContentData[]> {
 当使用 TypeScript 时，可以像这样为 loader 和 `data` 导出类型：
 
 ```ts
-import { defineLoader } from 'actpress'
+import { defineLoader } from '@actview/press'
 
 export interface Data {
   // data 类型
@@ -241,7 +241,7 @@ export default defineLoader({
 要获取 data loader 中的配置信息，可以使用如下代码：
 
 ```ts
-import type { SiteConfig } from 'actpress'
+import type { SiteConfig } from '@actview/press'
 
 const config: SiteConfig = (globalThis as any).VITEPRESS_CONFIG
 ```

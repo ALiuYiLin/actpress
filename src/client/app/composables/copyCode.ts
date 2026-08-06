@@ -1,4 +1,4 @@
-import { inBrowser } from 'actpress'
+import { inBrowser } from '@actview/press'
 import { isShell } from '../../shared'
 
 const ignoredNodes = ['.vp-copy-ignore', '.diff.remove'].join(', ')

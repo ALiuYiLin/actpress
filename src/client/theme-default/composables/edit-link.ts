@@ -1,5 +1,5 @@
 import { computed } from 'actview'
-import type { Ref } from 'actpress'
+import type { Ref } from '@actview/press'
 import { useData } from './data'
 
 export function useEditLink(): Ref<{ url: string; text: string }> {

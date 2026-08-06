@@ -1,5 +1,5 @@
 import { computed, ref } from 'actview'
-import type { Ref } from 'actpress'
+import type { Ref } from '@actview/press'
 import { inBrowser } from '../../shared'
 import { useLayout } from './layout'
 

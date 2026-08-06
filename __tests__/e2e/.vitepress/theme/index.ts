@@ -1,5 +1,5 @@
-import type { Theme } from 'actpress'
-import DefaultTheme from 'actpress/theme'
+import type { Theme } from '@actview/press'
+import DefaultTheme from '@actview/press/theme'
 import CustomLayout from './components/CustomLayout.vue'
 import ApiPreference from './components/ApiPreference.vue'
 import NavVersion from './components/NavVersion.vue'

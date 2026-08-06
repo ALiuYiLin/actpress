@@ -3,7 +3,7 @@
 // （Ctrl/Cmd+K、Ctrl/Cmd+I(askAi)、'/'）；lazy 加载搜索框本体
 
 import { computed, defineComponent, onMounted, onUnmounted, ref } from 'actview'
-import type { DefaultTheme } from 'actpress/theme'
+import type { DefaultTheme } from '@actview/press/theme'
 import { useData } from '../composables/data'
 import { resolveMode, resolveOptionsForLanguage } from '../support/docsearch'
 import { smartComputed } from '../support/reactivity'

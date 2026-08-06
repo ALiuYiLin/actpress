@@ -254,15 +254,15 @@ export function scaffold({
     const scripts: Record<string, string> = {}
     const prefix = addNpmScriptsPrefix ? `${npmScriptsPrefix}:` : ''
 
-    scripts[`${prefix}dev`] = `actpress dev${dir}`
-    scripts[`${prefix}build`] = `actpress build${dir}`
-    scripts[`${prefix}preview`] = `actpress preview${dir}`
+    scripts[`${prefix}dev`] = `actview-press dev${dir}`
+    scripts[`${prefix}build`] = `actview-press build${dir}`
+    scripts[`${prefix}preview`] = `actview-press preview${dir}`
 
     Object.assign(userPkg.scripts || (userPkg.scripts = {}), scripts)
     fs.writeFileSync(pkgPath, JSON.stringify(userPkg, null, 2))
 
     return `Done! Now run ${c.cyan(`${pm} run ${prefix}dev`)} and start writing.${tip}`
   } else {
-    return `You're all set! Now run ${c.cyan(`${pm === 'npm' ? 'npx' : pm} actpress dev${dir}`)} and start writing.${tip}`
+    return `You're all set! Now run ${c.cyan(`${pm === 'npm' ? 'npx' : pm} actview-press dev${dir}`)} and start writing.${tip}`
   }
 }

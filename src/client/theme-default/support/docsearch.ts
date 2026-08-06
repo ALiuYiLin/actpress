@@ -1,4 +1,4 @@
-import type { DefaultTheme } from 'actpress/theme'
+import type { DefaultTheme } from '@actview/press/theme'
 import type { DocSearchAskAi } from '../../../../types/docsearch'
 import { isObject } from '../../shared'
 

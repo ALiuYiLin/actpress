@@ -77,7 +77,7 @@ export default {
 
 ```tsx [.vitepress/theme/Layout.tsx]
 import { defineComponent } from 'actview'
-import { Content } from 'actpress'
+import { Content } from '@actview/press'
 
 export const Layout = defineComponent(function () {
   return function () {
@@ -96,7 +96,7 @@ export const Layout = defineComponent(function () {
 
 ```tsx
 import { defineComponent } from 'actview'
-import { useData, Content } from 'actpress'
+import { useData, Content } from '@actview/press'
 
 export const Layout = defineComponent(function () {
   const { page } = useData()
@@ -123,7 +123,7 @@ layout: home
 
 ```tsx
 import { defineComponent } from 'actview'
-import { useData, Content } from 'actpress'
+import { useData, Content } from '@actview/press'
 
 export const Layout = defineComponent(function () {
   const { page, frontmatter } = useData()
@@ -148,7 +148,7 @@ export const Layout = defineComponent(function () {
 
 ```tsx
 import { defineComponent } from 'actview'
-import { useData } from 'actpress'
+import { useData } from '@actview/press'
 import NotFound from './NotFound'
 import Home from './Home'
 import Page from './Page' // <Page /> renders <Content />
@@ -228,7 +228,7 @@ export default {
 
 ```ts [.vitepress/config.ts]
 import baseConfig from 'awesome-vitepress-theme/config'
-import { defineConfigWithTheme } from 'actpress'
+import { defineConfigWithTheme } from '@actview/press'
 import type { ThemeConfig } from 'awesome-vitepress-theme'
 
 export default defineConfigWithTheme<ThemeConfig>({

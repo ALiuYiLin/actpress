@@ -1,4 +1,4 @@
-import type { DefaultTheme } from 'actpress/theme'
+import type { DefaultTheme } from '@actview/press/theme'
 import { VPLink } from './VPLink'
 import { VPSocialLinks } from './VPSocialLinks'
 

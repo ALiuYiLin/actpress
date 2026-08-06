@@ -1,4 +1,8 @@
-import { defineConfig, resolveSiteDataByRoute, type HeadConfig } from 'actpress'
+import {
+  defineConfig,
+  resolveSiteDataByRoute,
+  type HeadConfig
+} from '@actview/press'
 import {
   groupIconMdPlugin,
   groupIconVitePlugin,

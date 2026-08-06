@@ -1,4 +1,4 @@
-import type { DefaultTheme } from 'actpress/theme'
+import type { DefaultTheme } from '@actview/press/theme'
 import { VPButton } from './VPButton'
 import { VPImage } from './VPImage'
 

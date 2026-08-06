@@ -1,4 +1,4 @@
-import { defineConfig } from 'actpress'
+import { defineConfig } from '@actview/press'
 
 export default defineConfig({
   themeConfig: {

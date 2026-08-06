@@ -15,7 +15,7 @@ Since each CMS will work differently, here we can only provide a generic workflo
 
     ```js
     // posts/[id].paths.js
-    import { loadEnv } from 'actpress'
+    import { loadEnv } from '@actview/press'
 
     const env = loadEnv('', process.cwd())
     ```
@@ -46,7 +46,7 @@ Since each CMS will work differently, here we can only provide a generic workflo
 
     ```md
     <script lang="ts" setup>
-    import { useRoute } from 'actpress'
+    import { useRoute } from '@actview/press'
 
     const route = useRoute()
     </script>

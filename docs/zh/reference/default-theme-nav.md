@@ -197,12 +197,12 @@ export default {
 然后，你需要全局注册该组件：
 
 ```js [.vitepress/theme/index.js]
-import DefaultTheme from 'actpress/theme'
+import DefaultTheme from '@actview/press/theme'
 
 import MyCustomComponent from './components/MyCustomComponent.vue'
 import AnotherCustomComponent from './components/AnotherCustomComponent.vue'
 
-/** @type {import('actpress').Theme} */
+/** @type {import('@actview/press').Theme} */
 export default {
   extends: DefaultTheme,
   enhanceApp({ app }) {

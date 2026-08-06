@@ -1,4 +1,4 @@
-import { withBase } from 'actpress'
+import { withBase } from '@actview/press'
 import { useData } from './composables/data'
 import { useLangs } from './composables/langs'
 

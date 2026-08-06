@@ -312,24 +312,24 @@ importers:
 
   __tests__/e2e:
     devDependencies:
-      actpress:
+      '@actview/press':
         specifier: workspace:*
         version: link:../..
 
   __tests__/init:
     devDependencies:
-      actpress:
+      '@actview/press':
         specifier: workspace:*
         version: link:../..
 
   docs:
     devDependencies:
+      '@actview/press':
+        specifier: workspace:*
+        version: link:..
       '@lunariajs/core':
         specifier: ^0.1.1
         version: 0.1.1
-      actpress:
-        specifier: workspace:*
-        version: link:..
       markdown-it-mathjax3:
         specifier: ^4.3.2
         version: 4.3.2

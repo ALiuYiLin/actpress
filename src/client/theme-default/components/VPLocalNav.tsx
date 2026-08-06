@@ -1,5 +1,5 @@
 import { defineComponent, onMounted, ref } from 'actview'
-import { inBrowser } from 'actpress'
+import { inBrowser } from '@actview/press'
 import { useData } from '../composables/data'
 import { useLayout } from '../composables/layout'
 import { VPLocalNavOutlineDropdown } from './VPLocalNavOutlineDropdown'

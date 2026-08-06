@@ -1,4 +1,4 @@
-import { defineConfig, type DefaultTheme } from 'actpress'
+import { defineConfig, type DefaultTheme } from '@actview/press'
 
 const nav: DefaultTheme.Config['nav'] = [
   {

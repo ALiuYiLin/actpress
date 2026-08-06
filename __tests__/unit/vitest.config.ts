@@ -28,11 +28,11 @@ export default defineConfig({
       { find: 'node', replacement: resolve(dir, '../../src/node') },
       { find: 'shared', replacement: resolve(dir, '../../src/shared') },
       {
-        find: /^actpress$/,
+        find: /^@actview\/press$/,
         replacement: resolve(dir, '../../src/client/index.js')
       },
       {
-        find: /^actpress\/theme$/,
+        find: /^@actview\/press\/theme$/,
         replacement: resolve(dir, '../../src/client/theme-default/index.js')
       }
     ]

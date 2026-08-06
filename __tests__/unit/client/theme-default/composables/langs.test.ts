@@ -1,6 +1,6 @@
 import { ref } from 'actview'
-import type { VitePressData } from 'actpress'
-import type { DefaultTheme } from 'actpress/theme'
+import type { VitePressData } from '@actview/press'
+import type { DefaultTheme } from '@actview/press/theme'
 import { resolveLocaleLink } from 'client/theme-default/composables/langs'
 
 function createData(

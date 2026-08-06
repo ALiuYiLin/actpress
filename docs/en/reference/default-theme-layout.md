@@ -54,7 +54,7 @@ layout: foo
 This will look for a component named `foo` registered in context. For example, you can register your component globally in `.vitepress/theme/index.ts`:
 
 ```ts
-import DefaultTheme from 'actpress/theme'
+import DefaultTheme from '@actview/press/theme'
 import Foo from './Foo.vue'
 
 export default {

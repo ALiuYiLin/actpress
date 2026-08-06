@@ -1,4 +1,4 @@
-import { createContentLoader } from 'actpress'
+import { createContentLoader } from '@actview/press'
 
 export default createContentLoader('data-loading/content/*.md', {
   includeSrc: true,

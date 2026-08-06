@@ -6,8 +6,8 @@
     "declarationDir": "../../dist/client-types",
     "types": ["../../client.d.ts", "@types/node"],
     "paths": {
-      "actpress": ["./index.ts"],
-      "actpress/theme": ["../../theme.d.ts"]
+      "@actview/press": ["./index.ts"],
+      "@actview/press/theme": ["../../theme.d.ts"]
     }
   },
   "include": ["."]

@@ -329,7 +329,7 @@ export default {
 
 ```md
 <script lang="ts" setup>
-import { useRoute } from 'actpress'
+import { useRoute } from '@actview/press'
 
 const route = useRoute()
 </script>
@@ -342,7 +342,7 @@ const route = useRoute()
 
 ```tsx
 <script lang="ts" setup>
-import { useData } from 'actpress'
+import { useData } from '@actview/press'
 
 const { params } = useData()
 

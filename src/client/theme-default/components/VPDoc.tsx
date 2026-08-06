@@ -1,5 +1,5 @@
 import { computed, defineComponent } from 'actview'
-import { useRoute } from 'actpress'
+import { useRoute } from '@actview/press'
 import { useData } from '../composables/data'
 import { useLayout } from '../composables/layout'
 import { Content } from '../../app/components/Content'

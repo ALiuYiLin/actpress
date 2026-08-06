@@ -1,4 +1,4 @@
-import { defineRoutes } from 'actpress'
+import { defineRoutes } from '@actview/press'
 import paths from './paths'
 
 export default defineRoutes({

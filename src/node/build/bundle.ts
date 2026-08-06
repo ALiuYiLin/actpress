@@ -63,7 +63,7 @@ export async function bundle(
     logLevel: config.vite?.logLevel ?? 'warn',
     plugins: await createVitePressPlugin(config, ssr, pageToHashMap),
     ssr: {
-      noExternal: ['actpress', '@docsearch/css']
+      noExternal: ['@actview/press', '@docsearch/css']
     },
     build: {
       ...options,

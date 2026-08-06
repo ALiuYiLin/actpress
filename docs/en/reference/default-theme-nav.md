@@ -198,12 +198,12 @@ export default {
 Then, you need to register the component globally:
 
 ```js [.vitepress/theme/index.js]
-import DefaultTheme from 'actpress/theme'
+import DefaultTheme from '@actview/press/theme'
 
 import MyCustomComponent from './components/MyCustomComponent.vue'
 import AnotherCustomComponent from './components/AnotherCustomComponent.vue'
 
-/** @type {import('actpress').Theme} */
+/** @type {import('@actview/press').Theme} */
 export default {
   extends: DefaultTheme,
   enhanceApp({ app }) {

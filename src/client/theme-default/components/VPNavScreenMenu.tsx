@@ -1,5 +1,5 @@
 import { defineComponent } from 'actview'
-import type { DefaultTheme } from 'actpress/theme'
+import type { DefaultTheme } from '@actview/press/theme'
 import { useData } from '../composables/data'
 import { VPNavScreenMenuGroup } from './VPNavScreenMenuGroup'
 import { VPNavScreenMenuLink } from './VPNavScreenMenuLink'

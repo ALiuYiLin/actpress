@@ -20,7 +20,7 @@ You can access frontmatter data via the `$frontmatter` global in Vue expressions
 
 ```md
 <script lang="ts" setup>
-import { useData } from 'actpress'
+import { useData } from '@actview/press'
 
 const { frontmatter } = useData()
 </script>

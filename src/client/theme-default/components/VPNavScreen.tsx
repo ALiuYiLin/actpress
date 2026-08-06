@@ -1,5 +1,5 @@
 import { defineComponent, ref, watch } from 'actview'
-import { inBrowser } from 'actpress'
+import { inBrowser } from '@actview/press'
 import { VPNavScreenAppearance } from './VPNavScreenAppearance'
 import { VPNavScreenMenu } from './VPNavScreenMenu'
 import { VPNavScreenSocialLinks } from './VPNavScreenSocialLinks'

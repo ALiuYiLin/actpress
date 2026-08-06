@@ -77,7 +77,7 @@ The most basic layout component needs to contain a [`<Content />`](../reference/
 
 ```tsx [.vitepress/theme/Layout.tsx]
 import { defineComponent } from 'actview'
-import { Content } from 'actpress'
+import { Content } from '@actview/press'
 
 export const Layout = defineComponent(function () {
   return function () {
@@ -96,7 +96,7 @@ The above layout simply renders every page's markdown as HTML. The first improve
 
 ```tsx
 import { defineComponent } from 'actview'
-import { useData, Content } from 'actpress'
+import { useData, Content } from '@actview/press'
 
 export const Layout = defineComponent(function () {
   const { page } = useData()
@@ -123,7 +123,7 @@ And we can adjust our theme to handle this:
 
 ```tsx
 import { defineComponent } from 'actview'
-import { useData, Content } from 'actpress'
+import { useData, Content } from '@actview/press'
 
 export const Layout = defineComponent(function () {
   const { page, frontmatter } = useData()
@@ -148,7 +148,7 @@ You can, of course, split the layout into more components:
 
 ```tsx
 import { defineComponent } from 'actview'
-import { useData } from 'actpress'
+import { useData } from '@actview/press'
 import NotFound from './NotFound'
 import Home from './Home'
 import Page from './Page' // <Page /> renders <Content />
@@ -228,7 +228,7 @@ Finally, if the theme provides types for its theme config:
 
 ```ts [.vitepress/config.ts]
 import baseConfig from 'awesome-vitepress-theme/config'
-import { defineConfigWithTheme } from 'actpress'
+import { defineConfigWithTheme } from '@actview/press'
 import type { ThemeConfig } from 'awesome-vitepress-theme'
 
 export default defineConfigWithTheme<ThemeConfig>({

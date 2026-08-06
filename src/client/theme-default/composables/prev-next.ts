@@ -1,7 +1,7 @@
 import { computed } from 'actview'
 import { isActive } from '../../shared'
 import { getFlatSideBarLinks, getSidebar } from '../support/sidebar'
-import type { Ref } from 'actpress'
+import type { Ref } from '@actview/press'
 import { useData } from './data'
 
 export function usePrevNext(): Ref<{

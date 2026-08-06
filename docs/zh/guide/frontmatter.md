@@ -32,7 +32,7 @@ editLink: true
 ---
 
 <script lang="ts" setup>
-import { useData } from 'actpress'
+import { useData } from '@actview/press'
 
 const { frontmatter } = useData()
 </script>

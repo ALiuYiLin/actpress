@@ -152,7 +152,7 @@ export async function localSearchPlugin(
 
     config: () => ({
       optimizeDeps: {
-        include: ['actpress > minisearch']
+        include: ['@actview/press > minisearch']
       }
     }),
 

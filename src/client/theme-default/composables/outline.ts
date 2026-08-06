@@ -1,6 +1,6 @@
-import type { DefaultTheme } from 'actpress/theme'
+import type { DefaultTheme } from '@actview/press/theme'
 import { onBeforeUnmount, onMounted, onUpdated } from 'actview'
-import type { Ref } from 'actpress'
+import type { Ref } from '@actview/press'
 import { throttleAndDebounce } from '../support/utils'
 import { useAside } from './aside'
 

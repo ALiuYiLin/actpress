@@ -1,4 +1,4 @@
-import { withBase } from 'actpress'
+import { withBase } from '@actview/press'
 import { isExternal, treatAsHtml } from '../../shared'
 import { useData } from '../composables/data'
 

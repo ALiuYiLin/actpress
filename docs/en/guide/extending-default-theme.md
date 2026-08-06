@@ -24,7 +24,7 @@ Before proceeding, make sure to first read [Using a Custom Theme](./custom-theme
 The default theme CSS is customizable by overriding root level CSS variables:
 
 ```js [.vitepress/theme/index.js]
-import DefaultTheme from 'actpress/theme'
+import DefaultTheme from '@actview/press/theme'
 import './custom.css'
 
 export default DefaultTheme
@@ -47,7 +47,7 @@ VitePress uses [Inter](https://rsms.me/inter/) as the default font, and will inc
 To avoid including Inter in the build output, import the theme from `vitepress/theme-without-fonts` instead:
 
 ```js [.vitepress/theme/index.js]
-import DefaultTheme from 'actpress/theme-without-fonts'
+import DefaultTheme from '@actview/press/theme-without-fonts'
 import './my-fonts.css'
 
 export default DefaultTheme
@@ -93,9 +93,9 @@ export default {
 ## Registering Global Components
 
 ```js [.vitepress/theme/index.js]
-import DefaultTheme from 'actpress/theme'
+import DefaultTheme from '@actview/press/theme'
 
-/** @type {import('actpress').Theme} */
+/** @type {import('@actview/press').Theme} */
 export default {
   extends: DefaultTheme,
   enhanceApp({ app }) {
@@ -107,8 +107,8 @@ export default {
 
 If you're using TypeScript:
 ```ts [.vitepress/theme/index.ts]
-import type { Theme } from 'actpress'
-import DefaultTheme from 'actpress/theme'
+import type { Theme } from '@actview/press'
+import DefaultTheme from '@actview/press/theme'
 
 export default {
   extends: DefaultTheme,
@@ -126,7 +126,7 @@ Since we are using Vite, you can also leverage Vite's [glob import feature](http
 The default theme's `<Layout/>` component has a few slots that can be used to inject content at certain locations of the page. Here's an example of injecting a component into the before outline:
 
 ```js [.vitepress/theme/index.js]
-import DefaultTheme from 'actpress/theme'
+import DefaultTheme from '@actview/press/theme'
 import MyLayout from './MyLayout'
 
 export default {
@@ -139,7 +139,7 @@ export default {
 
 ```tsx [.vitepress/theme/MyLayout.tsx]
 import { defineComponent } from 'actview'
-import DefaultTheme from 'actpress/theme'
+import DefaultTheme from '@actview/press/theme'
 
 const { Layout } = DefaultTheme
 
@@ -154,7 +154,7 @@ Or you could use render function as well.
 
 ```js [.vitepress/theme/index.js]
 import { createElement } from '@actview/jsx'
-import DefaultTheme from 'actpress/theme'
+import DefaultTheme from '@actview/press/theme'
 import MyComponent from './MyComponent'
 
 export default {
@@ -220,7 +220,7 @@ You can extend the default theme to provide a custom transition when the color m
 
 ```tsx [.vitepress/theme/Layout.tsx]
 import { defineComponent } from 'actview'
-import DefaultTheme from 'actpress/theme'
+import DefaultTheme from '@actview/press/theme'
 
 export const Layout = defineComponent(function () {
   return function () {
@@ -274,7 +274,7 @@ You can use Vite's [aliases](https://vitejs.dev/config/shared-options.html#resol
 
 ```ts
 import { fileURLToPath, URL } from 'node:url'
-import { defineConfig } from 'actpress'
+import { defineConfig } from '@actview/press'
 
 export default defineConfig({
   vite: {

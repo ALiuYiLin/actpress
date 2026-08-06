@@ -1,4 +1,4 @@
-import type { DefaultTheme } from 'actpress/theme'
+import type { DefaultTheme } from '@actview/press/theme'
 import {
   computed,
   onMounted,
@@ -7,7 +7,7 @@ import {
   watch,
   watchEffect
 } from 'actview'
-import type { Ref } from 'actpress'
+import type { Ref } from '@actview/press'
 import { isActive } from '../../shared'
 import { hasActiveLink as containsActiveLink } from '../support/sidebar'
 import { useData } from './data'

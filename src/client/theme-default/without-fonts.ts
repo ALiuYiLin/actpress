@@ -69,7 +69,7 @@ import './styles/components/VPTeamPageTitle.css'
 import './styles/components/Layout.css'
 import './styles/components/NotFound.css'
 
-import type { Theme } from 'actpress'
+import type { Theme } from '@actview/press'
 import { Layout } from './Layout'
 
 export { VPBadge } from './components/VPBadge'

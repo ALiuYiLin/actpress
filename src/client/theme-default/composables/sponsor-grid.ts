@@ -1,5 +1,5 @@
 import { onBeforeUnmount, onMounted } from 'actview'
-import type { Ref } from 'actpress'
+import type { Ref } from '@actview/press'
 import { throttleAndDebounce } from '../support/utils'
 
 export interface GridSetting {

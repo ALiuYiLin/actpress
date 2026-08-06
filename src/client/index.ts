@@ -1,5 +1,5 @@
-// exports in this file are exposed to themes and md files via 'actpress'
-// so the user can do `import { useRoute, useData } from 'actpress'`
+// exports in this file are exposed to themes and md files via '@actview/press'
+// so the user can do `import { useRoute, useData } from '@actview/press'`
 
 // generic types
 export type { VitePressData } from './shared'
