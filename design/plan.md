@@ -139,12 +139,12 @@
 
 - [ ] **E1** 多语言删除：删除 `docs/en|es|fa|ja|ko|pt|ru|zh` 中除选定语言外的目录（🔶 决策：保留哪种语言——建议保留 `zh` 或 `en`）；删除 `lunaria.config.json`；删除 `docs/config.ts` 中 `locales` 配置与 `@vueuse/integrations` 等翻译相关引用
 - [ ] **E2** 迁移单语言目录为根：选定语言的 `index.md` 提升为 `docs/index.md`，站内链接/导航重排
-- [ ] **E3** md 内容清理 🔶 部分完成：
-  - ✅ `using-vue.md` → `using-actview.md`（en 完整重写：双 script 块 + JSX + 组件引用 + 不支持语法清单；7 语言重命名 + 链接更新）
+- [x] **E3** md 内容清理 ✅ 完成：
+  - ✅ `using-vue.md` → `using-actview.md`（en 完整重写：双 script 块 + JSX + 组件引用 + 不支持语法清单；zh 重写翻译；7 个被删语言已随 E1 移除）
   - ✅ `docs/components/` Vue 组件演示（ModalDemo/ComponentInHeader）→ `.tsx` + 全局 css
-  - ✅ md 生成器重构（见上）——docs 完整 `build` 通过（16.6s，含多语言全部页面）
-  - ⬜ 单语言目录内 Vue 教学残留（`data-loading.md`/`extending-default-theme.md`/`i18n.md`/`markdown.md`/`ssr-compat.md` 等仍含 `from 'vue'`/`v-for`/`<Transition>` 示例）
-  - ⬜ 多语言 `using-actview.md` 内容仍是 Vue 版（仅链接/导入适配，正文未重写）
+  - ✅ md 生成器重构（见上）——docs 完整 `build` 通过
+  - ✅ en/zh 全量 Vue 语法清理：`from 'vue'`/` ```vue `/`@vueuse` 残留清零；`v-*`/`{{ }}` 教学示例改为 ActView JSX/setup 模式（custom-theme/extending-default-theme/ssr-compat/i18n/runtime-api/data-loading/markdown/routing/cms/frontmatter/frontmatter-config/site-config/asset-handling/default-theme-config）
+  - ⚠️ deploy.md 的 `${{ runner.os }}` 等为 GitHub Actions 模板（非 Vue 插值），保留
 - [ ] **E4** docs 自身配置（`docs/config.ts`、`docs/package.json`）适配 ✅ 部分：`docs/package.json` 已无 vue 依赖；`docs/config.ts` 的 search（algolia）依赖 `@docsearch/js` 正常；`locales` 配置未删（随 E1）
 
 **验收**：`docs` 单独可 `dev`/`build`；站点内容为单一语言；无 `locales`/`lunaria` 残留。
