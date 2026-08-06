@@ -2,6 +2,7 @@ import { mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
+import { transformSync } from 'esbuild'
 import { resolveConfig } from 'node/config'
 import { createMarkdownToActViewRenderFn } from 'node/markdownToActView'
 
@@ -26,6 +27,37 @@ vi.mock('@actview/jsx', () => ({
     }
   }
 }))
+// esbuild automatic JSX runtime 输出 import '@actview/jsx/jsx-runtime'
+vi.mock('@actview/jsx/jsx-runtime', () => {
+  const make = (type: any, config: any) => {
+    const props = config ? { ...config } : {}
+    const key = props.key ?? null
+    delete props.key
+    return {
+      $$typeof: Symbol.for('react.element'),
+      type,
+      key,
+      ref: null,
+      props
+    }
+  }
+  return {
+    jsx: make,
+    jsxs: make,
+    Fragment: Symbol.for('react.fragment')
+  }
+})
+
+/** 把生成的 .tsx 模块（含 JSX）转成可执行的 ESM JS */
+function compileTsx(src: string): string {
+  return transformSync(src, {
+    loader: 'tsx',
+    jsx: 'automatic',
+    jsxImportSource: '@actview/jsx',
+    format: 'esm',
+    target: 'es2020'
+  }).code
+}
 
 describe('node/markdownToActView', () => {
   let root: string | undefined
@@ -109,11 +141,14 @@ describe('node/markdownToActView', () => {
     )
 
     const result = await render(src, file, 'public')
-    expect(result.actViewSrc).toContain(`createElement("div", null,`)
+    // 正文渲染为 JSX（VitePress 标题带 id 锚点）
+    expect(result.actViewSrc).toContain('<div>')
+    expect(result.actViewSrc).toContain('<h1')
 
-    // 把生成的模块写到临时文件并实际执行（actview 相关 import 已被 vi.mock 替换）
+    // 把生成的模块用 esbuild 转 JSX 后写到临时文件并实际执行
+    // （actview / @actview/jsx/jsx-runtime import 已被 vi.mock 替换）
     const modFile = path.join(root, `page-${Date.now()}.js`)
-    await writeFile(modFile, result.actViewSrc)
+    await writeFile(modFile, compileTsx(result.actViewSrc))
     const mod = await import(pathToFileURL(modFile).href)
 
     // __pageData 导出

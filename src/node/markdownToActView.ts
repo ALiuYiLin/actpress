@@ -282,7 +282,6 @@ export async function createMarkdownToActViewRenderFn(
 // ============================================================
 
 const ACTVIEW_IMPORT = 'actview'
-const ACTVIEW_JSX_IMPORT = '@actview/jsx'
 
 /** `<script client>` 块：MPA 模式下由 plugin 抽走，不进入最终模块 */
 const scriptClientRE = /<script\b[^>]*client\b[^>]*>/i
@@ -304,20 +303,21 @@ export function createActViewSrc(
   parts.push(
     `import { defineComponent } from ${JSON.stringify(deps.actview ?? ACTVIEW_IMPORT)}`
   )
-  parts.push(
-    `import { createElement } from ${JSON.stringify(deps.jsx ?? ACTVIEW_JSX_IMPORT)}`
-  )
 
   const scripts = sfcBlocks?.scripts ?? []
   const setupScript = sfcBlocks?.scriptSetup ?? null
   const styles = sfcBlocks?.styles ?? []
 
-  // 普通 <script>（非 setup、非 client）→ 模块顶层代码
+  // <script lang="tsx"> 块：模块顶层具名导出（md 正文可引用的组件），收集导出名
+  const tsxBlocks: string[] = []
   for (const block of scripts) {
     if (block === setupScript) continue
+    if (/\blang=["']tsx["']/i.test(block.tagOpen)) {
+      tsxBlocks.push(block.contentStripped)
+      continue
+    }
     if (scriptClientRE.test(block.tagOpen)) {
       // MPA 模式的 <script client>:内容以注释保留,避免静默丢弃
-      // (旧版 processClientJS 的 clientJSMap 提取机制暂未迁移到 ActView 产物)
       parts.push(`// <script client> (MPA client JS)`)
       parts.push(
         block.contentStripped
@@ -328,6 +328,17 @@ export function createActViewSrc(
       continue
     }
     parts.push(stripExportDefault(block.contentStripped))
+  }
+
+  const componentNames = new Set<string>()
+  if (tsxBlocks.length) {
+    parts.push(
+      `// ---- <script lang="tsx"> (named exports; usable as components in body) ----`
+    )
+    for (const code of tsxBlocks) {
+      for (const n of extractComponentNames(code)) componentNames.add(n)
+      parts.push(stripExportDefault(code))
+    }
   }
 
   // <script setup> → import 提升到顶层，其余进入组件 setup
@@ -357,7 +368,14 @@ export function createActViewSrc(
     )
   }
 
-  // 组件：setup 执行一次，返回 render 函数
+  // 正文 → JSX（组件标签解析为具名导出引用，属性透传）
+  const body = serializeHtmlToJsx(html, componentNames)
+  if (body.warnings.length) {
+    parts.push(`// NOTE (markdownToActView):`)
+    for (const w of body.warnings) parts.push(`//   - ${w}`)
+  }
+
+  // 组件：setup 执行一次，返回 render 函数（render 返回 JSX）
   parts.push(`export default defineComponent(function (props) {`)
   if (setupCode.trim()) {
     parts.push(`  // ---- <script setup> ----`)
@@ -381,7 +399,9 @@ export function createActViewSrc(
     }
   }
   parts.push(`  return function () {`)
-  parts.push(`    return ${serializeHtmlToVNode(html)}`)
+  parts.push(`    return (`)
+  parts.push(`      ${body.code.split('\n').join(`\n      `)}`)
+  parts.push(`    )`)
   parts.push(`  }`)
   parts.push(`})`)
 
@@ -621,7 +641,7 @@ export function serializeHtmlToVNode(html: string): string {
       continue
     }
     const { tag, attrs, selfClosing, next } = parsed
-    const node: HtmlNode = { tag, attrs, children: [] }
+    const node: HtmlNode = { tag: tag.toLowerCase(), attrs, children: [] }
     stack[stack.length - 1].children.push(node)
     if (!selfClosing && !VOID_TAGS.has(tag)) stack.push(node)
     i = next
@@ -644,7 +664,9 @@ function parseOpenTag(
   let i = start + 1
   let j = i
   while (j < len && !/[\s/>]/.test(html[j])) j++
-  const tag = html.slice(i, j).toLowerCase()
+  // 保留原始大小写（组件标签区分大小写，如 <MyButton>）；
+  // 元素标签由调用方决定是否 toLowerCase（HTML 语义）或原样（JSX 语义）
+  const tag = html.slice(i, j)
   if (!/^[a-zA-Z][\w:-]*$/.test(tag)) return null
   i = j
 
@@ -733,6 +755,218 @@ function nodeExpr(node: HtmlNode): string {
   )
   if (!childExprs.length) return `${head})`
   return `${head}, ${childExprs.join(', ')})`
+}
+
+// ============================================================
+// HTML → JSX 序列化（md 正文渲染为 JSX 源码）
+//
+// 与 serializeHtmlToVNode（createElement 链）的区别：
+// - 标签保留原始大小写（大写开头 = 组件引用，小写 = HTML 元素）
+// - 输出 JSX 源码（自动 JSX runtime 由 vite esbuild/rolldown 处理）
+// - 组件标签解析为具名导出引用，字符串属性原样透传
+// ============================================================
+
+/** 具名组件导出名的判定（首字母大写 + 标识符字符） */
+const COMPONENT_TAG_RE = /^[A-Z][A-Za-z0-9_$]*$/
+
+/** 从 `<script lang="tsx">` 块内容收集具名导出名（组件引用解析用） */
+export function extractComponentNames(code: string): Set<string> {
+  const names = new Set<string>()
+  const add = (n: string | undefined) => {
+    if (n && /^[A-Z]/.test(n)) names.add(n)
+  }
+  // export function Name
+  for (const m of code.matchAll(/export\s+function\s+([A-Za-z_$][\w$]*)/g)) {
+    add(m[1])
+  }
+  // export const Name = ...
+  for (const m of code.matchAll(/export\s+const\s+([A-Za-z_$][\w$]*)/g)) {
+    add(m[1])
+  }
+  // export { A, B as C }
+  for (const m of code.matchAll(/export\s*\{([^}]+)\}/g)) {
+    for (const part of m[1].split(',')) {
+      const seg = part.trim().split(/\s+as\s+/)
+      add(seg[seg.length - 1]?.trim())
+    }
+  }
+  // export let / var
+  for (const m of code.matchAll(/export\s+(?:let|var)\s+([A-Za-z_$][\w$]*)/g)) {
+    add(m[1])
+  }
+  return names
+}
+
+/** JSX 文本节点转义：`{` `}` `<` `>` 需写成表达式字面量 */
+function escapeJsxText(text: string): string {
+  return text.replace(/[{}<>]/g, (c) => `{'${c}'}`).replace(/\r?\n/g, ' ')
+}
+
+/** JSX 属性字符串值转义（双引号 → 实体，避免破坏属性边界） */
+function escapeJsxAttr(value: string): string {
+  return value.replace(/&/g, '&amp;').replace(/"/g, '&quot;')
+}
+
+/**
+ * 把 HTML 字符串序列化为 JSX 源码。
+ *
+ * @param componentNames 可解析为组件引用的具名导出名集合（<script lang="tsx"> 导出）。
+ *   大写开头标签命中集合 → 组件引用（属性透传）；大写开头未命中 → 警告注释 + 按字符串标签。
+ * @returns JSX 源码（顶层 <div> 包裹，缩进 2 空格）
+ */
+export function serializeHtmlToJsx(
+  html: string,
+  componentNames: ReadonlySet<string> = new Set(),
+  indent = '  '
+): { code: string; warnings: string[] } {
+  interface JsxNode {
+    tag: string
+    attrs: [string, string | boolean][]
+    children: (JsxNode | string)[]
+  }
+  const root: JsxNode = { tag: '', attrs: [], children: [] }
+  const stack: JsxNode[] = [root]
+  let i = 0
+  let textBuf = ''
+  const warnings: string[] = []
+
+  const flushText = () => {
+    if (!textBuf) return
+    const parent = stack[stack.length - 1]
+    // <pre> 内部文本原样保留（含空白），其余纯空白文本丢弃
+    const inPre = stack.some((n) => n.tag === 'pre')
+    if (inPre || textBuf.trim() !== '') {
+      const last = parent.children[parent.children.length - 1]
+      if (typeof last === 'string') {
+        parent.children[parent.children.length - 1] = last + textBuf
+      } else {
+        parent.children.push(textBuf)
+      }
+    }
+    textBuf = ''
+  }
+
+  while (i < html.length) {
+    const ch = html[i]
+    if (ch !== '<') {
+      textBuf += ch
+      i++
+      continue
+    }
+    // 注释 / DOCTYPE / 处理指令
+    if (html.startsWith('<!--', i)) {
+      flushText()
+      const end = html.indexOf('-->', i + 4)
+      i = end === -1 ? html.length : end + 3
+      continue
+    }
+    if (html.startsWith('<!', i) || html.startsWith('<?', i)) {
+      flushText()
+      const end = html.indexOf('>', i)
+      i = end === -1 ? html.length : end + 1
+      continue
+    }
+    // 结束标签
+    if (html.startsWith('</', i)) {
+      flushText()
+      const end = html.indexOf('>', i)
+      if (end === -1) break
+      const tag = html
+        .slice(i + 2, end)
+        .trim()
+        .split(/\s+/)[0]
+        .toLowerCase()
+      for (let j = stack.length - 1; j > 0; j--) {
+        if (stack[j].tag.toLowerCase() === tag) {
+          stack.length = j
+          break
+        }
+      }
+      i = end + 1
+      continue
+    }
+    // 开始标签
+    flushText()
+    const parsed = parseOpenTag(html, i)
+    if (!parsed) {
+      textBuf += '<'
+      i++
+      continue
+    }
+    const { tag, attrs, selfClosing, next } = parsed
+    const node: JsxNode = { tag, attrs, children: [] }
+    stack[stack.length - 1].children.push(node)
+    if (!selfClosing && !VOID_TAGS.has(tag.toLowerCase())) stack.push(node)
+    i = next
+  }
+  flushText()
+
+  // 序列化
+  const lines: string[] = []
+  const renderChildren = (children: (JsxNode | string)[], depth: number) => {
+    for (const child of children) {
+      if (typeof child === 'string') {
+        const decoded = decodeEntities(child)
+        // 多行 JSX 会 trim 文本首尾空白，用表达式字面量保留原样（含 <pre> 内空白）
+        if (decoded.trim() !== '' || decoded.includes('\n')) {
+          lines.push(`${indent.repeat(depth)}{${JSON.stringify(decoded)}}`)
+        }
+        continue
+      }
+      renderNode(child, depth)
+    }
+  }
+  const renderNode = (node: JsxNode, depth: number) => {
+    const pad = indent.repeat(depth)
+    const rawTag = node.tag
+    // 大写开头但不在具名导出集合 → 警告（JSX 中会按字符串标签渲染）
+    if (COMPONENT_TAG_RE.test(rawTag) && !componentNames.has(rawTag)) {
+      warnings.push(
+        `unknown component <${rawTag}> (not in <script lang="tsx"> named exports)`
+      )
+    }
+    const tag = rawTag
+    // 属性序列化
+    const attrParts: string[] = []
+    for (const [k, v] of node.attrs) {
+      if (typeof v === 'string' && /^on[a-z]/i.test(k)) {
+        warnings.push(
+          `dropped string event attribute on*="${k}" (JSX event must be a function)`
+        )
+        continue
+      }
+      if (v === true) attrParts.push(k)
+      else attrParts.push(`${k}="${escapeJsxAttr(decodeEntities(String(v)))}"`)
+    }
+    const attrStr = attrParts.length ? ` ${attrParts.join(' ')}` : ''
+    if (node.children.length === 0) {
+      lines.push(`${pad}<${tag}${attrStr} />`)
+      return
+    }
+    // 单文本子节点 → 单行
+    if (
+      node.children.length === 1 &&
+      typeof node.children[0] === 'string' &&
+      !node.children[0].includes('\n')
+    ) {
+      const text = escapeJsxText(decodeEntities(node.children[0]))
+      if (text.trim() === '') {
+        lines.push(`${pad}<${tag}${attrStr} />`)
+      } else {
+        lines.push(`${pad}<${tag}${attrStr}>${text}</${tag}>`)
+      }
+      return
+    }
+    lines.push(`${pad}<${tag}${attrStr}>`)
+    renderChildren(node.children, depth + 1)
+    lines.push(`${pad}</${tag}>`)
+  }
+
+  lines.push('<div>')
+  renderChildren(root.children, 1)
+  lines.push('</div>')
+
+  return { code: lines.join('\n'), warnings }
 }
 
 // ============================================================

@@ -1,5 +1,6 @@
 import path from 'node:path'
 import c from 'picocolors'
+import { transformWithEsbuild } from 'vite'
 import {
   mergeConfig,
   normalizePath,
@@ -92,6 +93,25 @@ export async function createVitePressPlugin(
           `\n`.repeat(_.split('\n').length - 1)
         )
       : code
+  }
+
+  /**
+   * 把 markdownToActView 生成的 .tsx 模块编译为可执行 JS：
+   * 1. esbuild 转 JSX（automatic runtime @actview/jsx）
+   * 2. @actview/plugin（Babel）把裸函数组件包成 defineComponent
+   *    （渲染器只认 { __setup }，裸函数会在运行时崩）
+   */
+  const compileActViewSrc = async (src: string): Promise<string> => {
+    // 用 vite 的 transformWithEsbuild（内部处理 esbuild 的 ESM/__filename 问题；
+    // 直接 import esbuild 会在 dist ESM 产物里崩）
+    const { code: js } = await transformWithEsbuild(src, 'page.md.tsx', {
+      loader: 'tsx',
+      jsx: 'automatic',
+      jsxImportSource: '@actview/jsx',
+      target: 'es2020'
+    })
+    const out = await rawActViewPlugin.transform(js, 'virtual-actview-md.js')
+    return out?.code ?? js
   }
 
   let siteData = site
@@ -226,7 +246,7 @@ export async function createVitePressPlugin(
             data: payload
           })
         }
-        return processClientJS(actViewSrc, id)
+        return processClientJS(await compileActViewSrc(actViewSrc), id)
       }
     },
 

@@ -2,6 +2,8 @@ import { describe, expect, test } from 'vitest'
 import {
   createActViewSrc,
   decodeEntities,
+  extractComponentNames,
+  serializeHtmlToJsx,
   serializeHtmlToVNode
 } from 'node/markdownToActView'
 import type { PageData } from 'shared'
@@ -119,11 +121,13 @@ describe('createActViewSrc', () => {
   test('emits imports, __pageData and a defineComponent page', () => {
     const src = createActViewSrc('<h1>Hi</h1>', undefined, pageData)
     expect(src).toContain(`import { defineComponent } from "actview"`)
-    expect(src).toContain(`import { createElement } from "@actview/jsx"`)
     expect(src).toContain(`export const __pageData = JSON.parse(`)
     expect(src).toContain(`export default defineComponent(function (props) {`)
     expect(src).toContain(`return function () {`)
-    expect(src).toContain(`return createElement("div", null,`)
+    // 正文渲染为 JSX（顶层 <div> 包裹）
+    expect(src).toContain(`return (`)
+    expect(src).toContain(`<div>`)
+    expect(src).toContain(`<h1>Hi</h1>`)
   })
 
   test('hoists <script setup> imports to module top and keeps body in setup', () => {
@@ -213,7 +217,8 @@ describe('createActViewSrc', () => {
       jsx: '@my/actview-jsx'
     })
     expect(src).toContain(`import { defineComponent } from "@my/actview"`)
-    expect(src).toContain(`import { createElement } from "@my/actview-jsx"`)
+    // JSX 由自动 runtime（vite esbuild jsxImportSource）处理，不再生成 createElement import
+    expect(src).not.toContain('@my/actview-jsx')
   })
 
   test('hoists re-exports to module top', () => {
@@ -414,5 +419,118 @@ describe('createActViewSrc', () => {
     expect(src.slice(componentStart)).toContain(
       `const message = "a string with from 'x' inside"`
     )
+  })
+})
+
+describe('serializeHtmlToJsx', () => {
+  test('renders static HTML to JSX with text preserved', () => {
+    const r = serializeHtmlToJsx(
+      '<h1 id="hi">Hi</h1><p>Hello <strong>world</strong> &amp; more</p>'
+    )
+    expect(r.warnings).toEqual([])
+    expect(r.code).toContain('<div>')
+    expect(r.code).toContain('<h1 id="hi">Hi</h1>')
+    // 多 children 的文本用表达式字面量，保留首尾空白
+    expect(r.code).toContain(`{"Hello "}`)
+    expect(r.code).toContain(`{" & more"}`)
+    expect(r.code).toContain('<strong>world</strong>')
+  })
+
+  test('void elements self-close, comments dropped', () => {
+    const r = serializeHtmlToJsx('<!-- c --><img src="/a.png" alt="a"><br>')
+    expect(r.code).toContain('<img src="/a.png" alt="a" />')
+    expect(r.code).toContain('<br />')
+    expect(r.code).not.toContain('<!--')
+  })
+
+  test('drops string on* attributes with warning', () => {
+    const r = serializeHtmlToJsx('<button onclick="doIt()">x</button>')
+    expect(r.code).toContain('<button>')
+    expect(r.warnings.some((w) => w.includes('onclick'))).toBe(true)
+  })
+
+  test('uppercase tag in componentNames becomes component reference with attrs', () => {
+    const r = serializeHtmlToJsx(
+      '<MyButton size="lg" disabled />',
+      new Set(['MyButton'])
+    )
+    expect(r.code).toContain('<MyButton size="lg" disabled />')
+    expect(r.warnings).toEqual([])
+  })
+
+  test('unknown uppercase tag warns', () => {
+    const r = serializeHtmlToJsx('<Foo />', new Set(['MyButton']))
+    expect(r.warnings.some((w) => w.includes('<Foo>'))).toBe(true)
+  })
+})
+
+describe('extractComponentNames', () => {
+  test('collects function/const/brace named exports', () => {
+    const names = extractComponentNames(
+      `\nexport function MyButton() {}\nexport const MyCard = () => <div/>\nexport { A, B as C }\n`
+    )
+    expect(names.has('MyButton')).toBe(true)
+    expect(names.has('MyCard')).toBe(true)
+    expect(names.has('A')).toBe(true)
+    expect(names.has('C')).toBe(true)
+    expect(names.has('B')).toBe(false)
+  })
+})
+
+describe('createActViewSrc — <script lang="tsx"> blocks', () => {
+  test('hoists tsx named exports to module top and resolves body components', () => {
+    const src = createActViewSrc(
+      '<h1>Hi</h1><MyButton size="lg" />',
+      {
+        template: null,
+        script: null,
+        scriptSetup: null,
+        scripts: [
+          {
+            type: 'script',
+            content: '<script lang="tsx">',
+            contentStripped:
+              '\nexport function MyButton() {\n  return <button className="my">b</button>\n}\n',
+            tagOpen: '<script lang="tsx">',
+            tagClose: '</script>'
+          }
+        ],
+        styles: [],
+        customBlocks: []
+      },
+      pageData
+    )
+    // 具名导出在模块顶层（defineComponent 之前）
+    expect(src.indexOf('export function MyButton')).toBeLessThan(
+      src.indexOf('export default defineComponent')
+    )
+    // 正文 <MyButton> 保留为组件引用（属性透传）
+    expect(src).toContain('<MyButton size="lg" />')
+    // 组件名集合生效（无 unknown 警告）
+    expect(src).not.toContain('unknown component')
+  })
+
+  test('warns on unknown uppercase component when tsx block present', () => {
+    const src = createActViewSrc(
+      '<Foo />',
+      {
+        template: null,
+        script: null,
+        scriptSetup: null,
+        scripts: [
+          {
+            type: 'script',
+            content: '<script lang="tsx">',
+            contentStripped: '\nexport function MyButton() {}\n',
+            tagOpen: '<script lang="tsx">',
+            tagClose: '</script>'
+          }
+        ],
+        styles: [],
+        customBlocks: []
+      },
+      pageData
+    )
+    expect(src).toContain('unknown component <Foo>')
   })
 })
