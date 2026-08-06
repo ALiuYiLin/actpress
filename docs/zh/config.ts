@@ -109,7 +109,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
         { text: 'Markdown 扩展', link: 'markdown' },
         { text: '资源处理', link: 'asset-handling' },
         { text: 'frontmatter', link: 'frontmatter' },
-        { text: '在 Markdown 使用 Vue', link: 'using-vue' },
+        { text: '在 Markdown 使用 ActView', link: 'using-actview' },
         { text: '国际化', link: 'i18n' }
       ]
     },

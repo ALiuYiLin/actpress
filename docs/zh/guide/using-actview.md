@@ -2,7 +2,7 @@
 description: 在 VitePress 的 Markdown 文件中直接使用 Vue 组件和动态模板功能。
 ---
 
-# 在 Markdown 中使用 Vue {#using-vue-in-markdown}
+# 在 Markdown 中使用 Vue {#using-actview-in-markdown}
 
 在 VitePress 中，每个 Markdown 文件都被编译成 HTML，而且将其作为 [Vue 单文件组件](https://cn.vuejs.org/guide/scaling-up/sfc.html)处理。这意味着可以在 Markdown 中使用任何 Vue 功能，包括动态模板、使用 Vue 组件或通过添加 `<script>` 标签为页面的 Vue 组件添加逻辑。
 
@@ -93,7 +93,7 @@ const { page } = useData()
 
 ```json
 {
-  "path": "/using-vue.html",
+  "path": "/using-actview.html",
   "title": "Using Vue in Markdown",
   "frontmatter": {},
   ...

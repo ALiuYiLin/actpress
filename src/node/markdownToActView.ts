@@ -797,11 +797,6 @@ export function extractComponentNames(code: string): Set<string> {
   return names
 }
 
-/** JSX 文本节点转义：`{` `}` `<` `>` 需写成表达式字面量 */
-function escapeJsxText(text: string): string {
-  return text.replace(/[{}<>]/g, (c) => `{'${c}'}`).replace(/\r?\n/g, ' ')
-}
-
 /** JSX 属性字符串值转义（双引号 → 实体，避免破坏属性边界） */
 function escapeJsxAttr(value: string): string {
   return value.replace(/&/g, '&amp;').replace(/"/g, '&quot;')
@@ -935,6 +930,13 @@ export function serializeHtmlToJsx(
         )
         continue
       }
+      // Vue v-bind 简写（:foo）与 v-on 简写（@click）在 JSX 中非法 → 丢弃 + 警告
+      if (/^[:@]/.test(k)) {
+        warnings.push(
+          `dropped Vue binding attribute "${k}" (ActView 无 v-bind/v-on, 用 JSX 表达式替代)`
+        )
+        continue
+      }
       if (v === true) attrParts.push(k)
       else attrParts.push(`${k}="${escapeJsxAttr(decodeEntities(String(v)))}"`)
     }
@@ -943,17 +945,21 @@ export function serializeHtmlToJsx(
       lines.push(`${pad}<${tag}${attrStr} />`)
       return
     }
-    // 单文本子节点 → 单行
+    // 单文本子节点 → 单行（含 JSX 特殊字符时用 JSON 字符串表达式，避免转义嵌套）
     if (
       node.children.length === 1 &&
       typeof node.children[0] === 'string' &&
       !node.children[0].includes('\n')
     ) {
-      const text = escapeJsxText(decodeEntities(node.children[0]))
-      if (text.trim() === '') {
+      const decoded = decodeEntities(node.children[0])
+      if (decoded.trim() === '') {
         lines.push(`${pad}<${tag}${attrStr} />`)
+      } else if (/[{}<>'"]/.test(decoded)) {
+        lines.push(
+          `${pad}<${tag}${attrStr}>{${JSON.stringify(decoded)}}</${tag}>`
+        )
       } else {
-        lines.push(`${pad}<${tag}${attrStr}>${text}</${tag}>`)
+        lines.push(`${pad}<${tag}${attrStr}>${decoded}</${tag}>`)
       }
       return
     }

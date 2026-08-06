@@ -2,7 +2,7 @@
 description: Используйте компоненты Vue и возможности динамической шаблонизации непосредственно в Markdown-файлах VitePress.
 ---
 
-# Использование Vue в Markdown {#using-vue-in-markdown}
+# Использование Vue в Markdown {#using-actview-in-markdown}
 
 В VitePress каждый Markdown-файл компилируется в HTML, а затем обрабатывается как [однофайловый компонент Vue](https://ru.vuejs.org/guide/scaling-up/sfc.html). Это означает, что вы можете использовать любые возможности Vue внутри Markdown, включая динамический шаблонизатор, использование компонентов Vue или произвольную логику компонентов Vue на странице, добавив тег `<script>`.
 
@@ -91,7 +91,7 @@ hello: world
 
 ```json
 {
-  "path": "/using-vue.html",
+  "path": "/using-actview.html",
   "title": "Использование Vue в Markdown",
   "frontmatter": {},
   ...

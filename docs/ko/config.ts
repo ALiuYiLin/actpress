@@ -132,7 +132,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
         },
         {
           text: '마크다운에서 Vue 사용하기',
-          link: 'using-vue'
+          link: 'using-actview'
         },
         {
           text: 'i18n',

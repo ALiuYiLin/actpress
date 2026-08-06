@@ -80,7 +80,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
         { text: 'Markdown 拡張', link: 'markdown' },
         { text: 'アセットの取り扱い', link: 'asset-handling' },
         { text: 'フロントマター', link: 'frontmatter' },
-        { text: 'Markdown で Vue を使う', link: 'using-vue' },
+        { text: 'Markdown で ActView を使う', link: 'using-actview' },
         { text: '多言語対応', link: 'i18n' }
       ]
     },

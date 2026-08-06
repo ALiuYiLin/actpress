@@ -34,7 +34,7 @@ VitePress は、Markdown コンテンツを扱う際の優れた開発体験（D
 
 - **[ビルトインの Markdown 拡張](./markdown)**：Frontmatter、表、シンタックスハイライト…必要なものはひと通り。特にコードブロック周りの機能が充実しており、高度な技術ドキュメントに最適です。
 
-- **[Vue 拡張 Markdown](./using-vue)**：各 Markdown ページは Vue の [単一ファイルコンポーネント（SFC）](https://vuejs.org/guide/scaling-up/sfc.html) としても機能します。HTML と 100% 互換な Vue テンプレートを活かし、Vue のテンプレート機能やインポートしたコンポーネントで静的コンテンツにインタラクションを埋め込めます。
+- **[Vue 拡張 Markdown](./using-actview)**：各 Markdown ページは Vue の [単一ファイルコンポーネント（SFC）](https://vuejs.org/guide/scaling-up/sfc.html) としても機能します。HTML と 100% 互換な Vue テンプレートを活かし、Vue のテンプレート機能やインポートしたコンポーネントで静的コンテンツにインタラクションを埋め込めます。
 
 ## パフォーマンス {#performance}
 

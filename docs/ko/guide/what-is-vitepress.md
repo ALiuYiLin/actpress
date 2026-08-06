@@ -34,7 +34,7 @@ VitePress는 마크다운 컨텐츠를 다룰 때 훌륭한 개발자 경험(DX)
 
 - **[내장된 마크다운 확장 기능](./markdown)**: 서문, 표, 구문 강조 등 무엇이든 가능. 특히 VitePress는 코드 블록 작업을 위한 고급 기능을 많이 제공하여 기술적 문서에 이상적.
 
-- **[Vue로 향상된 마크다운](./using-vue)**: 각 마크다운 페이지는 HTML과 100% 문법 호환성을 가진 Vue [단일 파일 컴포넌트](https://vuejs.org/guide/scaling-up/sfc.html)입니다. Vue 템플릿 기능이나 컴포넌트를 사용하여 정적 콘텐츠에 상호작용 기능을 포함할 수 있습니다.
+- **[Vue로 향상된 마크다운](./using-actview)**: 각 마크다운 페이지는 HTML과 100% 문법 호환성을 가진 Vue [단일 파일 컴포넌트](https://vuejs.org/guide/scaling-up/sfc.html)입니다. Vue 템플릿 기능이나 컴포넌트를 사용하여 정적 콘텐츠에 상호작용 기능을 포함할 수 있습니다.
 
 ## 성능 {#performance}
 

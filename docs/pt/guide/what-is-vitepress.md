@@ -34,7 +34,7 @@ VitePress visa proporcionar excelente Experiência de Desenvolvedor (DX) ao trab
 
 - **[Extensões Markdown Integradas:](./markdown)** Frontmatter, tabelas, destaque de sintaxe... você escolhe. Especificamente, VitePress fornece muitos recursos avançados para trabalhar com blocos de código, tornando-o ideal para documentação altamente técnica.
 
-- **[Markdown Aprimorado por Vue:](./using-vue)** cada página Markdown é também um [Componente de Arquivo Único Vue](https://pt.vuejs.org/guide/scaling-up/sfc.html), graças à compatibilidade de sintaxe de 100% do template Vue com HTML. Você pode incorporar interatividade em seu conteúdo estático usando recursos de template Vue ou componentes Vue importados.
+- **[Markdown Aprimorado por Vue:](./using-actview)** cada página Markdown é também um [Componente de Arquivo Único Vue](https://pt.vuejs.org/guide/scaling-up/sfc.html), graças à compatibilidade de sintaxe de 100% do template Vue com HTML. Você pode incorporar interatividade em seu conteúdo estático usando recursos de template Vue ou componentes Vue importados.
 
 ## Desempenho {#performance}
 

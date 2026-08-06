@@ -534,3 +534,22 @@ describe('createActViewSrc — <script lang="tsx"> blocks', () => {
     expect(src).toContain('unknown component <Foo>')
   })
 })
+
+describe('serializeHtmlToJsx — Vue syntax tolerance', () => {
+  test('drops Vue v-bind/v-on shorthand attributes with warning', () => {
+    const r = serializeHtmlToJsx(
+      '<VPTeamMembers size="small" :members />',
+      new Set(['VPTeamMembers'])
+    )
+    expect(r.code).toContain('<VPTeamMembers size="small" />')
+    expect(r.code).not.toContain(':members')
+    expect(r.warnings.some((w) => w.includes(':members'))).toBe(true)
+  })
+
+  test('single text child with JSX special chars uses JSON expression', () => {
+    const r = serializeHtmlToJsx("<p>{'<'}VPTeamMembers{'>'}</p>")
+    expect(r.code).toContain(
+      `<p>{${JSON.stringify("{'<'}VPTeamMembers{'>'}")}}</p>`
+    )
+  })
+})

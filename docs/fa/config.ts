@@ -116,7 +116,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
         { text: 'افزونه‌های Markdown', link: 'markdown' },
         { text: 'مدیریت منابع', link: 'asset-handling' },
         { text: 'Frontmatter', link: 'frontmatter' },
-        { text: 'استفاده از Vue در Markdown', link: 'using-vue' },
+        { text: 'استفاده از ActView در Markdown', link: 'using-actview' },
         { text: 'بین‌المللی سازی', link: 'i18n' }
       ]
     },

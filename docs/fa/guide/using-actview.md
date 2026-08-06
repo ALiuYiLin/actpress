@@ -2,7 +2,7 @@
 description: استفاده از کامپوننت‌های Vue و قابلیت‌های قالب‌بندی پویا مستقیماً در فایل‌های Markdown ویت‌پرس.
 ---
 
-# استفاده از Vue در Markdown  {#using-vue-in-markdown}
+# استفاده از Vue در Markdown  {#using-actview-in-markdown}
 
 در ویت‌پرس، هر فایل Markdown به HTML تبدیل شده و سپس به عنوان یک [کامپوننت فایل تکی Vue](https://vuejs.org/guide/scaling-up/sfc.html) پردازش می‌شود. این بدان معنی است که شما می‌توانید از هر ویژگی Vue در داخل Markdown استفاده کنید، شامل قالب‌بندی پویا، استفاده از کامپوننت‌های Vue، یا منطق کامپوننت Vue دلخواه در داخل صفحه با افزودن تگ `<script>`.
 
@@ -93,7 +93,7 @@ const { page } = useData()
 
 ```json
 {
-  "path": "/using-vue.html",
+  "path": "/using-actview.html",
   "title": "Using Vue in Markdown",
   "frontmatter": {},
   ...

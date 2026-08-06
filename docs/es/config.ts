@@ -109,7 +109,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
         { text: 'Extensiones Markdown', link: 'markdown' },
         { text: 'Manejo de assets', link: 'asset-handling' },
         { text: 'Frontmatter', link: 'frontmatter' },
-        { text: 'Usando Vue en Markdown', link: 'using-vue' },
+        { text: 'Usando ActView en Markdown', link: 'using-actview' },
         { text: 'Internacionalización', link: 'i18n' }
       ]
     },

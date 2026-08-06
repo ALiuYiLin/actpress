@@ -2,7 +2,7 @@
 description: Usa componentes Vue y funciones de plantillas dinámicas directamente dentro de archivos Markdown en VitePress.
 ---
 
-# Usando Vue en Markdown {#using-vue-in-markdown}
+# Usando Vue en Markdown {#using-actview-in-markdown}
 
 En VitePress, cada archivo Markdown es compilado para HTML y entonces procesado como un [Componente de Archivo Único de Vue](https://vuejs.org/guide/scaling-up/sfc.html). Esto significa que puede usar cualquier funcionalidad de Vue dentro del Markdown, incluyendo la interpolación dinámica, usar componentes Vue o lógica arbitrária de componentes Vue dentro de la página adicionando una tag `<script>`.
 

@@ -107,7 +107,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
         { text: 'Расширения Markdown', link: 'markdown' },
         { text: 'Обработка ресурсов', link: 'asset-handling' },
         { text: 'Метаданные', link: 'frontmatter' },
-        { text: 'Использование Vue в Markdown', link: 'using-vue' },
+        { text: 'Использование ActView в Markdown', link: 'using-actview' },
         { text: 'Интернационализация', link: 'i18n' }
       ]
     },
