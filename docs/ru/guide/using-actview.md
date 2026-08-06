@@ -266,7 +266,7 @@ bun add -D stylus
 <ModalDemo />
 
 ::: details Исходный код
-<<< @/ru/components/ModalDemo.vue
+<<< @/components/ModalDemo.tsx
 :::
 
 ```md
@@ -280,8 +280,8 @@ bun add -D stylus
 ```
 
 <script setup>
-import ModalDemo from '../components/ModalDemo.vue'
-import ComponentInHeader from '../../components/ComponentInHeader.vue'
+import { ModalDemo } from '../../components/ModalDemo'
+import { ComponentInHeader } from '../../components/ComponentInHeader'
 </script>
 
 <style>

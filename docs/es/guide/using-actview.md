@@ -233,7 +233,7 @@ VitePress actualmente ofrece soporte a SSG para _teleports_ apenas para el cuerp
 <ModalDemo />
 
 ::: details
-<<< @/components/ModalDemo.vue
+<<< @/components/ModalDemo.tsx
 :::
 
 ```md
@@ -247,8 +247,8 @@ VitePress actualmente ofrece soporte a SSG para _teleports_ apenas para el cuerp
 ```
 
 <script setup>
-import ModalDemo from '../../components/ModalDemo.vue'
-import ComponentInHeader from '../../components/ComponentInHeader.vue'
+import { ModalDemo } from '../../components/ModalDemo'
+import { ComponentInHeader } from '../../components/ComponentInHeader'
 </script>
 
 <style>

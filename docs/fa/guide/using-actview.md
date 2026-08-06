@@ -234,7 +234,7 @@ npm install -D stylus
 <ModalDemo />
 
 ::: details جزئیات
-<<< @/components/ModalDemo.vue
+<<< @/components/ModalDemo.tsx
 :::
 
 ```md
@@ -248,8 +248,8 @@ npm install -D stylus
 ```
 
 <script setup>
-import ModalDemo from '../../components/ModalDemo.vue'
-import ComponentInHeader from '../../components/ComponentInHeader.vue'
+import { ModalDemo } from '../../components/ModalDemo'
+import { ComponentInHeader } from '../../components/ComponentInHeader'
 </script>
 
 <style>
