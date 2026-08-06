@@ -914,11 +914,19 @@ export function serializeHtmlToJsx(
   const renderNode = (node: JsxNode, depth: number) => {
     const pad = indent.repeat(depth)
     const rawTag = node.tag
-    // 大写开头但不在具名导出集合 → 警告（JSX 中会按字符串标签渲染）
+    // 大写开头但不在具名导出集合：JSX 中大写标签必为组件变量（未定义会
+    // ReferenceError），不能原样输出 → 渲染为转义文本（演示/语法展示场景）
     if (COMPONENT_TAG_RE.test(rawTag) && !componentNames.has(rawTag)) {
       warnings.push(
-        `unknown component <${rawTag}> (not in <script lang="tsx"> named exports)`
+        `unknown component <${rawTag}> (not in <script lang="tsx"> named exports); rendered as text`
       )
+      const inner = node.children
+        .map((c) =>
+          typeof c === 'string' ? decodeEntities(c) : `<${c.tag}>…</${c.tag}>`
+        )
+        .join('')
+      lines.push(`${pad}{${JSON.stringify(`<${rawTag}>${inner}</${rawTag}>`)}}`)
+      return
     }
     const tag = rawTag
     // 属性序列化
