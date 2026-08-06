@@ -7,6 +7,14 @@
 > - ❌ 多语言（i18n / locales / lunaria 翻译同步）不考虑，直接删除
 >
 > 状态标记：✅ 已完成 ｜ ⬜ 待办 ｜ 🔶 需要先做决策
+>
+> **进度总览（当前）**：
+> - 阶段 A（ActView 能力补齐）✅
+> - 阶段 B（客户端运行时）✅
+> - 阶段 C（默认主题 92 个 .vue）✅
+> - 阶段 D（构建管线 / 静态生成）✅
+> - 阶段 E（docs 重构）🔶 进行中——前置（md 生成器重构）✅、using-vue→using-actview ✅、demo 组件 .tsx ✅、docs build ✅；多语言删除（E1/E2）⬜ 待决策、单语言 Vue 教学残留 ⬜
+> - 阶段 F（依赖清理收尾）🔶 进行中——F1/F2 ✅、F3/F4 部分
 
 ---
 
@@ -16,7 +24,7 @@
 - ✅ `src/node/markdownToActView.ts`：markdown 编译管线改为输出 ActView 模块（HTML→VNode 序列化 + `defineComponent` 组件），`plugin.ts` 中 `.md` 的 transform 返回 `actViewSrc`，`@vitejs/plugin-vue` include 收窄为 `.vue`
 - ✅ `design/magrite.md`：该改造的原理记录
 
-### 1.2 剩余的 Vue 依赖面（本次计划的主体）
+### 1.2 剩余的 Vue 依赖面（重构前现状，截至前序提交 `8cfd0c74`；当前各区域状态见阶段 A-F 标注）
 
 | 区域 | 现状 | 规模 |
 |---|---|---|
@@ -69,14 +77,16 @@
 - `__pageData` 契约、实体二次转义（`&`→`&amp;`）、`<tag>` 文本转义、`onclick` 不输出、void 元素不闭合等断言全部通过
 - JSX-Demo 全量测试 105 例全绿（原 102 + 验收 3）
 
-### 阶段 B：客户端运行时重构（`src/client/app/`）
+### 阶段 B：客户端运行时重构（`src/client/app/`）✅ 已完成
 
-- [ ] **B1** `index.ts`：`createSSRApp`/`createApp` → ActView `createApp`；删除 SSR 分支（`import.meta.env.SSR` 相关）；`VitePressApp` 改为 `defineComponent` + JSX 或 `createElement`
-- [ ] **B2** `data.ts`：`useData()` 契约保留（site/theme/page/frontmatter 等 ref），内部实现换 ActView `ref`/`computed`；`initData` 的 `__VP_SITE_DATA__` 注入逻辑保留
-- [ ] **B3** `router.ts`：自定义 history 路由改为 `@actview/router` 的 `createRouter`，或保留自研路由仅换响应式基座（二选一，🔶 决策：**建议直接用 `@actview/router`**，减少维护面；`scrollTo`/`onAfterRouteChanged` 等适配到 router 的钩子）
-- [ ] **B4** composables：`copyCode`/`head`/`preFetch`/`codeGroups` 全部手写重写（去掉 `@vueuse/*`；head 管理用 `document.head` 操作替代 Vue 的 head 响应式）
-- [ ] **B5** `ssr.ts` 删除；`devtools.ts` 删除或替换为 no-op
-- [ ] **B6** `ClientOnly`/`Content` 组件：`Content` 渲染 md 页面的 `Content`（直接渲染 `actViewSrc` 导出的组件或 `createElement` 树）；`ClientOnly` 保留（挂载后渲染 children）
+> 状态：✅ 已完成（B1-B6 全部落地）——`src/client/app/` 全 ActView 化：`index.ts`（`createApp(VitePressApp)`，删 SSR/devtools/provide）、`data.ts`（ref/computed 换 actview + 手写 useDark/usePreferredDark）、`router.ts`（响应式换 ActView，模块级单例 context）、`Content`/`ClientOnly` 组件、composables（copyCode/head/preFetch）手写替代 @vueuse；`ssr.ts` 重建为 ActView 静态生成入口。
+
+- [x] **B1** `index.ts`：`createSSRApp`/`createApp` → ActView `createApp`；删除 SSR 分支（`import.meta.env.SSR` 相关）；`VitePressApp` 改为 `defineComponent` + JSX 或 `createElement`
+- [x] **B2** `data.ts`：`useData()` 契约保留（site/theme/page/frontmatter 等 ref），内部实现换 ActView `ref`/`computed`；`initData` 的 `__VP_SITE_DATA__` 注入逻辑保留
+- [x] **B3** `router.ts`：自定义 history 路由改为 `@actview/router` 的 `createRouter`，或保留自研路由仅换响应式基座（二选一，🔶 决策：**建议直接用 `@actview/router`**，减少维护面；`scrollTo`/`onAfterRouteChanged` 等适配到 router 的钩子）
+- [x] **B4** composables：`copyCode`/`head`/`preFetch`/`codeGroups` 全部手写重写（去掉 `@vueuse/*`；head 管理用 `document.head` 操作替代 Vue 的 head 响应式）
+- [x] **B5** `ssr.ts` 删除；`devtools.ts` 删除或替换为 no-op（注：B5 的 `ssr.ts` 后因 D 阶段静态生成需要而重建为 ActView 版）
+- [x] **B6** `ClientOnly`/`Content` 组件：`Content` 渲染 md 页面的 `Content`（直接渲染 `actViewSrc` 导出的组件或 `createElement` 树）；`ClientOnly` 保留（挂载后渲染 children）
 
 **验收**：`npm run dev` 打开站点，路由切换、页面渲染、复制代码按钮、代码组切换、标题/head 更新全部可用；控制台无 Vue 相关报错。
 
@@ -121,28 +131,30 @@
 
 **验收（已通过）**：`node bin/vitepress.js build`（最小站点）产出每页 `.html` 含预渲染完整主题树（VPNavBar/VPSidebar/VPContent/Outline）+ 资源哈希；实体转义/标题/锚点正确；无 SSR 残留。
 
-**遗留（JSX-Demo 侧）**：`renderToString` 期间组件 setup 内调用生命周期钩子会打印 `[actview] 生命周期钩子只能在组件 setup 中调用`（功能不受影响）——建议 JSX-Demo 的 `renderToString` 在调用 `__setup` 时设置 currentInstance 上下文。
+**遗留（JSX-Demo 侧）**：`renderToString` 期间组件 setup 内调用生命周期钩子会打印 `[actview] 生命周期钩子只能在组件 setup 中调用`（功能不受影响）——**已定位并记录到 `design/bug.md`（BUG-001）**，待 JSX-Demo 的 `renderToString` 在调用 `__setup` 时设置 currentInstance 上下文。
 
-### 阶段 E：docs 重构
+### 阶段 E：docs 重构 🔶 进行中
+
+> 前置（已完成）：**md 生成器重构（use ActView in markdown）** —— `markdownToActView` 生成 `.tsx` 模块（正文 JSX、`<script lang="tsx">` 具名组件引用 + 属性透传、`<script lang="ts" setup>` 进 setup 体）；plugin.ts 管线（`transformWithEsbuild` 转 JSX + `@actview/plugin` Babel 包裸函数组件）；build 页面渲染串行化（模块级单例竞争串页修复）。
 
 - [ ] **E1** 多语言删除：删除 `docs/en|es|fa|ja|ko|pt|ru|zh` 中除选定语言外的目录（🔶 决策：保留哪种语言——建议保留 `zh` 或 `en`）；删除 `lunaria.config.json`；删除 `docs/config.ts` 中 `locales` 配置与 `@vueuse/integrations` 等翻译相关引用
 - [ ] **E2** 迁移单语言目录为根：选定语言的 `index.md` 提升为 `docs/index.md`，站内链接/导航重排
-- [ ] **E3** md 内容清理：
-  - `<script setup>` 里的 `import ... from 'vue'` → `'actview'`（ref/computed 同名兼容）
-  - 文档中 Vue 专属示例（SFC 代码块、`<Transition>`、`v-model` 等）改为 ActView JSX 示例
-  - `docs/components/` 里的 Vue 组件演示改为 ActView 组件演示
-- [ ] **E4** docs 自身配置（`docs/config.ts`、`docs/package.json`）适配：移除 `vue`/`plugin-vue` 依赖，接入 `@actview/*`
+- [ ] **E3** md 内容清理 🔶 部分完成：
+  - ✅ `using-vue.md` → `using-actview.md`（en 完整重写：双 script 块 + JSX + 组件引用 + 不支持语法清单；7 语言重命名 + 链接更新）
+  - ✅ `docs/components/` Vue 组件演示（ModalDemo/ComponentInHeader）→ `.tsx` + 全局 css
+  - ✅ md 生成器重构（见上）——docs 完整 `build` 通过（16.6s，含多语言全部页面）
+  - ⬜ 单语言目录内 Vue 教学残留（`data-loading.md`/`extending-default-theme.md`/`i18n.md`/`markdown.md`/`ssr-compat.md` 等仍含 `from 'vue'`/`v-for`/`<Transition>` 示例）
+  - ⬜ 多语言 `using-actview.md` 内容仍是 Vue 版（仅链接/导入适配，正文未重写）
+- [ ] **E4** docs 自身配置（`docs/config.ts`、`docs/package.json`）适配 ✅ 部分：`docs/package.json` 已无 vue 依赖；`docs/config.ts` 的 search（algolia）依赖 `@docsearch/js` 正常；`locales` 配置未删（随 E1）
 
 **验收**：`docs` 单独可 `dev`/`build`；站点内容为单一语言；无 `locales`/`lunaria` 残留。
 
-### 阶段 F：依赖清理与收尾
+### 阶段 F：依赖清理与收尾 🔶 进行中
 
-- [ ] **F1** 根 `package.json`：移除 `vue`、`@vitejs/plugin-vue`、`@vue/shared`、`@vueuse/core`、`@vueuse/integrations`、`@vue/devtools-api`；加入 `actview`、`@actview/core`、`@actview/jsx`、`@actview/router`（如走 workspace/别名则配 `resolve.alias`）
-- [ ] **F2** 测试改造：
-  - `__tests__/unit/client/*`：Vue 测试（`@vue/test-utils` 若用到）改 ActView 渲染 + `happy-dom`（JSX-Demo 已有此模式）
-  - e2e 测试的断言若依赖 Vue 特有 DOM 结构（如 `data-v-*`）则更新
-- [ ] **F3** 全量验证清单：`pnpm test:unit`、`pnpm build`（静态生成）、`pnpm preview`、docs 构建；`grep -rn "from 'vue'\|@vue" src docs` 清零
-- [ ] **F4** 更新 `design/magrite.md` 或新建迁移记录，沉淀 `.vue`→`.tsx` 的映射规则（供后续组件迁移复用）
+- [x] **F1** 根 `package.json`：移除 `vue`、`@vitejs/plugin-vue`、`@vue/shared`、`@vueuse/core`、`@vueuse/integrations`、`@vue/devtools-api`（已在 D6 完成）；已加入 `actview`、`@actview/core`、`@actview/jsx`、`@actview/plugin`、`@actview/router`（npm 安装）
+- [x] **F2** 测试改造：unit 测试全 ActView 化（`pnpm test:unit` 148 全绿，16 文件，含 actview-shell happy-dom 冒烟、md 生成器/序列化器测试）；e2e 未跑（`test:e2e` 依赖 playwright/临时站点，未纳入本轮）
+- [ ] **F3** 全量验证清单 🔶 部分：`pnpm test:unit` ✅、`vitepress build docs` ✅（16.6s 全部页面）、`pnpm preview` 未跑；`grep -rn "from 'vue'\|@vue" src` 已清零（仅注释）✅；**`docs/**/*.md` 的 Vue 教学残留未清零**（见 E3）
+- [ ] **F4** 更新 `design/magrite.md` 或新建迁移记录，沉淀 `.vue`→`.tsx` 的映射规则（供后续组件迁移复用）🔶 部分：`design/magrite.md` 已有改造原理；`.vue`→`.tsx` 映射规则清单可补充（style/scoped、具名插槽、v-html、setup 早退等模式）
 
 **验收**：仓库无任何 Vue 依赖与引用；dev/build/preview 全链路可用。
 
