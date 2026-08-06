@@ -47,6 +47,7 @@ export function MyButton() {
 <MyButton size="lg" />
 ````
 
+
 - 标签名必须匹配一个具名导出，且为 **PascalCase**（`MyButton`），否则会被当作未知组件（编译期发出警告）。
 - **静态属性会透传给组件**：`<MyButton size="lg" />` 以 `size: 'lg'` 渲染 `MyButton`。
 - 以普通函数（`export function X()`）写成的组件会在编译期被 `defineComponent` 包裹。
