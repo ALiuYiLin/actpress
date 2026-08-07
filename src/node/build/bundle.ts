@@ -20,7 +20,22 @@ const clientDir = normalizePath(
 
 // these deps are also being used in the client code (outside of the theme)
 // exclude them from the theme chunk so there is no circular dependency
-const excludedModules = ['/@siteData', clientDir]
+const excludedModules = [
+  '/@siteData',
+  clientDir,
+  // framework（client/app，含 data.ts 顶层 `siteDataRef = shallowRef(readonly(siteData))`）
+  // 与 theme 共用的 actview 运行时依赖。若不排除，@actview/core（readonly/markRaw 等）
+  // 会被打进 theme chunk，导致 framework 顶层初始化依赖 theme，形成
+  // framework ↔ theme 循环：浏览器按「入口 → theme → framework」加载时，
+  // framework 顶层执行 readonly(siteData) 时 theme 的 `var rawSet = new WeakSet`
+  // 尚未赋值（var 提升为 undefined）→ `rawSet.has(...)` 崩溃。
+  // 注意 '/actview' 只匹配裸包 actview，不匹配 @actview/*（路径为 /@actview/...），
+  // 避免误排除 @actview/press 自身的 theme 代码。
+  '@actview/core',
+  '@actview/jsx',
+  '@actview/router',
+  '/actview'
+]
 
 // bundles the VitePress app for both client AND server.
 export async function bundle(
