@@ -5,7 +5,12 @@ export interface VPSwitchProps {
 
 export function VPSwitch(props: VPSwitchProps = {}) {
   return (
-    <button type="button" role="switch" class="VPSwitch" {...props}>
+    <button
+      {...props}
+      type="button"
+      role="switch"
+      class={['VPSwitch', props.class ?? ''].filter(Boolean).join(' ')}
+    >
       <span class="check">
         {props.children != null ? (
           <span class="icon">{props.children}</span>

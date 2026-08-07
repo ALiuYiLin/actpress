@@ -18,18 +18,19 @@ export function VPLink(props: VPLinkProps = {}) {
     'VPLink',
     props.href ? 'link' : '',
     isExternal ? 'vp-external-link-icon' : '',
-    props.noIcon ? 'no-icon' : ''
+    props.noIcon ? 'no-icon' : '',
+    props.class ?? ''
   ]
     .filter(Boolean)
     .join(' ')
 
   return (
     <Tag
+      {...props}
       class={cls}
       href={props.href ? normalizeLink(props.href) : undefined}
       target={props.target ?? (isExternal ? '_blank' : undefined)}
       rel={props.rel ?? (isExternal ? 'noreferrer' : undefined)}
-      {...props}
     >
       {props.children ?? null}
     </Tag>
