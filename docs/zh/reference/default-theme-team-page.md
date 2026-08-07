@@ -2,8 +2,9 @@
 description: 使用 VitePress 内置的团队组件创建包含成员资料的团队页面。
 ---
 
-<script setup>
+<script lang="tsx" setup>
 import { VPTeamMembers } from '@actview/press/theme'
+import { defineComponent } from 'actview'
 
 const members = [
   {
@@ -25,6 +26,11 @@ const members = [
     ]
   }
 ]
+
+// ActView 无 v-bind：把 members 通过组件内部 JSX 传入
+export const TeamMembers = defineComponent(function () {
+  return () => <VPTeamMembers size="small" members={members} />
+})
 </script>
 
 # 团队页 {#team-page}
@@ -62,7 +68,7 @@ Say hello to our awesome team.
 
 以上将在卡片外观元素中显示团队成员。它应该显示类似于下面的内容。
 
-<VPTeamMembers size="small" :members />
+<TeamMembers />
 
 `<VPTeamMembers>` 组件有 2 种不同的尺寸，`small` 和 `medium`。虽然它取决于你的偏好，但通常尺寸在文档页面中使用时 `small` 应该更适合。此外，你可以为每个成员添加更多属性，例如添加“描述”或“赞助”按钮。在 [`<VPTeamMembers>`](#vpteammembers) 中了解更多信息。
 

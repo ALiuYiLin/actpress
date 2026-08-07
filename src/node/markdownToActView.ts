@@ -736,6 +736,19 @@ export function extractComponentNames(code: string): Set<string> {
       add(seg[seg.length - 1]?.trim())
     }
   }
+  // import 的标识符（大写开头即可作为组件引用）：
+  // 具名 `import { A, B as C }` / 默认 `import A from` / 命名空间 `import * as A`
+  for (const m of code.matchAll(/import\s*\{([^}]+)\}\s*from/g)) {
+    for (const part of m[1].split(',')) {
+      const seg = part.trim().split(/\s+as\s+/)
+      add(seg[seg.length - 1]?.trim())
+    }
+  }
+  for (const m of code.matchAll(
+    /import\s+(\*?\s*as\s+)?([A-Za-z_$][\w$]*)\s*from/g
+  )) {
+    add(m[2])
+  }
   return names
 }
 

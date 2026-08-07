@@ -2,8 +2,9 @@
 description: Create team pages with member profiles using VitePress built-in team components.
 ---
 
-<script setup>
+<script lang="tsx" setup>
 import { VPTeamMembers } from '@actview/press/theme'
+import { defineComponent } from 'actview'
 
 const members = [
   {
@@ -25,6 +26,11 @@ const members = [
     ]
   }
 ]
+
+// ActView 无 v-bind：把 members 通过组件内部 JSX 传入
+export const TeamMembers = defineComponent(function () {
+  return () => <VPTeamMembers size="small" members={members} />
+})
 </script>
 
 # Team Page
@@ -62,7 +68,7 @@ Say hello to our awesome team.
 
 The above will display a team member in card looking element. It should display something similar to below.
 
-<VPTeamMembers size="small" :members />
+<TeamMembers />
 
 `<VPTeamMembers>` component comes in 2 different sizes, `small` and `medium`. While it boils down to your preference, usually `small` size should fit better when used in doc page. Also, you may add more properties to each member such as adding "description" or "sponsor" button. Learn more about it in [`<VPTeamMembers>`](#vpteammembers).
 

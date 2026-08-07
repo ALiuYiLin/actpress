@@ -387,6 +387,18 @@ describe('extractComponentNames', () => {
     expect(names.has('Inner')).toBe(false)
     expect(names.has('Nested')).toBe(false)
   })
+
+  test('collects imported identifiers (named/default/namespace)', () => {
+    const names = extractComponentNames(
+      `\nimport { ModalDemo, Btn as MyBtn } from './components'\nimport DefaultComp from './DefaultComp'\nimport * as StarComp from './StarComp'\n`
+    )
+    expect(names.has('ModalDemo')).toBe(true)
+    expect(names.has('MyBtn')).toBe(true)
+    expect(names.has('DefaultComp')).toBe(true)
+    expect(names.has('StarComp')).toBe(true)
+    // 未别名的小写/原名不收集
+    expect(names.has('Btn')).toBe(false)
+  })
 })
 
 describe('createActViewSrc — <script lang="tsx"> blocks', () => {
