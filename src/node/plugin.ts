@@ -97,21 +97,26 @@ export async function createVitePressPlugin(
 
   /**
    * 把 markdownToActView 生成的 .tsx 模块编译为可执行 JS：
-   * 1. esbuild 转 JSX（automatic runtime @actview/jsx）
-   * 2. @actview/plugin（Babel）把裸函数组件包成 defineComponent
-   *    （渲染器只认 { __setup }，裸函数会在运行时崩）
+   * 1. @actview/plugin（Babel）在 JSX 源码上处理 `<template slot="name">`
+   *    具名插槽提取（extractNamedSlots）与裸函数组件 → defineComponent 包装。
+   *    必须先于 esbuild：esbuild 把 JSX 转成 jsx() 调用后，Babel 的 walkJSX
+   *    找不到 JSXElement，`<template slot>` 会原样保留、props.slots 恒为空
+   *    （Bug #5）。
+   * 2. esbuild 转 JSX（automatic runtime @actview/jsx）
    */
   const compileActViewSrc = async (src: string): Promise<string> => {
+    // @actview/plugin（enforce:'pre' 语义）先处理 JSX 源码
+    const babeled = await rawActViewPlugin.transform(src, 'page.md.tsx')
+    const jsxSource = babeled?.code ?? src
     // 用 vite 的 transformWithEsbuild（内部处理 esbuild 的 ESM/__filename 问题；
     // 直接 import esbuild 会在 dist ESM 产物里崩）
-    const { code: js } = await transformWithEsbuild(src, 'page.md.tsx', {
+    const { code: js } = await transformWithEsbuild(jsxSource, 'page.md.tsx', {
       loader: 'tsx',
       jsx: 'automatic',
       jsxImportSource: '@actview/jsx',
       target: 'es2020'
     })
-    const out = await rawActViewPlugin.transform(js, 'virtual-actview-md.js')
-    return out?.code ?? js
+    return js
   }
 
   let siteData = site
