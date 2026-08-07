@@ -195,6 +195,12 @@ export interface VitePressData<T = any> {
   localeIndex: Ref<string>
   isDark: Ref<boolean>
   /**
+   * 切换站点外观（dark/light/auto）。写入用户偏好：
+   * useDark 的 isDark 是只读 computed（ActView 的 computed 只有 getter），
+   * 不能直接写 isDark.value，须经 setAppearance 写底层 preference（Bug #3）。
+   */
+  setAppearance: (value: 'dark' | 'light' | 'auto') => void
+  /**
    * Current location hash
    */
   hash: Ref<string>

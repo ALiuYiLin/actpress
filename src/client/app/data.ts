@@ -49,7 +49,10 @@ function usePreferredDark(): Ref<boolean> {
   return isDark
 }
 
-function useDark(options: Record<string, any> = {}): Ref<boolean> {
+function useDark(options: Record<string, any> = {}): {
+  isDark: Ref<boolean>
+  setAppearance: (v: 'dark' | 'light' | 'auto') => void
+} {
   const storageKey = (options.storageKey as string) ?? APPEARANCE_KEY
   const initialValue =
     typeof options.initialValue === 'function'
@@ -71,8 +74,21 @@ function useDark(options: Record<string, any> = {}): Ref<boolean> {
   if (inBrowser) {
     watch(isDark, syncClass)
     syncClass()
+    // 跨标签页同步偏好
+    window.addEventListener('storage', (e) => {
+      if (e.key === storageKey && e.newValue) {
+        preference.value = e.newValue
+      }
+    })
   }
-  return isDark
+  // ActView 的 computed 只有 getter（只读），主题切换不能直接写 isDark.value
+  // （会抛 "Cannot set property value ... only a getter"，Bug #3），
+  // 必须写底层 preference 并持久化。
+  const setAppearance = (value: 'dark' | 'light' | 'auto') => {
+    preference.value = value
+    if (inBrowser) localStorage.setItem(storageKey, value)
+  }
+  return { isDark, setAppearance }
 }
 
 // ------------------------------------------------------------
@@ -88,18 +104,26 @@ export function initData(route: Route): VitePressData {
   )
 
   const appearance = site.value.appearance // fine with reactivity being lost here, config change triggers a restart
-  const isDark =
-    appearance === 'force-dark'
-      ? ref(true)
-      : appearance === 'force-auto'
-        ? usePreferredDark()
-        : appearance
-          ? useDark({
-              storageKey: APPEARANCE_KEY,
-              initialValue: () => (appearance === 'dark' ? 'dark' : 'auto'),
-              ...(typeof appearance === 'object' ? appearance : {})
-            })
-          : ref(false)
+  // ActView 的 computed 只有 getter，isDark 只读；主题切换须经 setAppearance
+  // 写 useDark 的 preference（Bug #3）。force-dark/force-auto 时按钮不渲染，
+  // setAppearance 保持 noop 仅用于类型完备。
+  let setAppearance: (value: 'dark' | 'light' | 'auto') => void = () => {}
+  let isDark: Ref<boolean>
+  if (appearance === 'force-dark') {
+    isDark = ref(true)
+  } else if (appearance === 'force-auto') {
+    isDark = usePreferredDark()
+  } else if (appearance) {
+    const dark = useDark({
+      storageKey: APPEARANCE_KEY,
+      initialValue: () => (appearance === 'dark' ? 'dark' : 'auto'),
+      ...(typeof appearance === 'object' ? appearance : {})
+    })
+    isDark = dark.isDark
+    setAppearance = dark.setAppearance
+  } else {
+    isDark = ref(false)
+  }
 
   const hashRef = ref(inBrowser ? location.hash : '')
 
@@ -130,6 +154,7 @@ export function initData(route: Route): VitePressData {
       () => route.data.description || site.value.description
     ),
     isDark,
+    setAppearance,
     hash: computed(() => hashRef.value)
   }
 
