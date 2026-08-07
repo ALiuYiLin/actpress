@@ -161,6 +161,21 @@ export async function createVitePressPlugin(
           __ASSETS_DIR__: JSON.stringify(siteConfig.assetsDir)
         },
         optimizeDeps: {
+          // 页面模块（markdownToActView 产物）是客户端动态 import，vite 启动时的
+          // esbuild scan 从 index.html 入口开始，扫不到 actview/@actview/jsx；
+          // 若不 include，它们会在浏览器首次加载页面模块时才被发现并触发
+          // re-optimize（预构建不稳定窗口：页面模块引用旧 browserHash 的依赖
+          // 批次，组件能渲染但事件/响应式链路失效，点击无响应——见 bug#1）。
+          // include 让依赖在启动阶段一次性预构建，运行时不再 re-optimize。
+          // 需覆盖完整运行时依赖链（actview → @actview/core → @actview/jsx，
+          // 以及 esbuild automatic JSX runtime 引用的 jsx-runtime 子路径），
+          // 否则漏掉的依赖仍会在首次页面加载时触发 re-optimize。
+          include: [
+            'actview',
+            '@actview/core',
+            '@actview/jsx',
+            '@actview/jsx/jsx-runtime'
+          ],
           exclude: [
             '@docsearch/js',
             '@docsearch/sidepanel-js',
