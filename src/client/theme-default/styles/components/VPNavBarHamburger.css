@@ -12,7 +12,7 @@
   }
 }
 
-.VPNavBarHamburger .container {
+.VPNavBar .wrapper .VPNavBarHamburger .container {
   position: relative;
   width: 16px;
   height: 14px;
@@ -58,9 +58,9 @@
     transform 0.25s;
 }
 
-.VPNavBarHamburger .container .top,
-.VPNavBarHamburger .container .middle,
-.VPNavBarHamburger .container .bottom {
+.VPNavBar .wrapper .VPNavBarHamburger .container .top,
+.VPNavBar .wrapper .VPNavBarHamburger .container .middle,
+.VPNavBar .wrapper .VPNavBarHamburger .container .bottom {
   position: absolute;
   width: 16px;
   height: 2px;
@@ -71,17 +71,17 @@
     transform 0.25s;
 }
 
-.VPNavBarHamburger .container .top {
+.VPNavBar .wrapper .VPNavBarHamburger .container .top {
   top: 0;
   left: 0;
   transform: translateX(0);
 }
-.VPNavBarHamburger .container .middle {
+.VPNavBar .wrapper .VPNavBarHamburger .container .middle {
   top: 6px;
   left: 0;
   transform: translateX(8px);
 }
-.VPNavBarHamburger .container .bottom {
+.VPNavBar .wrapper .VPNavBarHamburger .container .bottom {
   top: 12px;
   left: 0;
   transform: translateX(4px);

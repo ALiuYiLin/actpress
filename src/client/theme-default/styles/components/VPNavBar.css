@@ -73,7 +73,7 @@
 }
 
 @media (min-width: 960px) {
-  .VPNavBar.has-sidebar .wrapper .container .title {
+  .VPNavBar.has-sidebar .wrapper > .container > .title {
     position: absolute;
     top: 0;
     left: 0;
@@ -86,7 +86,7 @@
 }
 
 @media (min-width: 1440px) {
-  .VPNavBar.has-sidebar .wrapper .container .title {
+  .VPNavBar.has-sidebar .wrapper > .container > .title {
     padding-left: max(
       32px,
       calc((100% - (var(--vp-layout-max-width) - 64px)) / 2)

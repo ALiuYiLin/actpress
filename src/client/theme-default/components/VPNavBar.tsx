@@ -2,7 +2,7 @@ import { defineComponent, ref } from 'actview'
 import { inBrowser } from '@actview/press'
 import { useLayout } from '../composables/layout'
 import { VPNavBarAppearance } from './VPNavBarAppearance'
-import { VPNavBarAskAiButton } from './VPNavBarAskAiButton'
+// import { VPNavBarAskAiButton } from './VPNavBarAskAiButton'
 import { VPNavBarExtra } from './VPNavBarExtra'
 import { VPNavBarHamburger } from './VPNavBarHamburger'
 import { VPNavBarMenu } from './VPNavBarMenu'
@@ -63,19 +63,19 @@ export const VPNavBar = defineComponent(function (props: VPNavBarProps = {}) {
             <div class="content">
               <div class="content-body">
                 {props.navBarContentBefore}
-                <VPNavBarMenu class="menu" />
                 <VPNavBarSearch class="search" />
+                <VPNavBarMenu class="menu" />
                 <VPNavBarTranslations class="translations" />
-                <VPNavBarSocialLinks class="social-links" />
                 <VPNavBarAppearance class="appearance" />
+                <VPNavBarSocialLinks class="social-links" />
                 <VPNavBarExtra class="extra" />
-                <VPNavBarAskAiButton class="ask-ai" />
+                {/* <VPNavBarAskAiButton class="ask-ai" /> */}
+                {props.navBarContentAfter}
                 <VPNavBarHamburger
                   class="hamburger"
                   active={props.isScreenOpen}
                   onclick={props.onToggleScreen}
                 />
-                {props.navBarContentAfter}
               </div>
             </div>
           </div>
