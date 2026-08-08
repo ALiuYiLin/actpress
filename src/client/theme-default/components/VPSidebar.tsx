@@ -42,29 +42,30 @@ export function VPSidebar(props: VPSidebarProps = {}) {
     key.value += 1
   })
 
-  return function () {
-    if (!hasSidebar.value) return null
-    return (
-      <aside
-        class={['VPSidebar', props.open ? 'open' : ''].join(' ')}
-        ref={navEl}
-        onclick={(e) => e.stopPropagation()}
-      >
-        <div class="curtain" />
-        <nav
-          class="nav"
-          id="VPSidebarNav"
-          aria-labelledby="sidebar-aria-label"
-          tabindex="-1"
+  return (
+    <>
+      {hasSidebar.value ? (
+        <aside
+          class={['VPSidebar', props.open ? 'open' : ''].join(' ')}
+          ref={navEl}
+          onclick={(e) => e.stopPropagation()}
         >
-          <span class="visually-hidden" id="sidebar-aria-label">
-            Sidebar Navigation
-          </span>
-          {props.sidebarNavBefore}
-          <VPSidebarGroup items={sidebarGroups.value} key={key.value} />
-          {props.sidebarNavAfter}
-        </nav>
-      </aside>
-    )
-  }
+          <div class="curtain" />
+          <nav
+            class="nav"
+            id="VPSidebarNav"
+            aria-labelledby="sidebar-aria-label"
+            tabindex="-1"
+          >
+            <span class="visually-hidden" id="sidebar-aria-label">
+              Sidebar Navigation
+            </span>
+            {props.sidebarNavBefore}
+            <VPSidebarGroup items={sidebarGroups.value} key={key.value} />
+            {props.sidebarNavAfter}
+          </nav>
+        </aside>
+      ) : null}
+    </>
+  )
 }

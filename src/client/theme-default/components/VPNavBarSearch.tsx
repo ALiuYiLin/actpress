@@ -103,53 +103,51 @@ export function VPNavBarSearch(props: any = {}) {
   }
   // #endregion
 
-  return function () {
-    if (provider === 'algolia') {
-      const searchOptions = algoliaOptions.value as any
-      return (
-        <div class="VPNavBarSearch">
-          {resolvedMode.value.showKeywordSearch ? (
-            <VPNavBarSearchButton
-              text={searchOptions.translations?.button?.buttonText || 'Search'}
-              onclick={() => loadAndOpen('search')}
-            />
-          ) : null}
-          <VPNavBarAskAiButton />
-          {loaded.value ? (
-            <VPAlgoliaSearchBox
-              algoliaOptions={algoliaOptions.value}
-              openRequest={openRequest.value}
-              onBeforeOpen={() => {
-                actuallyLoaded.value = true
-              }}
-            />
-          ) : null}
-        </div>
-      )
-    }
-
-    if (provider === 'local') {
-      return (
-        <div class="VPNavBarSearch">
+  if (provider === 'algolia') {
+    const searchOptions = algoliaOptions.value as any
+    return (
+      <div class="VPNavBarSearch">
+        {resolvedMode.value.showKeywordSearch ? (
           <VPNavBarSearchButton
-            text="Search"
-            onclick={() => {
-              showSearch.value = true
+            text={searchOptions.translations?.button?.buttonText || 'Search'}
+            onclick={() => loadAndOpen('search')}
+          />
+        ) : null}
+        <VPNavBarAskAiButton />
+        {loaded.value ? (
+          <VPAlgoliaSearchBox
+            algoliaOptions={algoliaOptions.value}
+            openRequest={openRequest.value}
+            onBeforeOpen={() => {
+              actuallyLoaded.value = true
             }}
           />
-          {showSearch.value ? (
-            <VPLocalSearchBox
-              onClose={() => {
-                showSearch.value = false
-              }}
-            />
-          ) : null}
-        </div>
-      )
-    }
-
-    return <div class="VPNavBarSearch" />
+        ) : null}
+      </div>
+    )
   }
+
+  if (provider === 'local') {
+    return (
+      <div class="VPNavBarSearch">
+        <VPNavBarSearchButton
+          text="Search"
+          onclick={() => {
+            showSearch.value = true
+          }}
+        />
+        {showSearch.value ? (
+          <VPLocalSearchBox
+            onClose={() => {
+              showSearch.value = false
+            }}
+          />
+        ) : null}
+      </div>
+    )
+  }
+
+  return <div class="VPNavBarSearch" />
 }
 
 function isEditingContent(event: KeyboardEvent): boolean {

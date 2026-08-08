@@ -26,24 +26,25 @@ export function VPNav(props: VPNavProps = {}) {
     }
   })
 
-  return function () {
-    if (!hasNavbar.value) return null
-    return (
-      <header class="VPNav">
-        <VPNavBar
-          isScreenOpen={isScreenOpen.value}
-          onToggleScreen={toggleScreen}
-          navBarTitleBefore={props.navBarTitleBefore}
-          navBarTitleAfter={props.navBarTitleAfter}
-          navBarContentBefore={props.navBarContentBefore}
-          navBarContentAfter={props.navBarContentAfter}
-        />
-        <VPNavScreen
-          open={isScreenOpen.value}
-          navScreenContentBefore={props.navScreenContentBefore}
-          navScreenContentAfter={props.navScreenContentAfter}
-        />
-      </header>
-    )
-  }
+  return (
+    <>
+      {hasNavbar.value ? (
+        <header class="VPNav">
+          <VPNavBar
+            isScreenOpen={isScreenOpen.value}
+            onToggleScreen={toggleScreen}
+            navBarTitleBefore={props.navBarTitleBefore}
+            navBarTitleAfter={props.navBarTitleAfter}
+            navBarContentBefore={props.navBarContentBefore}
+            navBarContentAfter={props.navBarContentAfter}
+          />
+          <VPNavScreen
+            open={isScreenOpen.value}
+            navScreenContentBefore={props.navScreenContentBefore}
+            navScreenContentAfter={props.navScreenContentAfter}
+          />
+        </header>
+      ) : null}
+    </>
+  )
 }

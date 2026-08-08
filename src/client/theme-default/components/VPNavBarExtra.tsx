@@ -10,60 +10,62 @@ export function VPNavBarExtra(props: any) {
   const { site, theme } = useData()
   const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
 
-  const hasExtraContent = computed(
-    () =>
-      (localeLinks.value.length && currentLang.value.label) ||
+  const hasExtraContent = computed(() =>
+    Boolean(
+      (localeLinks.value.length > 0 && !!currentLang.value.label) ||
       site.value.appearance ||
       theme.value.socialLinks
+    )
   )
 
-  return function () {
-    if (!hasExtraContent.value) return null
-    const appearance = site.value.appearance
-    const showAppearance =
-      appearance && appearance !== 'force-dark' && appearance !== 'force-auto'
+  const appearance = site.value.appearance
+  const showAppearance =
+    appearance && appearance !== 'force-dark' && appearance !== 'force-auto'
 
-    return (
-      <VPFlyout class="VPNavBarExtra" label="extra navigation">
-        {localeLinks.value.length && currentLang.value.label ? (
-          <div class="group translations">
-            <p class="trans-title">{currentLang.value.label}</p>
-            {localeLinks.value.map((locale) => (
-              <VPMenuLink
-                key={locale.link}
-                item={locale}
-                external={false}
-                lang={locale.lang}
-                hreflang={locale.lang}
-                rel="alternate"
-                dir={locale.dir}
-              />
-            ))}
-          </div>
-        ) : null}
-        {showAppearance ? (
-          <div class="group">
-            <div class="item appearance">
-              <p class="label">
-                {theme.value.darkModeSwitchLabel || 'Appearance'}
-              </p>
-              <div class="appearance-action">
-                <VPSwitchAppearance />
+  return (
+    <>
+      {hasExtraContent.value ? (
+        <VPFlyout class="VPNavBarExtra" label="extra navigation">
+          {localeLinks.value.length > 0 && !!currentLang.value.label ? (
+            <div class="group translations">
+              <p class="trans-title">{currentLang.value.label}</p>
+              {localeLinks.value.map((locale) => (
+                <VPMenuLink
+                  key={locale.link}
+                  item={locale}
+                  external={false}
+                  lang={locale.lang}
+                  hreflang={locale.lang}
+                  rel="alternate"
+                  dir={locale.dir}
+                />
+              ))}
+            </div>
+          ) : null}
+          {showAppearance ? (
+            <div class="group">
+              <div class="item appearance">
+                <p class="label">
+                  {theme.value.darkModeSwitchLabel || 'Appearance'}
+                </p>
+                <div class="appearance-action">
+                  <VPSwitchAppearance />
+                </div>
               </div>
             </div>
-          </div>
-        ) : null}
-        {theme.value.socialLinks ? (
-          <div class="group">
-            <div class="item social-links">
-              <VPSocialLinks
-                class="social-links-list"
-                links={theme.value.socialLinks}
-              />
+          ) : null}
+          {theme.value.socialLinks ? (
+            <div class="group">
+              <div class="item social-links">
+                <VPSocialLinks
+                  class="social-links-list"
+                  links={theme.value.socialLinks}
+                />
+              </div>
             </div>
-          </div>
-        ) : null}
-      </VPFlyout>
-    )
-  }
+          ) : null}
+        </VPFlyout>
+      ) : null}
+    </>
+  )
 }

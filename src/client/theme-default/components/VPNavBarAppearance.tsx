@@ -5,19 +5,17 @@ import { VPSwitchAppearance } from './VPSwitchAppearance'
 export function VPNavBarAppearance(props: any) {
   const { site } = useData()
 
-  return function () {
-    const appearance = site.value.appearance
-    if (
-      !appearance ||
-      appearance === 'force-dark' ||
-      appearance === 'force-auto'
-    ) {
-      return null
-    }
-    return (
-      <div class="VPNavBarAppearance">
-        <VPSwitchAppearance />
-      </div>
-    )
+  const appearance = site.value.appearance
+  if (
+    !appearance ||
+    appearance === 'force-dark' ||
+    appearance === 'force-auto'
+  ) {
+    return null
   }
+  return (
+    <div class="VPNavBarAppearance">
+      <VPSwitchAppearance />
+    </div>
+  )
 }

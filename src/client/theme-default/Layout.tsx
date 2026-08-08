@@ -61,55 +61,51 @@ export function Layout(props: LayoutProps = {}) {
 
   registerWatchers({ closeSidebar })
 
-  return function () {
-    if (frontmatter.value.layout === false) {
-      return <Content />
-    }
-
-    return (
-      <div
-        class={['Layout', frontmatter.value.pageClass]
-          .filter(Boolean)
-          .join(' ')}
-      >
-        {props.layoutTop}
-        <VPSkipLink />
-        <VPBackdrop
-          class="backdrop"
-          show={isSidebarOpen.value}
-          onclick={closeSidebar}
-        />
-        <VPNav
-          navBarTitleBefore={props.navBarTitleBefore}
-          navBarTitleAfter={props.navBarTitleAfter}
-          navBarContentBefore={props.navBarContentBefore}
-          navBarContentAfter={props.navBarContentAfter}
-          navScreenContentBefore={props.navScreenContentBefore}
-          navScreenContentAfter={props.navScreenContentAfter}
-        />
-        <VPLocalNav open={isSidebarOpen.value} onOpenMenu={openSidebar} />
-        <VPSidebar
-          open={isSidebarOpen.value}
-          sidebarNavBefore={props.sidebarNavBefore}
-          sidebarNavAfter={props.sidebarNavAfter}
-        />
-        <VPContent
-          notFound={props.notFound}
-          pageTop={props.pageTop}
-          pageBottom={props.pageBottom}
-          homeHeroBefore={props.homeHeroBefore}
-          homeHeroInfoBefore={props.homeHeroInfoBefore}
-          homeHeroInfo={props.homeHeroInfo}
-          homeHeroInfoAfter={props.homeHeroInfoAfter}
-          homeHeroActionsAfter={props.homeHeroActionsAfter}
-          homeHeroActionsBeforeActions={props.homeHeroActionsBeforeActions}
-          homeHeroImage={props.homeHeroImage}
-          homeHeroAfter={props.homeHeroAfter}
-          homeFeaturesBefore={props.homeFeaturesBefore}
-          homeFeaturesAfter={props.homeFeaturesAfter}
-        />
-        {props.layoutBottom}
-      </div>
-    )
+  if (frontmatter.value.layout === false) {
+    return <Content />
   }
+
+  return (
+    <div
+      class={['Layout', frontmatter.value.pageClass].filter(Boolean).join(' ')}
+    >
+      {props.layoutTop}
+      <VPSkipLink />
+      <VPBackdrop
+        class="backdrop"
+        show={isSidebarOpen.value}
+        onclick={closeSidebar}
+      />
+      <VPNav
+        navBarTitleBefore={props.navBarTitleBefore}
+        navBarTitleAfter={props.navBarTitleAfter}
+        navBarContentBefore={props.navBarContentBefore}
+        navBarContentAfter={props.navBarContentAfter}
+        navScreenContentBefore={props.navScreenContentBefore}
+        navScreenContentAfter={props.navScreenContentAfter}
+      />
+      <VPLocalNav open={isSidebarOpen.value} onOpenMenu={openSidebar} />
+      <VPSidebar
+        open={isSidebarOpen.value}
+        sidebarNavBefore={props.sidebarNavBefore}
+        sidebarNavAfter={props.sidebarNavAfter}
+      />
+      <VPContent
+        notFound={props.notFound}
+        pageTop={props.pageTop}
+        pageBottom={props.pageBottom}
+        homeHeroBefore={props.homeHeroBefore}
+        homeHeroInfoBefore={props.homeHeroInfoBefore}
+        homeHeroInfo={props.homeHeroInfo}
+        homeHeroInfoAfter={props.homeHeroInfoAfter}
+        homeHeroActionsAfter={props.homeHeroActionsAfter}
+        homeHeroActionsBeforeActions={props.homeHeroActionsBeforeActions}
+        homeHeroImage={props.homeHeroImage}
+        homeHeroAfter={props.homeHeroAfter}
+        homeFeaturesBefore={props.homeFeaturesBefore}
+        homeFeaturesAfter={props.homeFeaturesAfter}
+      />
+      {props.layoutBottom}
+    </div>
+  )
 }

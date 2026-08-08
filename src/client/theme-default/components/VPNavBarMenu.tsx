@@ -8,38 +8,36 @@ import { VPNavBarMenuLink } from './VPNavBarMenuLink'
 export function VPNavBarMenu(props: any) {
   const { theme } = useData()
 
-  return function () {
-    const nav = theme.value.nav ?? []
-    if (!nav.length) return null
+  const nav = theme.value.nav ?? []
+  if (!nav.length) return null
 
-    return (
-      <nav aria-labelledby="main-nav-aria-label" class="VPNavBarMenu">
-        <span id="main-nav-aria-label" class="visually-hidden">
-          Main Navigation
-        </span>
-        {nav.map((item: DefaultTheme.NavItem) => {
-          const key = JSON.stringify(item)
-          if ('link' in item) {
-            return (
-              <VPNavBarMenuLink
-                key={key}
-                item={item as DefaultTheme.NavItemWithLink}
-              />
-            )
-          }
-          if ('component' in item) {
-            const Comp: any = (item as DefaultTheme.NavItemComponent).component
-            const compProps = (item as DefaultTheme.NavItemComponent).props
-            return <Comp key={key} {...(compProps ?? {})} />
-          }
+  return (
+    <nav aria-labelledby="main-nav-aria-label" class="VPNavBarMenu">
+      <span id="main-nav-aria-label" class="visually-hidden">
+        Main Navigation
+      </span>
+      {nav.map((item: DefaultTheme.NavItem) => {
+        const key = JSON.stringify(item)
+        if ('link' in item) {
           return (
-            <VPNavBarMenuGroup
+            <VPNavBarMenuLink
               key={key}
-              item={item as DefaultTheme.NavItemWithChildren}
+              item={item as DefaultTheme.NavItemWithLink}
             />
           )
-        })}
-      </nav>
-    )
-  }
+        }
+        if ('component' in item) {
+          const Comp: any = (item as DefaultTheme.NavItemComponent).component
+          const compProps = (item as DefaultTheme.NavItemComponent).props
+          return <Comp key={key} {...(compProps ?? {})} />
+        }
+        return (
+          <VPNavBarMenuGroup
+            key={key}
+            item={item as DefaultTheme.NavItemWithChildren}
+          />
+        )
+      })}
+    </nav>
+  )
 }

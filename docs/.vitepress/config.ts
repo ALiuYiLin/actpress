@@ -99,9 +99,7 @@ export default defineConfig({
           sidePanel: true
         }
       }
-    },
-
-    carbonAds: { code: 'CEBDT27Y', placement: 'vuejsorg' }
+    }
   },
 
   locales: {

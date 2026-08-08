@@ -6,42 +6,40 @@ import { VPNavScreenMenuLink } from './VPNavScreenMenuLink'
 export function VPNavScreenMenu() {
   const { theme } = useData()
 
-  return function () {
-    const nav = theme.value.nav
-    if (!nav) return null
+  const nav = theme.value.nav
+  if (!nav) return null
 
-    return (
-      <nav class="VPNavScreenMenu">
-        {nav.map((item) => {
-          const key = JSON.stringify(item)
-          if ('link' in item) {
-            return (
-              <VPNavScreenMenuLink
-                key={key}
-                item={item as DefaultTheme.NavItemWithLink}
-              />
-            )
-          }
-          if ('component' in item) {
-            const Comp: any = (item as DefaultTheme.NavItemComponent).component
-            return (
-              <Comp
-                key={key}
-                {...(item as DefaultTheme.NavItemComponent).props}
-                screen-menu
-              />
-            )
-          }
-          const group = item as DefaultTheme.NavItemChildren
+  return (
+    <nav class="VPNavScreenMenu">
+      {nav.map((item) => {
+        const key = JSON.stringify(item)
+        if ('link' in item) {
           return (
-            <VPNavScreenMenuGroup
+            <VPNavScreenMenuLink
               key={key}
-              text={group.text || ''}
-              items={group.items}
+              item={item as DefaultTheme.NavItemWithLink}
             />
           )
-        })}
-      </nav>
-    )
-  }
+        }
+        if ('component' in item) {
+          const Comp: any = (item as DefaultTheme.NavItemComponent).component
+          return (
+            <Comp
+              key={key}
+              {...(item as DefaultTheme.NavItemComponent).props}
+              screen-menu
+            />
+          )
+        }
+        const group = item as DefaultTheme.NavItemChildren
+        return (
+          <VPNavScreenMenuGroup
+            key={key}
+            text={group.text || ''}
+            items={group.items}
+          />
+        )
+      })}
+    </nav>
+  )
 }
