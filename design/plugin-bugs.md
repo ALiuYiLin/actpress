@@ -82,20 +82,29 @@ export function VPNavBarTranslations(props: any = {}) {
 3. 运行时 `VPNavBarTranslations` 是函数 → `isComponentVNode` 为 `false` → `mountVNode` 走 `document.createElement(vnode.type)` → `InvalidCharacterError: The tag name provided ('function VPNavBarTranslations(props = {}) {...}') is not a valid name.`
 4. 页面组件树渲染中断(导航栏/文档页崩溃),控制台报 `[actview] 组件渲染错误: InvalidCharacterError ...`
 
-### 修复方向
+### 修复方向(已实施)
 
-扩展第 ③④ 步的判断:**当 `last.argument` 是 `FunctionExpression` 或 `ArrowFunctionExpression`(即 setup 风格 `return function() {...}`)时,同样进行包装**。
-
-注意此时**不需要**再把 return 值包一层箭头函数(现有代码 `innerPath.node.argument = t.arrowFunctionExpression([], arg)` 只针对 return JSX 的情况)——`__setup` 直接返回渲染函数是合法形态:
+扩展第 ③④ 步的判断:**当 `last.argument` 是 `FunctionExpression` 或 `ArrowFunctionExpression`(即 setup 风格 `return function() {...}`)时,同样进行包装**——通过**递归 `wrapComponentFn` 嵌套包装为内部组件**(插件 1.0.8):
 
 ```js
-// 修复后的判定:isJsx / isJsxCall / isRenderFn(返回函数) 三者任一满足即转换
 const isRenderFn =
   t.isFunctionExpression(ret) || t.isArrowFunctionExpression(ret)
-if (!isJsx && !isJsxCall && !isRenderFn) return
-// 包 defineComponent 时,仅当 isJsx/isJsxCall 才把 return 值转成箭头函数;
-// isRenderFn 时原样保留(渲染函数已是函数)
+if (!isJsx && !isJsxCall && !isRenderFn && !isNullRet) return
+// ...
+} else if (isRenderFn) {
+  // 渲染函数 → 递归包装为内部组件(嵌套 defineComponent)
+  const inner = wrapComponentFn(ret)
+  if (inner) last.argument = inner
+}
 ```
+
+**为什么要嵌套包装(不能原样保留)**:
+
+- setup 风格渲染函数**可能是带参子组件**(`return function(innerProps) { ...; return <JSX> }`——内部有自己的 setup 逻辑与 props)
+- 渲染器 `update()` 是 `instance.render()` **无参调用**;若原样保留,带参渲染函数会被当作无参渲染函数调用 → `innerProps` 变 undefined、内部 setup 失效
+- 嵌套包装后 `__setup` 返回**组件对象**,渲染器经 `normalizeSetupResult`(core 1.0.20)挂载为**子组件**,`innerProps` 正常传入 ✅
+
+**配套的 SSR 修复(core `serializeNode`)**:`__setup` 返回组件对象时,SSR 序列化也必须像客户端一样处理(见下文「SSR serializeNode 缺陷」)。
 
 ## 缺陷 2:不支持 VariableDeclarator(函数表达式 / 箭头函数组件)
 
@@ -197,3 +206,53 @@ VariableDeclarator(path) {
 - 函数表达式/箭头组件(`const X = function/arrow`)同样被包装
 - 上述页面不再报 `InvalidCharacterError`,导航栏/文档页正常渲染
 - 现有 34 个手动 `defineComponent` 组件与简写裸函数组件不受影响(已能正常转换)
+
+## SSR serializeNode 缺陷(配套修复)
+
+### 现象
+
+插件 1.0.8 对 setup 风格(`return function(){...}`)嵌套包装后,`__setup` 返回**组件对象**:
+
+```js
+const X = defineComponent(function (props) {
+  ...
+  return defineComponent(function () { ... })   // ← setup 返回组件对象
+})
+```
+
+- **客户端**:`mountComponent` 用 `normalizeSetupResult`(core 1.0.20)把组件对象包成 vnode,正常挂载 ✅
+- **SSR**:`serializeNode`(core)里 `render2 = setup(props)` 后,`typeof render2 === "function"` 为 false → `return serializeNode(render2)` → 组件对象**无 `$$typeof`** → `isVNode` 为 false → **渲染空字符串** 💥
+
+实测:`pnpm -F=docs build` 后 `<div id="app"></div>` 全空,HTML 从 20KB 缩到 1.9KB。
+
+### 修复(core `serializeNode`)
+
+与客户端一致,对 setup 结果先过 `normalizeSetupResult`:
+
+```js
+render2 = normalizeSetupResult(
+  typeof setup === "function" ? setup(props ?? {}) : type(props ?? {})
+);
+if (typeof render2 === "function") {
+  return serializeNode(render2());
+}
+return serializeNode(render2);
+```
+
+`normalizeSetupResult` 对三种情况:
+
+| setup 返回值 | 处理后 | 结果 |
+|---|---|---|
+| 渲染函数 | 原样返回 | `serializeNode(render2())` → JSX ✅ |
+| 组件对象(嵌套) | 包成 `() => vnode(type: 组件)` | `serializeNode(vnode)` → 递归挂载子组件 ✅ |
+| 其他/null | `() => null` | 渲染空 ✅ |
+
+### 验证
+
+- `pnpm -F=docs build` 产物恢复(HTML 20.8KB,nav/h1 正常)
+- 带参渲染函数(`return function(innerProps){...}` → 嵌套子组件)SSR 正常挂载
+- unit 148 全过;dev + playwright 首页/guide 渲染与主题切换正常、无页面错误
+
+### 注意(不要做的事)
+
+**不要**把插件 `isRenderFn` 分支改成"渲染函数原样保留"(去掉 `wrapComponentFn(ret)` 嵌套)——那会废掉**带参渲染函数**(子组件)场景:渲染器 `instance.render()` 无参调用,`innerProps` 变 undefined、内部 setup 失效。正确做法是保持嵌套 + 修 SSR。

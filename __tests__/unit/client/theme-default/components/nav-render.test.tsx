@@ -3,6 +3,7 @@
 
 import { describe, expect, it } from 'vitest'
 import { renderToString } from 'actview'
+import { jsx } from '@actview/jsx'
 import { initData } from 'client/app/data'
 import { createRouter } from 'client/app/router'
 import { VPNavBarMenu } from 'client/theme-default/components/VPNavBarMenu'
@@ -45,7 +46,7 @@ async function renderNav() {
   initData(router.route)
 
   // 同步渲染组件 vnode 树（避免 mount 的 queueJob 时序）
-  return await renderToString(VPNavBarMenu.__setup({})())
+  return await renderToString(jsx(VPNavBarMenu, {}))
 }
 
 describe('VPNavBarMenu 真实 nav 渲染', () => {
