@@ -1,4 +1,4 @@
-import { computed, defineComponent, watchEffect } from 'actview'
+import { computed, watchEffect } from 'actview'
 import { inBrowser } from '@actview/press'
 import { useData } from '../composables/data'
 import { useNav } from '../composables/nav'
@@ -14,7 +14,7 @@ export interface VPNavProps {
   navScreenContentAfter?: any
 }
 
-export const VPNav = defineComponent(function (props: VPNavProps = {}) {
+export function VPNav(props: VPNavProps = {}) {
   const { isScreenOpen, toggleScreen } = useNav()
   const { frontmatter } = useData()
 
@@ -46,4 +46,4 @@ export const VPNav = defineComponent(function (props: VPNavProps = {}) {
       </header>
     )
   }
-})
+}

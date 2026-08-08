@@ -1,7 +1,7 @@
 // Algolia docsearch 集成（ActView 版，逻辑对齐 Vue 原版）
 // 依赖：@docsearch/js / @docsearch/sidepanel-js（lazy import）
 
-import { defineComponent, onUnmounted, watch } from 'actview'
+import { onUnmounted, watch } from 'actview'
 import type { DocSearchInstance, DocSearchProps } from '@docsearch/js'
 import type { SidepanelInstance, SidepanelProps } from '@docsearch/sidepanel-js'
 import { inBrowser, useRouter } from '@actview/press'
@@ -21,9 +21,7 @@ export interface VPAlgoliaSearchBoxProps {
   onBeforeOpen?: () => void
 }
 
-export const VPAlgoliaSearchBox = defineComponent(function (
-  props: VPAlgoliaSearchBoxProps
-) {
+export function VPAlgoliaSearchBox(props: VPAlgoliaSearchBoxProps) {
   const router = useRouter()
   const { site } = useData()
 
@@ -254,12 +252,10 @@ export const VPAlgoliaSearchBox = defineComponent(function (
     )
   }
 
-  return function () {
-    return (
-      <div>
-        <div id="vp-docsearch" />
-        <div id="vp-docsearch-sidepanel" />
-      </div>
-    )
-  }
-})
+  return (
+    <div>
+      <div id="vp-docsearch" />
+      <div id="vp-docsearch-sidepanel" />
+    </div>
+  )
+}

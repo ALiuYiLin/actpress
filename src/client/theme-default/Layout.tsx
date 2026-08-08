@@ -8,7 +8,6 @@
 // useSidebarControl（模块级单例）。
 // ============================================================
 
-import { defineComponent } from 'actview'
 import { Content } from '../app/components/Content'
 import { useData } from '../app/data'
 import { useSidebarControl } from './composables/sidebar'
@@ -51,7 +50,7 @@ export interface LayoutProps {
   [key: string]: any
 }
 
-export const Layout = defineComponent(function (props: LayoutProps = {}) {
+export function Layout(props: LayoutProps = {}) {
   const { frontmatter } = useData()
 
   const {
@@ -113,4 +112,4 @@ export const Layout = defineComponent(function (props: LayoutProps = {}) {
       </div>
     )
   }
-})
+}

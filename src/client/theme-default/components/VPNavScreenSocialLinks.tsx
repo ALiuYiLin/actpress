@@ -1,8 +1,7 @@
-import { defineComponent } from 'actview'
 import { useData } from '../composables/data'
 import { VPSocialLinks } from './VPSocialLinks'
 
-export const VPNavScreenSocialLinks = defineComponent(function () {
+export function VPNavScreenSocialLinks() {
   const { theme } = useData()
 
   return function () {
@@ -14,4 +13,4 @@ export const VPNavScreenSocialLinks = defineComponent(function () {
       />
     )
   }
-})
+}

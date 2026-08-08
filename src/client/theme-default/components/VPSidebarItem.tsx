@@ -1,4 +1,4 @@
-import { computed, defineComponent } from 'actview'
+import { computed } from 'actview'
 import type { DefaultTheme } from '@actview/press/theme'
 import { useSidebarItemControl } from '../composables/sidebar'
 import { VPLink } from './VPLink'
@@ -9,9 +9,7 @@ export interface VPSidebarItemProps {
 }
 
 // defineComponent + JSX：动态 tag（section/h/a/div/p）用大写变量，递归渲染
-export const VPSidebarItem = defineComponent(function (
-  props: VPSidebarItemProps
-) {
+export function VPSidebarItem(props: VPSidebarItemProps) {
   const {
     collapsed,
     collapsible,
@@ -102,4 +100,4 @@ export const VPSidebarItem = defineComponent(function (
       </SectionTag>
     )
   }
-})
+}

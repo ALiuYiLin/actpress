@@ -2,7 +2,7 @@
 // 逻辑对齐 Vue 原版：algolia / local 两个 provider 分支 + 键盘快捷键
 // （Ctrl/Cmd+K、Ctrl/Cmd+I(askAi)、'/'）；lazy 加载搜索框本体
 
-import { computed, defineComponent, onMounted, onUnmounted, ref } from 'actview'
+import { computed, onMounted, onUnmounted, ref } from 'actview'
 import type { DefaultTheme } from '@actview/press/theme'
 import { useData } from '../composables/data'
 import { resolveMode, resolveOptionsForLanguage } from '../support/docsearch'
@@ -14,7 +14,7 @@ import { VPLocalSearchBox } from './VPLocalSearchBox'
 
 const provider = __ALGOLIA__ ? 'algolia' : __VP_LOCAL_SEARCH__ ? 'local' : ''
 
-export const VPNavBarSearch = defineComponent(function (props: any = {}) {
+export function VPNavBarSearch(props: any = {}) {
   const { theme, localeIndex, lang } = useData()
 
   // #region Algolia
@@ -150,7 +150,7 @@ export const VPNavBarSearch = defineComponent(function (props: any = {}) {
 
     return <div class="VPNavBarSearch" />
   }
-})
+}
 
 function isEditingContent(event: KeyboardEvent): boolean {
   const element = event.target as HTMLElement

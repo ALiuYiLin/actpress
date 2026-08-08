@@ -1,4 +1,3 @@
-import { defineComponent } from 'actview'
 import type { DefaultTheme } from '@actview/press/theme'
 import { useData } from '../composables/data'
 import { VPNavBarMenuGroup } from './VPNavBarMenuGroup'
@@ -6,7 +5,7 @@ import { VPNavBarMenuLink } from './VPNavBarMenuLink'
 
 // 显式 defineComponent：render 内允许早退 return null（Babel 函数组件转换
 // 只支持"最后一个 return 是 JSX"的写法）
-export const VPNavBarMenu = defineComponent(function (props: any) {
+export function VPNavBarMenu(props: any) {
   const { theme } = useData()
 
   return function () {
@@ -43,4 +42,4 @@ export const VPNavBarMenu = defineComponent(function (props: any) {
       </nav>
     )
   }
-})
+}

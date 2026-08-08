@@ -1,4 +1,4 @@
-import { defineComponent, ref } from 'actview'
+import { ref } from 'actview'
 import { inBrowser } from '@actview/press'
 import { useLayout } from '../composables/layout'
 import { VPNavBarAppearance } from './VPNavBarAppearance'
@@ -35,55 +35,53 @@ export interface VPNavBarProps {
   navBarContentAfter?: any
 }
 
-export const VPNavBar = defineComponent(function (props: VPNavBarProps = {}) {
+export function VPNavBar(props: VPNavBarProps = {}) {
   const { y } = useWindowScroll()
   const { isHome, hasSidebar } = useLayout()
 
-  return function () {
-    return (
-      <div
-        class={[
-          'VPNavBar',
-          hasSidebar.value ? 'has-sidebar' : '',
-          isHome.value ? 'home' : '',
-          y.value === 0 ? 'top' : '',
-          props.isScreenOpen ? 'screen-open' : ''
-        ]
-          .filter(Boolean)
-          .join(' ')}
-      >
-        <div class="wrapper">
-          <div class="container">
-            <div class="title">
-              <VPNavBarTitle
-                navBarTitleBefore={props.navBarTitleBefore}
-                navBarTitleAfter={props.navBarTitleAfter}
+  return (
+    <div
+      class={[
+        'VPNavBar',
+        hasSidebar.value ? 'has-sidebar' : '',
+        isHome.value ? 'home' : '',
+        y.value === 0 ? 'top' : '',
+        props.isScreenOpen ? 'screen-open' : ''
+      ]
+        .filter(Boolean)
+        .join(' ')}
+    >
+      <div class="wrapper">
+        <div class="container">
+          <div class="title">
+            <VPNavBarTitle
+              navBarTitleBefore={props.navBarTitleBefore}
+              navBarTitleAfter={props.navBarTitleAfter}
+            />
+          </div>
+          <div class="content">
+            <div class="content-body">
+              {props.navBarContentBefore}
+              <VPNavBarSearch class="search" />
+              <VPNavBarMenu class="menu" />
+              <VPNavBarTranslations class="translations" />
+              <VPNavBarAppearance class="appearance" />
+              <VPNavBarSocialLinks class="social-links" />
+              <VPNavBarExtra class="extra" />
+              {/* <VPNavBarAskAiButton class="ask-ai" /> */}
+              {props.navBarContentAfter}
+              <VPNavBarHamburger
+                class="hamburger"
+                active={props.isScreenOpen}
+                onclick={props.onToggleScreen}
               />
-            </div>
-            <div class="content">
-              <div class="content-body">
-                {props.navBarContentBefore}
-                <VPNavBarSearch class="search" />
-                <VPNavBarMenu class="menu" />
-                <VPNavBarTranslations class="translations" />
-                <VPNavBarAppearance class="appearance" />
-                <VPNavBarSocialLinks class="social-links" />
-                <VPNavBarExtra class="extra" />
-                {/* <VPNavBarAskAiButton class="ask-ai" /> */}
-                {props.navBarContentAfter}
-                <VPNavBarHamburger
-                  class="hamburger"
-                  active={props.isScreenOpen}
-                  onclick={props.onToggleScreen}
-                />
-              </div>
             </div>
           </div>
         </div>
-        <div class="divider">
-          <div class="divider-line" />
-        </div>
       </div>
-    )
-  }
-})
+      <div class="divider">
+        <div class="divider-line" />
+      </div>
+    </div>
+  )
+}

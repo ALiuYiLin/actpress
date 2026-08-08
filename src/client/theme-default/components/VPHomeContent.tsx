@@ -1,4 +1,4 @@
-import { defineComponent, ref } from 'actview'
+import { ref } from 'actview'
 import { inBrowser } from '@actview/press'
 
 /** 手写 useWindowSize（替代 @vueuse/core，仅关注宽度） */
@@ -17,23 +17,19 @@ export interface VPHomeContentProps {
   children?: any
 }
 
-export const VPHomeContent = defineComponent(function (
-  props: VPHomeContentProps = {}
-) {
+export function VPHomeContent(props: VPHomeContentProps = {}) {
   const vw = useWindowWidth()
 
-  return function () {
-    return (
-      <div
-        class="vp-doc container"
-        style={
-          vw.value
-            ? ({ '--vp-offset': `calc(50% - ${vw.value / 2}px)` } as any)
-            : {}
-        }
-      >
-        {props.children}
-      </div>
-    )
-  }
-})
+  return (
+    <div
+      class="vp-doc container"
+      style={
+        vw.value
+          ? ({ '--vp-offset': `calc(50% - ${vw.value / 2}px)` } as any)
+          : {}
+      }
+    >
+      {props.children}
+    </div>
+  )
+}

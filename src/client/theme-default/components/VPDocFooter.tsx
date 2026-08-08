@@ -1,4 +1,4 @@
-import { computed, defineComponent } from 'actview'
+import { computed } from 'actview'
 import { useData } from '../composables/data'
 import { useEditLink } from '../composables/edit-link'
 import { usePrevNext } from '../composables/prev-next'
@@ -9,9 +9,7 @@ export interface VPDocFooterProps {
   docFooterBefore?: any
 }
 
-export const VPDocFooter = defineComponent(function (
-  props: VPDocFooterProps = {}
-) {
+export function VPDocFooter(props: VPDocFooterProps = {}) {
   const { theme, page, frontmatter } = useData()
 
   const editLink = useEditLink()
@@ -87,4 +85,4 @@ export const VPDocFooter = defineComponent(function (
       </footer>
     )
   }
-})
+}

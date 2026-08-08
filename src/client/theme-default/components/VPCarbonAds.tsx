@@ -1,4 +1,4 @@
-import { defineComponent, ref, watch } from 'actview'
+import { ref, watch } from 'actview'
 import type { DefaultTheme } from '@actview/press/theme'
 import { onMounted } from 'actview'
 import { useAside } from '../composables/aside'
@@ -8,7 +8,7 @@ export interface VPCarbonAdsProps {
   carbonAds: DefaultTheme.CarbonAdsOptions
 }
 
-export const VPCarbonAds = defineComponent(function (props: VPCarbonAdsProps) {
+export function VPCarbonAds(props: VPCarbonAdsProps) {
   const { page } = useData()
   const carbonOptions = props.carbonAds
   const { isAsideEnabled } = useAside()
@@ -51,7 +51,5 @@ export const VPCarbonAds = defineComponent(function (props: VPCarbonAdsProps) {
     })
   }
 
-  return function () {
-    return <div class="VPCarbonAds" ref={container} />
-  }
-})
+  return <div class="VPCarbonAds" ref={container} />
+}

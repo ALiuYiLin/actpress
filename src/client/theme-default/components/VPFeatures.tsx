@@ -1,4 +1,3 @@
-import { defineComponent } from 'actview'
 import { VPFeature } from './VPFeature'
 
 export interface VPFeaturesProps {
@@ -6,7 +5,7 @@ export interface VPFeaturesProps {
   [key: string]: any
 }
 
-export const VPFeatures = defineComponent(function (props: VPFeaturesProps) {
+export function VPFeatures(props: VPFeaturesProps) {
   return function () {
     const features = props.features
     if (!features) return null
@@ -45,4 +44,4 @@ export const VPFeatures = defineComponent(function (props: VPFeaturesProps) {
       </div>
     )
   }
-})
+}

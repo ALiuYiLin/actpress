@@ -1,4 +1,4 @@
-import { computed, defineComponent } from 'actview'
+import { computed } from 'actview'
 import { useRoute } from '@actview/press'
 import { useData } from '../composables/data'
 import { useLayout } from '../composables/layout'
@@ -20,7 +20,7 @@ export interface VPDocProps {
   asideAdsAfter?: any
 }
 
-export const VPDoc = defineComponent(function (props: VPDocProps = {}) {
+export function VPDoc(props: VPDocProps = {}) {
   const { theme } = useData()
 
   const route = useRoute()
@@ -30,64 +30,62 @@ export const VPDoc = defineComponent(function (props: VPDocProps = {}) {
     route.path.replace(/[./]+/g, '_').replace(/_html$/, '')
   )
 
-  return function () {
-    return (
-      <div
-        class={[
-          'VPDoc',
-          hasSidebar.value ? 'has-sidebar' : '',
-          hasAside.value ? 'has-aside' : ''
-        ]
-          .filter(Boolean)
-          .join(' ')}
-      >
-        {props.docTop}
-        <div class="container">
-          {hasAside.value ? (
-            <div
-              class={['aside', leftAside.value ? 'left-aside' : '']
-                .filter(Boolean)
-                .join(' ')}
-            >
-              <div class="aside-curtain" />
-              <div class="aside-container">
-                <div class="aside-content">
-                  <VPDocAside
-                    asideTop={props.asideTop}
-                    asideBottom={props.asideBottom}
-                    asideOutlineBefore={props.asideOutlineBefore}
-                    asideOutlineAfter={props.asideOutlineAfter}
-                    asideAdsBefore={props.asideAdsBefore}
-                    asideAdsAfter={props.asideAdsAfter}
-                  />
-                </div>
+  return (
+    <div
+      class={[
+        'VPDoc',
+        hasSidebar.value ? 'has-sidebar' : '',
+        hasAside.value ? 'has-aside' : ''
+      ]
+        .filter(Boolean)
+        .join(' ')}
+    >
+      {props.docTop}
+      <div class="container">
+        {hasAside.value ? (
+          <div
+            class={['aside', leftAside.value ? 'left-aside' : '']
+              .filter(Boolean)
+              .join(' ')}
+          >
+            <div class="aside-curtain" />
+            <div class="aside-container">
+              <div class="aside-content">
+                <VPDocAside
+                  asideTop={props.asideTop}
+                  asideBottom={props.asideBottom}
+                  asideOutlineBefore={props.asideOutlineBefore}
+                  asideOutlineAfter={props.asideOutlineAfter}
+                  asideAdsBefore={props.asideAdsBefore}
+                  asideAdsAfter={props.asideAdsAfter}
+                />
               </div>
             </div>
-          ) : null}
+          </div>
+        ) : null}
 
-          <div class="content">
-            <div class="content-container">
-              {props.docBefore}
-              <main class="main">
-                <Content
-                  class={[
-                    'vp-doc',
-                    pageName.value,
-                    theme.value.externalLinkIcon
-                      ? 'external-link-icon-enabled'
-                      : ''
-                  ]
-                    .filter(Boolean)
-                    .join(' ')}
-                />
-              </main>
-              <VPDocFooter docFooterBefore={props.docFooterBefore} />
-              {props.docAfter}
-            </div>
+        <div class="content">
+          <div class="content-container">
+            {props.docBefore}
+            <main class="main">
+              <Content
+                class={[
+                  'vp-doc',
+                  pageName.value,
+                  theme.value.externalLinkIcon
+                    ? 'external-link-icon-enabled'
+                    : ''
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
+              />
+            </main>
+            <VPDocFooter docFooterBefore={props.docFooterBefore} />
+            {props.docAfter}
           </div>
         </div>
-        {props.docBottom}
       </div>
-    )
-  }
-})
+      {props.docBottom}
+    </div>
+  )
+}

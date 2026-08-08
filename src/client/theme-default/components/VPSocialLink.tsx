@@ -1,4 +1,4 @@
-import { computed, defineComponent, nextTick, onMounted, ref } from 'actview'
+import { computed, nextTick, onMounted, ref } from 'actview'
 import type { DefaultTheme } from '@actview/press/theme'
 
 export interface VPSocialLinkProps {
@@ -10,9 +10,7 @@ export interface VPSocialLinkProps {
 
 // defineComponent + JSX：object icon 的 svg markup 用 ref + innerHTML 注入
 // （ActView 无 innerHTML prop；string icon 直接渲染 span，CSS mask 生效）
-export const VPSocialLink = defineComponent(function (
-  props: VPSocialLinkProps
-) {
+export function VPSocialLink(props: VPSocialLinkProps) {
   const el = ref<HTMLAnchorElement | undefined>(undefined)
 
   const svg = computed(() =>
@@ -39,20 +37,18 @@ export const VPSocialLink = defineComponent(function (
     }
   })
 
-  return function () {
-    return (
-      <a
-        ref={el}
-        class="VPSocialLink no-icon"
-        href={props.link}
-        aria-label={
-          props.ariaLabel ?? (typeof props.icon === 'string' ? props.icon : '')
-        }
-        target="_blank"
-        rel={props.me ? 'me noopener' : 'noopener'}
-      >
-        {svg.value ? null : <span class={`vpi-social-${props.icon}`} />}
-      </a>
-    )
-  }
-})
+  return (
+    <a
+      ref={el}
+      class="VPSocialLink no-icon"
+      href={props.link}
+      aria-label={
+        props.ariaLabel ?? (typeof props.icon === 'string' ? props.icon : '')
+      }
+      target="_blank"
+      rel={props.me ? 'me noopener' : 'noopener'}
+    >
+      {svg.value ? null : <span class={`vpi-social-${props.icon}`} />}
+    </a>
+  )
+}

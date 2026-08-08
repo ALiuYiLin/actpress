@@ -1,8 +1,7 @@
-import { defineComponent } from 'actview'
 import { useData } from '../composables/data'
 import { VPSwitchAppearance } from './VPSwitchAppearance'
 
-export const VPNavScreenAppearance = defineComponent(function () {
+export function VPNavScreenAppearance() {
   const { site, theme } = useData()
 
   return function () {
@@ -22,4 +21,4 @@ export const VPNavScreenAppearance = defineComponent(function () {
       </div>
     )
   }
-})
+}

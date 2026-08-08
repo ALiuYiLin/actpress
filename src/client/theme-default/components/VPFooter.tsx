@@ -1,8 +1,7 @@
-import { defineComponent } from 'actview'
 import { useData } from '../composables/data'
 import { useLayout } from '../composables/layout'
 
-export const VPFooter = defineComponent(function () {
+export function VPFooter() {
   const { theme, frontmatter } = useData()
   const { hasSidebar } = useLayout()
 
@@ -24,4 +23,4 @@ export const VPFooter = defineComponent(function () {
       </footer>
     )
   }
-})
+}

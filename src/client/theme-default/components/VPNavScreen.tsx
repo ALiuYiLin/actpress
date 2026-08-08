@@ -1,4 +1,4 @@
-import { defineComponent, ref, watch } from 'actview'
+import { ref, watch } from 'actview'
 import { inBrowser } from '@actview/press'
 import { VPNavScreenAppearance } from './VPNavScreenAppearance'
 import { VPNavScreenMenu } from './VPNavScreenMenu'
@@ -21,9 +21,7 @@ export interface VPNavScreenProps {
   navScreenContentAfter?: any
 }
 
-export const VPNavScreen = defineComponent(function (
-  props: VPNavScreenProps = {}
-) {
+export function VPNavScreen(props: VPNavScreenProps = {}) {
   const isLocked = useScrollLock(inBrowser ? document.body : null)
   // Vue 版在 Transition enter/after-leave 钩子里切换锁；ActView Transition 无钩子，
   // 直接随 open 状态切换
@@ -50,4 +48,4 @@ export const VPNavScreen = defineComponent(function (
       </div>
     )
   }
-})
+}

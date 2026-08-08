@@ -1,4 +1,3 @@
-import { defineComponent } from 'actview'
 import { useData } from '../composables/data'
 import { VPHero } from './VPHero'
 
@@ -11,9 +10,7 @@ export interface VPHomeHeroProps {
   homeHeroImage?: any
 }
 
-export const VPHomeHero = defineComponent(function (
-  props: VPHomeHeroProps = {}
-) {
+export function VPHomeHero(props: VPHomeHeroProps = {}) {
   const { frontmatter: fm } = useData()
 
   // 必须在 render 内判断 hero 是否存在（setup 早退会导致路由切换后
@@ -39,4 +36,4 @@ export const VPHomeHero = defineComponent(function (
       />
     )
   }
-})
+}

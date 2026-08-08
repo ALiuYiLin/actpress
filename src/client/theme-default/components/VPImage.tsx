@@ -1,4 +1,3 @@
-import { defineComponent } from 'actview'
 import type { DefaultTheme } from '@actview/press/theme'
 import { withBase } from '@actview/press'
 
@@ -9,7 +8,7 @@ export interface VPImageProps {
 }
 
 // defineComponent + JSX：render 内允许条件 return（VPImage 有递归与早退）
-export const VPImage = defineComponent(function (props: VPImageProps) {
+export function VPImage(props: VPImageProps) {
   return function () {
     const { image, alt, ...rest } = props
     if (!image) return null
@@ -28,4 +27,4 @@ export const VPImage = defineComponent(function (props: VPImageProps) {
       </div>
     )
   }
-})
+}

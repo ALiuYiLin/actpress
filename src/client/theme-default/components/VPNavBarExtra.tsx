@@ -1,4 +1,4 @@
-import { computed, defineComponent } from 'actview'
+import { computed } from 'actview'
 import { useData } from '../composables/data'
 import { useLangs } from '../composables/langs'
 import { VPFlyout } from './VPFlyout'
@@ -6,7 +6,7 @@ import { VPMenuLink } from './VPMenuLink'
 import { VPSocialLinks } from './VPSocialLinks'
 import { VPSwitchAppearance } from './VPSwitchAppearance'
 
-export const VPNavBarExtra = defineComponent(function (props: any) {
+export function VPNavBarExtra(props: any) {
   const { site, theme } = useData()
   const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
 
@@ -66,4 +66,4 @@ export const VPNavBarExtra = defineComponent(function (props: any) {
       </VPFlyout>
     )
   }
-})
+}

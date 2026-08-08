@@ -1,9 +1,8 @@
-import { defineComponent } from 'actview'
 import { useData } from '../composables/data'
 import { VPSwitchAppearance } from './VPSwitchAppearance'
 
 // 显式 defineComponent：render 内允许早退 return null
-export const VPNavBarAppearance = defineComponent(function (props: any) {
+export function VPNavBarAppearance(props: any) {
   const { site } = useData()
 
   return function () {
@@ -21,4 +20,4 @@ export const VPNavBarAppearance = defineComponent(function (props: any) {
       </div>
     )
   }
-})
+}

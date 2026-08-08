@@ -1,4 +1,4 @@
-import { computed, defineComponent } from 'actview'
+import { computed } from 'actview'
 import type { GridSize } from '../composables/sponsor-grid'
 import { VPSponsorsGrid } from './VPSponsorsGrid'
 
@@ -17,7 +17,7 @@ export interface VPSponsorsProps {
   data: Sponsors[] | Sponsor[]
 }
 
-export const VPSponsors = defineComponent(function (props: VPSponsorsProps) {
+export function VPSponsors(props: VPSponsorsProps) {
   const mode = props.mode ?? 'normal'
 
   const sponsors = computed(() => {
@@ -38,18 +38,16 @@ export const VPSponsors = defineComponent(function (props: VPSponsorsProps) {
     ]
   })
 
-  return function () {
-    return (
-      <div class={['VPSponsors vp-sponsor', mode].join(' ')}>
-        {sponsors.value.map((sponsor, index) => (
-          <section key={index} class="vp-sponsor-section">
-            {sponsor.tier ? (
-              <h3 class="vp-sponsor-tier">{sponsor.tier}</h3>
-            ) : null}
-            <VPSponsorsGrid size={sponsor.size} data={sponsor.items} />
-          </section>
-        ))}
-      </div>
-    )
-  }
-})
+  return (
+    <div class={['VPSponsors vp-sponsor', mode].join(' ')}>
+      {sponsors.value.map((sponsor, index) => (
+        <section key={index} class="vp-sponsor-section">
+          {sponsor.tier ? (
+            <h3 class="vp-sponsor-tier">{sponsor.tier}</h3>
+          ) : null}
+          <VPSponsorsGrid size={sponsor.size} data={sponsor.items} />
+        </section>
+      ))}
+    </div>
+  )
+}

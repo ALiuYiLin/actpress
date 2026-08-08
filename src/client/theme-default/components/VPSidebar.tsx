@@ -1,4 +1,4 @@
-import { defineComponent, ref, watch } from 'actview'
+import { ref, watch } from 'actview'
 import { inBrowser } from '@actview/press'
 import { useLayout } from '../composables/layout'
 import { VPSidebarGroup } from './VPSidebarGroup'
@@ -19,7 +19,7 @@ export interface VPSidebarProps {
   sidebarNavAfter?: any
 }
 
-export const VPSidebar = defineComponent(function (props: VPSidebarProps = {}) {
+export function VPSidebar(props: VPSidebarProps = {}) {
   const { sidebarGroups, hasSidebar } = useLayout()
 
   // a11y: focus Nav element when menu has opened
@@ -67,4 +67,4 @@ export const VPSidebar = defineComponent(function (props: VPSidebarProps = {}) {
       </aside>
     )
   }
-})
+}

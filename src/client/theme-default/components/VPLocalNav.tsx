@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, ref } from 'actview'
+import { onMounted, ref } from 'actview'
 import { inBrowser } from '@actview/press'
 import { useData } from '../composables/data'
 import { useLayout } from '../composables/layout'
@@ -21,9 +21,7 @@ export interface VPLocalNavProps {
   onOpenMenu?: () => void
 }
 
-export const VPLocalNav = defineComponent(function (
-  props: VPLocalNavProps = {}
-) {
+export function VPLocalNav(props: VPLocalNavProps = {}) {
   const { theme } = useData()
   const { isHome, hasSidebar, headers, hasLocalNav } = useLayout()
   const { y } = useWindowScroll()
@@ -77,4 +75,4 @@ export const VPLocalNav = defineComponent(function (
       </div>
     )
   }
-})
+}

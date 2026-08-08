@@ -1,10 +1,10 @@
-import { defineComponent, watch } from 'actview'
+import { watch } from 'actview'
 import { useData } from '../composables/data'
 import { useLangs } from '../composables/langs'
 import { VPFlyout } from './VPFlyout'
 import { VPMenuLink } from './VPMenuLink'
 
-export const VPNavBarTranslations = defineComponent(function (props: any = {}) {
+export function VPNavBarTranslations(props: any = {}) {
   const { theme } = useData()
   const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
 
@@ -39,4 +39,4 @@ export const VPNavBarTranslations = defineComponent(function (props: any = {}) {
       </VPFlyout>
     )
   }
-})
+}

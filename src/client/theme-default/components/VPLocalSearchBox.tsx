@@ -8,7 +8,7 @@
 //   结果高亮、遮罩点击/返回按钮关闭
 // - close 通过 props.onClose 回调（ActView 无组件事件 emit）
 
-import { defineComponent, onMounted, ref, watch } from 'actview'
+import { onMounted, ref, watch } from 'actview'
 import type { SearchResult } from 'minisearch'
 import { useRouter } from '@actview/press'
 import { Teleport } from 'actview'
@@ -27,9 +27,7 @@ export interface VPLocalSearchBoxProps {
 
 const resultsLimit = 16
 
-export const VPLocalSearchBox = defineComponent(function (
-  props: VPLocalSearchBoxProps
-) {
+export function VPLocalSearchBox(props: VPLocalSearchBoxProps) {
   const { localeIndex } = useData()
   const router = useRouter()
 
@@ -159,143 +157,138 @@ export const VPLocalSearchBox = defineComponent(function (
       .map((part, i) => (i % 2 === 1 ? <mark key={i}>{part}</mark> : part))
   }
 
-  return function () {
-    return (
-      <Teleport to="body">
-        <div
-          class="VPLocalSearchBox"
-          role="button"
-          aria-expanded="true"
-          aria-haspopup="listbox"
-          aria-labelledby="localsearch-label"
-        >
-          <div class="backdrop" onclick={close} />
+  return (
+    <Teleport to="body">
+      <div
+        class="VPLocalSearchBox"
+        role="button"
+        aria-expanded="true"
+        aria-haspopup="listbox"
+        aria-labelledby="localsearch-label"
+      >
+        <div class="backdrop" onclick={close} />
 
-          <div class="shell">
-            <form
-              class="search-bar"
-              onsubmit={(e: Event) => e.preventDefault()}
+        <div class="shell">
+          <form class="search-bar" onsubmit={(e: Event) => e.preventDefault()}>
+            <label
+              id="localsearch-label"
+              for="localsearch-input"
+              title="Search"
             >
-              <label
-                id="localsearch-label"
-                for="localsearch-input"
-                title="Search"
-              >
-                <span
-                  aria-hidden="true"
-                  class="vpi-search search-icon local-search-icon"
-                />
-              </label>
-              <div class="search-actions before">
-                <button class="back-button" title="Go back" onclick={close}>
-                  <span class="vpi-arrow-left local-search-icon" />
-                </button>
-              </div>
-              <input
-                ref={searchInput}
-                value={filterText.value}
-                oninput={(e: Event) => {
-                  filterText.value = (e.target as HTMLInputElement).value
-                }}
-                onkeydown={onKeydown}
-                aria-activedescendant={
-                  selectedIndex.value > -1
-                    ? `localsearch-item-${selectedIndex.value}`
-                    : undefined
-                }
-                aria-autocomplete="both"
-                aria-controls={
-                  results.value.length ? 'localsearch-list' : undefined
-                }
-                aria-labelledby="localsearch-label"
-                autocapitalize="off"
-                autocomplete="off"
-                autocorrect="off"
-                class="search-input"
-                id="localsearch-input"
-                enterkeyhint="go"
-                maxLength={64}
-                placeholder="Search"
-                spellcheck={false}
-                type="search"
+              <span
+                aria-hidden="true"
+                class="vpi-search search-icon local-search-icon"
               />
-              <div class="search-actions">
-                <button
-                  class="clear-button"
-                  type="reset"
-                  disabled={filterText.value.length <= 0}
-                  title="Clear search"
-                  onclick={() => {
-                    filterText.value = ''
-                    searchInput.value?.focus()
-                  }}
-                >
-                  <span class="vpi-delete local-search-icon" />
-                </button>
-              </div>
-            </form>
-
-            {loading.value ? (
-              <div class="search-no-results">Loading index…</div>
-            ) : !filterText.value.trim() ? (
-              <div class="search-no-results">Search</div>
-            ) : results.value.length ? (
-              <ul
-                id="localsearch-list"
-                role="listbox"
-                aria-labelledby="localsearch-label"
-                class="results"
+            </label>
+            <div class="search-actions before">
+              <button class="back-button" title="Go back" onclick={close}>
+                <span class="vpi-arrow-left local-search-icon" />
+              </button>
+            </div>
+            <input
+              ref={searchInput}
+              value={filterText.value}
+              oninput={(e: Event) => {
+                filterText.value = (e.target as HTMLInputElement).value
+              }}
+              onkeydown={onKeydown}
+              aria-activedescendant={
+                selectedIndex.value > -1
+                  ? `localsearch-item-${selectedIndex.value}`
+                  : undefined
+              }
+              aria-autocomplete="both"
+              aria-controls={
+                results.value.length ? 'localsearch-list' : undefined
+              }
+              aria-labelledby="localsearch-label"
+              autocapitalize="off"
+              autocomplete="off"
+              autocorrect="off"
+              class="search-input"
+              id="localsearch-input"
+              enterkeyhint="go"
+              maxLength={64}
+              placeholder="Search"
+              spellcheck={false}
+              type="search"
+            />
+            <div class="search-actions">
+              <button
+                class="clear-button"
+                type="reset"
+                disabled={filterText.value.length <= 0}
+                title="Clear search"
+                onclick={() => {
+                  filterText.value = ''
+                  searchInput.value?.focus()
+                }}
               >
-                {results.value.map((p, index) => (
-                  <li
-                    key={p.id}
-                    id={`localsearch-item-${index}`}
-                    aria-selected={
-                      selectedIndex.value === index ? 'true' : 'false'
-                    }
-                    role="option"
+                <span class="vpi-delete local-search-icon" />
+              </button>
+            </div>
+          </form>
+
+          {loading.value ? (
+            <div class="search-no-results">Loading index…</div>
+          ) : !filterText.value.trim() ? (
+            <div class="search-no-results">Search</div>
+          ) : results.value.length ? (
+            <ul
+              id="localsearch-list"
+              role="listbox"
+              aria-labelledby="localsearch-label"
+              class="results"
+            >
+              {results.value.map((p, index) => (
+                <li
+                  key={p.id}
+                  id={`localsearch-item-${index}`}
+                  aria-selected={
+                    selectedIndex.value === index ? 'true' : 'false'
+                  }
+                  role="option"
+                >
+                  <a
+                    href={p.id}
+                    class={[
+                      'result',
+                      selectedIndex.value === index ? 'selected' : ''
+                    ].join(' ')}
+                    onmouseenter={() => {
+                      selectedIndex.value = index
+                    }}
+                    onclick={(e: Event) => {
+                      e.preventDefault()
+                      router.go(p.id)
+                      close()
+                    }}
                   >
-                    <a
-                      href={p.id}
-                      class={[
-                        'result',
-                        selectedIndex.value === index ? 'selected' : ''
-                      ].join(' ')}
-                      onmouseenter={() => {
-                        selectedIndex.value = index
-                      }}
-                      onclick={(e: Event) => {
-                        e.preventDefault()
-                        router.go(p.id)
-                        close()
-                      }}
-                    >
-                      <div class="title">
-                        {highlight(p.title)}
-                        <span class="title-icon" />
+                    <div class="title">
+                      {highlight(p.title)}
+                      <span class="title-icon" />
+                    </div>
+                    {p.titles.length > 1 ? (
+                      <div class="titles">
+                        {p.titles.slice(0, -1).map((t, i) => (
+                          <span key={i} class="title-icon">
+                            {highlight(t)}
+                          </span>
+                        ))}
                       </div>
-                      {p.titles.length > 1 ? (
-                        <div class="titles">
-                          {p.titles.slice(0, -1).map((t, i) => (
-                            <span key={i} class="title-icon">
-                              {highlight(t)}
-                            </span>
-                          ))}
-                        </div>
-                      ) : null}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <div class="search-no-results">No results found</div>
-            )}
-          </div>
+                    ) : null}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div class="search-no-results">No results found</div>
+          )}
         </div>
-      </Teleport>
-    )
-  }
-})
+      </div>
+    </Teleport>
+  )
+}
 
 function isEditingContent(event: KeyboardEvent): boolean {
   const element = event.target as HTMLElement

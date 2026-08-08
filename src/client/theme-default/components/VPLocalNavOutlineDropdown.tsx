@@ -1,4 +1,4 @@
-import { defineComponent, nextTick, ref, watch } from 'actview'
+import { nextTick, ref, watch } from 'actview'
 import { inBrowser, onContentUpdated } from '@actview/press'
 import type { DefaultTheme } from '@actview/press/theme'
 import { useData } from '../composables/data'
@@ -10,7 +10,7 @@ export interface VPLocalNavOutlineDropdownProps {
   navHeight: number
 }
 
-export const VPLocalNavOutlineDropdown = defineComponent(function (
+export function VPLocalNavOutlineDropdown(
   props: VPLocalNavOutlineDropdownProps
 ) {
   const { theme } = useData()
@@ -66,37 +66,35 @@ export const VPLocalNavOutlineDropdown = defineComponent(function (
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
   }
 
-  return function () {
-    return (
-      <div
-        class="VPLocalNavOutlineDropdown"
-        style={{ '--vp-vh': vh.value + 'px' } as any}
-        ref={main}
-      >
-        {props.headers.length > 0 ? (
-          <button class={open.value ? 'open' : ''} onclick={toggle}>
-            <span class="menu-text">{resolveTitle(theme.value)}</span>
-            <span class="vpi-chevron-right icon" />
-          </button>
-        ) : (
-          <button onclick={scrollToTop}>
-            {theme.value.returnToTopLabel || 'Return to top'}
-          </button>
-        )}
-        {/* Vue 版 <Transition name="flyout">；ActView Transition 无动画语义，直接条件渲染 */}
-        {open.value ? (
-          <div ref={items} class="items" onclick={onItemClick}>
-            <div class="header">
-              <a class="top-link" href="#" onclick={scrollToTop}>
-                {theme.value.returnToTopLabel || 'Return to top'}
-              </a>
-            </div>
-            <div class="outline">
-              <VPDocOutlineItem headers={props.headers} />
-            </div>
+  return (
+    <div
+      class="VPLocalNavOutlineDropdown"
+      style={{ '--vp-vh': vh.value + 'px' } as any}
+      ref={main}
+    >
+      {props.headers.length > 0 ? (
+        <button class={open.value ? 'open' : ''} onclick={toggle}>
+          <span class="menu-text">{resolveTitle(theme.value)}</span>
+          <span class="vpi-chevron-right icon" />
+        </button>
+      ) : (
+        <button onclick={scrollToTop}>
+          {theme.value.returnToTopLabel || 'Return to top'}
+        </button>
+      )}
+      {/* Vue 版 <Transition name="flyout">；ActView Transition 无动画语义，直接条件渲染 */}
+      {open.value ? (
+        <div ref={items} class="items" onclick={onItemClick}>
+          <div class="header">
+            <a class="top-link" href="#" onclick={scrollToTop}>
+              {theme.value.returnToTopLabel || 'Return to top'}
+            </a>
           </div>
-        ) : null}
-      </div>
-    )
-  }
-})
+          <div class="outline">
+            <VPDocOutlineItem headers={props.headers} />
+          </div>
+        </div>
+      ) : null}
+    </div>
+  )
+}

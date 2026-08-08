@@ -1,8 +1,8 @@
-import { defineComponent, ref } from 'actview'
+import { ref } from 'actview'
 import { useLangs } from '../composables/langs'
 import { VPLink } from './VPLink'
 
-export const VPNavScreenTranslations = defineComponent(function () {
+export function VPNavScreenTranslations() {
   const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
   const isOpen = ref(false)
   const toggle = () => {
@@ -43,4 +43,4 @@ export const VPNavScreenTranslations = defineComponent(function () {
       </div>
     )
   }
-})
+}

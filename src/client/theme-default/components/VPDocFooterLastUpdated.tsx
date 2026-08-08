@@ -1,4 +1,4 @@
-import { computed, defineComponent, onMounted, ref, watchEffect } from 'actview'
+import { computed, onMounted, ref, watchEffect } from 'actview'
 import { useData } from '../composables/data'
 
 /** 手写 useNavigatorLanguage（替代 @vueuse/core） */
@@ -6,7 +6,7 @@ function useNavigatorLanguage() {
   return { language: ref(navigator.language) }
 }
 
-export const VPDocFooterLastUpdated = defineComponent(function (props: any) {
+export function VPDocFooterLastUpdated(props: any) {
   const { theme, page, lang: pageLang } = useData()
   const { language: browserLang } = useNavigatorLanguage()
 
@@ -40,17 +40,15 @@ export const VPDocFooterLastUpdated = defineComponent(function (props: any) {
     })
   })
 
-  return function () {
-    return (
-      <p class="VPLastUpdated">
-        {theme.value.lastUpdated?.text ||
-          theme.value.lastUpdatedText ||
-          'Last updated'}
-        :
-        <time ref={timeRef} datetime={isoDatetime.value}>
-          {datetime.value}
-        </time>
-      </p>
-    )
-  }
-})
+  return (
+    <p class="VPLastUpdated">
+      {theme.value.lastUpdated?.text ||
+        theme.value.lastUpdatedText ||
+        'Last updated'}
+      :
+      <time ref={timeRef} datetime={isoDatetime.value}>
+        {datetime.value}
+      </time>
+    </p>
+  )
+}
