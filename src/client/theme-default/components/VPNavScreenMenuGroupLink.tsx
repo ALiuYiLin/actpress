@@ -1,4 +1,5 @@
 import '../styles/components/VPNavScreenMenuGroupLink.css?scoped'
+import { computed } from 'actview'
 import type { DefaultTheme } from '@actview/press/theme'
 import { isActive } from '../../shared'
 import { useData } from '../composables/data'
@@ -13,22 +14,28 @@ export function VPNavScreenMenuGroupLink(props: VPNavScreenMenuGroupLinkProps) {
   const { page } = useData()
   const { closeScreen } = useNav()
 
-  const href =
+  // href / isActiveLink 用 computed 包装：直接在 setup 里计算会被快照
+  // （__setup 只执行一次），路由切换后菜单高亮不更新。
+  const href = computed(() =>
     typeof props.item.link === 'function'
       ? props.item.link(page.value)
       : props.item.link
-  const isActiveLink = isActive(
-    page.value.relativePath,
-    props.item.activeMatch || href,
-    !!props.item.activeMatch
+  )
+  const isActiveLink = computed(() =>
+    isActive(
+      page.value.relativePath,
+      props.item.activeMatch || href.value,
+      !!props.item.activeMatch
+    )
   )
 
   return (
     <VPLink
-      class={['VPNavScreenMenuGroupLink', isActiveLink ? 'active' : ''].join(
-        ' '
-      )}
-      href={href}
+      class={[
+        'VPNavScreenMenuGroupLink',
+        isActiveLink.value ? 'active' : ''
+      ].join(' ')}
+      href={href.value}
       target={props.item.target}
       rel={props.item.rel}
       noIcon={props.item.noIcon}
