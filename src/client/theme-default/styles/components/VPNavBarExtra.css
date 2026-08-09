@@ -15,7 +15,7 @@
   }
 }
 
-.VPNavBarExtra .group .trans-title {
+.trans-title {
   padding: 0 24px 0 12px;
   line-height: 32px;
   font-size: 14px;
@@ -23,21 +23,21 @@
   color: var(--vp-c-text-1);
 }
 
-.VPNavBarExtra .group .item.appearance,
-.VPNavBarExtra .group .item.social-links {
+.item.appearance,
+.item.social-links {
   display: flex;
   align-items: center;
   padding: 0 12px;
 }
 
-.VPNavBarExtra .group .item.appearance {
+.item.appearance {
   min-width: 176px;
 }
 
-.VPNavBarExtra .group .item .appearance-action {
+.appearance-action {
   margin-right: -2px;
 }
 
-.VPNavBarExtra .group .item .social-links-list {
+.social-links-list {
   margin: -4px -8px;
 }

@@ -445,7 +445,7 @@ export async function createVitePressPlugin(
   }
 
   // @actview/plugin（enforce:'pre'，Babel 把函数组件转 defineComponent）
-  const { actviewPlugin } = await import('@actview/plugin')
+  const { actviewPlugin } = await import('@actview/plugin-vite')
   const rawActViewPlugin = actviewPlugin()
 
   // rolldown-vite dev 的模块 id 带 ?t= 时间戳 query，@actview/plugin 内部

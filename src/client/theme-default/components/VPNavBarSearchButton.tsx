@@ -1,3 +1,4 @@
+import '../styles/components/VPNavBarSearchButton.css?scoped'
 export interface VPNavBarSearchButtonProps {
   text: string
   onclick?: () => void

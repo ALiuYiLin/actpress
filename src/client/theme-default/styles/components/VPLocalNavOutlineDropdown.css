@@ -17,7 +17,7 @@
   color: var(--vp-c-text-1);
 }
 
-.VPLocalNavOutlineDropdown .open .icon {
+.icon {
   display: inline-block;
   vertical-align: middle;
   margin-left: 2px;
@@ -31,17 +31,17 @@
     font-size: 14px;
   }
 
-  .VPLocalNavOutlineDropdown .open .icon {
+  .icon {
     font-size: 16px;
   }
 }
 
-.VPLocalNavOutlineDropdown .open > .icon {
+.open > .icon {
   /*rtl:ignore*/
   transform: rotate(90deg);
 }
 
-.VPLocalNavOutlineDropdown .items {
+.items {
   position: absolute;
   top: 40px;
   right: 16px;
@@ -57,18 +57,18 @@
 }
 
 @media (min-width: 960px) {
-  .VPLocalNavOutlineDropdown .items {
+  .items {
     right: auto;
     left: calc(var(--vp-sidebar-width) + 32px);
     width: 320px;
   }
 }
 
-.VPLocalNavOutlineDropdown .items .header {
+.header {
   background-color: var(--vp-c-bg-soft);
 }
 
-.VPLocalNavOutlineDropdown .items .header .top-link {
+.top-link {
   display: block;
   padding: 0 16px;
   line-height: 48px;
@@ -77,21 +77,21 @@
   color: var(--vp-c-brand-1);
 }
 
-.VPLocalNavOutlineDropdown .items .outline {
+.outline {
   padding: 8px 0;
   background-color: var(--vp-c-bg-soft);
 }
 
-.VPLocalNavOutlineDropdown .flyout-enter-active {
+.flyout-enter-active {
   transition: all 0.2s ease-out;
 }
 
-.VPLocalNavOutlineDropdown .flyout-leave-active {
+.flyout-leave-active {
   transition: all 0.15s ease-in;
 }
 
-.VPLocalNavOutlineDropdown .flyout-enter-from,
-.VPLocalNavOutlineDropdown .flyout-leave-to {
+.flyout-enter-from,
+.flyout-leave-to {
   opacity: 0;
   transform: translateY(-16px);
 }

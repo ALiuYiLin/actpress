@@ -1,3 +1,4 @@
+import '../styles/components/VPDocAsideOutline.css?scoped'
 import { ref } from 'actview'
 import { useData } from '../composables/data'
 import { resolveTitle, useActiveAnchor } from '../composables/outline'

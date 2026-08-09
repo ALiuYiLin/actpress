@@ -1,3 +1,4 @@
+import '../styles/components/VPLocalNav.css?scoped'
 import { onMounted, ref } from 'actview'
 import { inBrowser } from '@actview/press'
 import { useData } from '../composables/data'

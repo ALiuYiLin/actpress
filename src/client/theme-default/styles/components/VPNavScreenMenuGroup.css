@@ -23,12 +23,12 @@
   color: var(--vp-c-brand-1);
 }
 
-.VPNavScreenMenuGroup.open .button .button-icon {
+.VPNavScreenMenuGroup.open .button-icon {
   /*rtl:ignore*/
   transform: rotate(45deg);
 }
 
-.VPNavScreenMenuGroup .button {
+.button {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -41,19 +41,19 @@
   transition: color 0.25s;
 }
 
-.VPNavScreenMenuGroup .button:hover {
+.button:hover {
   color: var(--vp-c-brand-1);
 }
 
-.VPNavScreenMenuGroup .button .button-icon {
+.button-icon {
   transition: transform 0.25s;
 }
 
-.VPNavScreenMenuGroup .items .group:first-child {
+.group:first-child {
   padding-top: 0px;
 }
 
-.VPNavScreenMenuGroup .items .group + .group,
-.VPNavScreenMenuGroup .items .group + .item {
+.group + .group,
+.group + .item {
   padding-top: 4px;
 }

@@ -1,3 +1,4 @@
+import '../styles/components/VPFlyout.css?scoped'
 import { ref } from 'actview'
 import type { DefaultTheme } from '@actview/press/theme'
 import { useFlyout } from '../composables/flyout'

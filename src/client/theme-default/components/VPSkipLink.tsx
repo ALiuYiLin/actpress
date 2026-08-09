@@ -1,3 +1,4 @@
+import '../styles/components/VPSkipLink.css?scoped'
 import { ref, watch } from 'actview'
 import { useRoute } from '@actview/press'
 import { useData } from '../composables/data'

@@ -7,7 +7,7 @@
   height: auto;
 }
 
-.VPNavScreenTranslations .title {
+.title {
   display: flex;
   align-items: center;
   font-size: 14px;
@@ -15,23 +15,23 @@
   color: var(--vp-c-text-1);
 }
 
-.VPNavScreenTranslations .title .icon {
+.icon {
   font-size: 16px;
 }
 
-.VPNavScreenTranslations .title .icon.lang {
+.icon.lang {
   margin-right: 8px;
 }
 
-.VPNavScreenTranslations .title .icon.chevron {
+.icon.chevron {
   margin-left: 4px;
 }
 
-.VPNavScreenTranslations .list {
+.list {
   padding: 4px 0 0 24px;
 }
 
-.VPNavScreenTranslations .list .item .link {
+.link {
   line-height: 32px;
   font-size: 13px;
   color: var(--vp-c-text-1);

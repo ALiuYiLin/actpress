@@ -9,13 +9,13 @@
   }
 }
 
-.NotFound .code {
+.code {
   line-height: 64px;
   font-size: 64px;
   font-weight: 600;
 }
 
-.NotFound .title {
+.title {
   padding-top: 12px;
   letter-spacing: 2px;
   line-height: 20px;
@@ -23,14 +23,14 @@
   font-weight: 700;
 }
 
-.NotFound .divider {
+.divider {
   margin: 24px auto 18px;
   width: 64px;
   height: 1px;
   background-color: var(--vp-c-divider);
 }
 
-.NotFound .quote {
+.quote {
   margin: 0 auto;
   max-width: 256px;
   font-size: 14px;
@@ -38,11 +38,11 @@
   color: var(--vp-c-text-2);
 }
 
-.NotFound .action {
+.action {
   padding-top: 20px;
 }
 
-.NotFound .action .link {
+.link {
   display: inline-block;
   border: 1px solid var(--vp-c-brand-1);
   border-radius: 16px;
@@ -55,7 +55,7 @@
     color 0.25s;
 }
 
-.NotFound .action .link:hover {
+.link:hover {
   border-color: var(--vp-c-brand-2);
   color: var(--vp-c-brand-2);
 }

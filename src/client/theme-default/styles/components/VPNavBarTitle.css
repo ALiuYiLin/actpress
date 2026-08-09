@@ -1,4 +1,4 @@
-.VPNavBarTitle .title {
+.title {
   display: flex;
   align-items: center;
   border-bottom: 1px solid transparent;
@@ -11,7 +11,7 @@
 }
 
 @media (min-width: 960px) {
-  .VPNavBarTitle .title {
+  .title {
     flex-shrink: 0;
   }
 
@@ -20,7 +20,7 @@
   }
 }
 
-.VPNavBarTitle .title .logo {
+:deep(.logo) {
   margin-right: 8px;
   height: var(--vp-nav-logo-height);
 }

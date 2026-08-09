@@ -1,3 +1,4 @@
+import '../styles/components/VPFooter.css?scoped'
 import { computed } from 'actview'
 import { useData } from '../composables/data'
 import { useLayout } from '../composables/layout'

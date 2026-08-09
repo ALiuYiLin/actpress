@@ -12,45 +12,45 @@
   }
 }
 
-.VPNavBar .wrapper .VPNavBarHamburger .container {
+.container {
   position: relative;
   width: 16px;
   height: 14px;
   overflow: hidden;
 }
 
-.VPNavBarHamburger:hover .container .top {
+.VPNavBarHamburger:hover .top {
   top: 0;
   left: 0;
   transform: translateX(4px);
 }
-.VPNavBarHamburger:hover .container .middle {
+.VPNavBarHamburger:hover .middle {
   top: 6px;
   left: 0;
   transform: translateX(0);
 }
-.VPNavBarHamburger:hover .container .bottom {
+.VPNavBarHamburger:hover .bottom {
   top: 12px;
   left: 0;
   transform: translateX(8px);
 }
 
-.VPNavBarHamburger.active .container .top {
+.VPNavBarHamburger.active .top {
   top: 6px;
   transform: translateX(0) rotate(225deg);
 }
-.VPNavBarHamburger.active .container .middle {
+.VPNavBarHamburger.active .middle {
   top: 6px;
   transform: translateX(16px);
 }
-.VPNavBarHamburger.active .container .bottom {
+.VPNavBarHamburger.active .bottom {
   top: 6px;
   transform: translateX(0) rotate(135deg);
 }
 
-.VPNavBarHamburger.active:hover .container .top,
-.VPNavBarHamburger.active:hover .container .middle,
-.VPNavBarHamburger.active:hover .container .bottom {
+.VPNavBarHamburger.active:hover .top,
+.VPNavBarHamburger.active:hover .middle,
+.VPNavBarHamburger.active:hover .bottom {
   background-color: var(--vp-c-text-2);
   transition:
     top 0.25s,
@@ -58,9 +58,9 @@
     transform 0.25s;
 }
 
-.VPNavBar .wrapper .VPNavBarHamburger .container .top,
-.VPNavBar .wrapper .VPNavBarHamburger .container .middle,
-.VPNavBar .wrapper .VPNavBarHamburger .container .bottom {
+.top,
+.middle,
+.bottom {
   position: absolute;
   width: 16px;
   height: 2px;
@@ -71,17 +71,17 @@
     transform 0.25s;
 }
 
-.VPNavBar .wrapper .VPNavBarHamburger .container .top {
+.top {
   top: 0;
   left: 0;
   transform: translateX(0);
 }
-.VPNavBar .wrapper .VPNavBarHamburger .container .middle {
+.middle {
   top: 6px;
   left: 0;
   transform: translateX(8px);
 }
-.VPNavBar .wrapper .VPNavBarHamburger .container .bottom {
+.bottom {
   top: 12px;
   left: 0;
   transform: translateX(4px);

@@ -1,3 +1,4 @@
+import '../styles/components/VPNavScreenTranslations.css?scoped'
 import { ref } from 'actview'
 import { useLangs } from '../composables/langs'
 import { VPLink } from './VPLink'

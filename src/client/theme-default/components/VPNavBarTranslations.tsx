@@ -1,3 +1,4 @@
+import '../styles/components/VPNavBarTranslations.css?scoped'
 import { watch } from 'actview'
 import { useData } from '../composables/data'
 import { useLangs } from '../composables/langs'

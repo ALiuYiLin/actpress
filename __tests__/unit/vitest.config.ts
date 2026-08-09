@@ -1,4 +1,4 @@
-import { actviewPlugin } from '@actview/plugin'
+import { actviewPlugin } from '@actview/plugin-vite'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vitest/config'

@@ -1,3 +1,4 @@
+import '../styles/components/VPButton.css?scoped'
 import { EXTERNAL_URL_RE } from '../../shared'
 import { normalizeLink } from '../support/utils'
 

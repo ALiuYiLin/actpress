@@ -1,3 +1,4 @@
+import '../styles/components/VPSocialLink.css?scoped'
 import { computed, nextTick, onMounted, ref } from 'actview'
 import type { DefaultTheme } from '@actview/press/theme'
 

@@ -102,7 +102,6 @@
   "dependencies": {
     "@actview/core": "^1.0.24",
     "@actview/jsx": "^1.0.11",
-    "@actview/plugin": "^1.0.11",
     "@actview/router": "^1.0.10",
     "@docsearch/css": "^4.6.3",
     "@docsearch/js": "^4.6.3",
@@ -119,6 +118,8 @@
     "vite": "^7.3.6"
   },
   "devDependencies": {
+    "@actview/plugin-scoped": "^0.2.0",
+    "@actview/plugin-vite": "^1.0.11",
     "@babel/core": "^8.0.1",
     "@clack/prompts": "^1.6.0",
     "@emnapi/core": "^1.11.1",

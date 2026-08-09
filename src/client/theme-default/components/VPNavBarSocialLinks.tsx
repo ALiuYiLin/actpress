@@ -1,3 +1,4 @@
+import '../styles/components/VPNavBarSocialLinks.css?scoped'
 import { useData } from '../composables/data'
 import { VPSocialLinks } from './VPSocialLinks'
 

@@ -7,36 +7,36 @@
   transition: color 0.25s;
 }
 
-.VPFlyout:hover .button .text {
+.VPFlyout:hover .text {
   color: var(--vp-c-text-2);
 }
 
-.VPFlyout:hover .button .icon {
+.VPFlyout:hover .icon {
   fill: var(--vp-c-text-2);
 }
 
-.VPFlyout.active .button .text {
+.VPFlyout.active .text {
   color: var(--vp-c-brand-1);
 }
 
-.VPFlyout.active:hover .button .text {
+.VPFlyout.active:hover .text {
   color: var(--vp-c-brand-2);
 }
 
-.VPFlyout .button[aria-expanded='false'] + .menu {
+.button[aria-expanded='false'] + .menu {
   opacity: 0;
   visibility: hidden;
   transform: translateY(0);
 }
 
 .VPFlyout:hover .menu,
-.VPFlyout .button[aria-expanded='true'] + .menu {
+.button[aria-expanded='true'] + .menu {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
 }
 
-.VPFlyout .button {
+.button {
   display: flex;
   align-items: center;
   padding: 0 12px;
@@ -45,7 +45,7 @@
   transition: color 0.5s;
 }
 
-.VPFlyout .button .text {
+.text {
   display: flex;
   align-items: center;
   line-height: var(--vp-nav-height);
@@ -55,22 +55,22 @@
   transition: color 0.25s;
 }
 
-.VPFlyout .button .text .option-icon {
+.option-icon {
   margin-right: 0px;
   font-size: 16px;
 }
 
-.VPFlyout .button .text .text-icon {
+.text-icon {
   margin-left: 4px;
   font-size: 14px;
 }
 
-.VPFlyout .button .icon {
+.icon {
   font-size: 20px;
   transition: fill 0.25s;
 }
 
-.VPFlyout .menu {
+.menu {
   position: absolute;
   top: calc(var(--vp-nav-height) / 2 + 20px);
   right: 0;

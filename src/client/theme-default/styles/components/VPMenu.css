@@ -10,31 +10,31 @@
   overflow-y: auto;
 }
 
-.VPMenu .group {
+.VPMenu :deep(.group) {
   margin: 0 -12px;
   padding: 0 12px 12px;
 }
 
-.VPMenu .group + .group {
+.VPMenu :deep(.group + .group) {
   border-top: 1px solid var(--vp-c-divider);
   padding: 11px 12px 12px;
 }
 
-.VPMenu .group:last-child {
+.VPMenu :deep(.group:last-child) {
   padding-bottom: 0;
 }
 
-.VPMenu .group + .item {
+.VPMenu :deep(.group + .item) {
   border-top: 1px solid var(--vp-c-divider);
   padding: 11px 16px 0;
 }
 
-.VPMenu .item {
+.VPMenu :deep(.item) {
   padding: 0 16px;
   white-space: nowrap;
 }
 
-.VPMenu .label {
+.VPMenu :deep(.label) {
   flex-grow: 1;
   line-height: 28px;
   font-size: 12px;
@@ -43,6 +43,6 @@
   transition: color 0.5s;
 }
 
-.VPMenu .action {
+.VPMenu :deep(.action) {
   padding-left: 24px;
 }

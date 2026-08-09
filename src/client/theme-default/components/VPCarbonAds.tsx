@@ -1,3 +1,4 @@
+import '../styles/components/VPCarbonAds.css?scoped'
 import { ref, watch } from 'actview'
 import type { DefaultTheme } from '@actview/press/theme'
 import { onMounted } from 'actview'

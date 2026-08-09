@@ -1,3 +1,5 @@
+import '../styles/components/VPBackdrop.css?scoped'
+
 export interface VPBackdropProps {
   show?: boolean
   onclick?: () => void

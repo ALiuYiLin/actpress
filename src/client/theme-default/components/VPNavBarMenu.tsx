@@ -1,3 +1,4 @@
+import '../styles/components/VPNavBarMenu.css?scoped'
 import { computed } from 'actview'
 import type { DefaultTheme } from '@actview/press/theme'
 import { useData } from '../composables/data'

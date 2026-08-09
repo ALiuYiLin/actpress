@@ -1,3 +1,4 @@
+import '../styles/components/VPDocFooterLastUpdated.css?scoped'
 import { computed, onMounted, ref, watchEffect } from 'actview'
 import { useData } from '../composables/data'
 

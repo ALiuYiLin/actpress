@@ -6,7 +6,7 @@
   display: block;
 }
 
-.VPDocAsideOutline .content {
+.content {
   position: relative;
   border-left: 1px solid var(--vp-c-divider);
   padding-left: 16px;
@@ -14,7 +14,7 @@
   font-weight: 500;
 }
 
-.VPDocAsideOutline .content .outline-marker {
+.outline-marker {
   position: absolute;
   top: 32px;
   left: -1px;
@@ -30,7 +30,7 @@
     opacity 0.25s;
 }
 
-.VPDocAsideOutline .content .outline-title {
+.outline-title {
   line-height: 32px;
   font-size: 14px;
   font-weight: 600;

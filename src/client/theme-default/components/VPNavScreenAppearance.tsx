@@ -1,3 +1,4 @@
+import '../styles/components/VPNavScreenAppearance.css?scoped'
 import { useData } from '../composables/data'
 import { VPSwitchAppearance } from './VPSwitchAppearance'
 

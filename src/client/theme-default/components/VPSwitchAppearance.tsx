@@ -1,3 +1,4 @@
+import '../styles/components/VPSwitchAppearance.css?scoped'
 import { ref, watchEffect } from 'actview'
 import { useData } from '../composables/data'
 import { VPSwitch } from './VPSwitch'

@@ -1,20 +1,20 @@
-.VPSwitchAppearance .sun {
+.sun {
   opacity: 1;
 }
 
-.VPSwitchAppearance .moon {
+.moon {
   opacity: 0;
 }
 
-.dark .VPSwitchAppearance .sun {
+.dark .sun {
   opacity: 0;
 }
 
-.dark .VPSwitchAppearance .moon {
+.dark .moon {
   opacity: 1;
 }
 
-.dark .VPSwitchAppearance .check {
+.dark .VPSwitchAppearance :deep(.check) {
   /*rtl:ignore*/
   transform: translateX(18px);
 }

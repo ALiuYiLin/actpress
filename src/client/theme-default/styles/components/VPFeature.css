@@ -13,18 +13,18 @@
   border-color: var(--vp-c-brand-1);
 }
 
-.VPFeature .box {
+.box {
   display: flex;
   flex-direction: column;
   padding: 24px;
   height: 100%;
 }
 
-.VPFeature .box > .VPImage {
+.box > :deep(.VPImage) {
   margin-bottom: 20px;
 }
 
-.VPFeature .box .icon {
+.icon {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,13 +37,13 @@
   transition: background-color 0.25s;
 }
 
-.VPFeature .box .title {
+.title {
   line-height: 24px;
   font-size: 16px;
   font-weight: 600;
 }
 
-.VPFeature .box .details {
+.details {
   flex-grow: 1;
   padding-top: 8px;
   line-height: 24px;
@@ -52,16 +52,16 @@
   color: var(--vp-c-text-2);
 }
 
-.VPFeature .box ul.details {
+ul.details {
   list-style-type: disc;
   padding-left: 14px;
 }
 
-.VPFeature .box .link-text {
+.link-text {
   padding-top: 8px;
 }
 
-.VPFeature .box .link-text .link-text-value {
+.link-text-value {
   display: flex;
   align-items: center;
   font-size: 14px;
@@ -69,6 +69,6 @@
   color: var(--vp-c-brand-1);
 }
 
-.VPFeature .box .link-text .link-text-value .link-text-icon {
+.link-text-icon {
   margin-left: 6px;
 }

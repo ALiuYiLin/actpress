@@ -26,3 +26,8 @@ declare module 'mark.js/src/vanilla.js' {
   const mark: typeof Mark
   export default mark
 }
+
+declare module '*.css?scoped' {
+  const css: string
+  export default css
+}

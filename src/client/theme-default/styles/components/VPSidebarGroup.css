@@ -1,4 +1,4 @@
-.group.no-transition .caret-icon {
+.no-transition :deep(.caret-icon) {
   transition: none;
 }
 

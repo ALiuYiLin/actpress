@@ -1,3 +1,4 @@
+import '../styles/components/VPDocOutlineItem.css?scoped'
 import type { DefaultTheme } from '@actview/press/theme'
 
 export interface VPDocOutlineItemProps {

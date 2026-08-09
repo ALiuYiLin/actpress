@@ -20,7 +20,7 @@
     max-width: 992px;
   }
 
-  .VPDoc:not(.has-sidebar) .container .content {
+  .VPDoc:not(.has-sidebar) .content {
     max-width: 752px;
   }
 }
@@ -31,13 +31,13 @@
     justify-content: center;
   }
 
-  .VPDoc .container .aside {
+  .VPDoc .aside {
     display: block;
   }
 }
 
 @media (min-width: 1440px) {
-  .VPDoc:not(.has-sidebar) .container .content {
+  .VPDoc:not(.has-sidebar) .content {
     max-width: 784px;
   }
 
@@ -46,12 +46,12 @@
   }
 }
 
-.VPDoc .container {
+.container {
   margin: 0 auto;
   width: 100%;
 }
 
-.VPDoc .container .aside {
+.aside {
   position: relative;
   display: none;
   order: 2;
@@ -61,13 +61,13 @@
   max-width: 256px;
 }
 
-.VPDoc .container .left-aside {
+.left-aside {
   order: 1;
   padding-left: unset;
   padding-right: 32px;
 }
 
-.VPDoc .container .aside .aside-container {
+.aside-container {
   position: fixed;
   top: 0;
   padding-top: calc(
@@ -81,11 +81,11 @@
   scrollbar-width: none;
 }
 
-.VPDoc .container .aside .aside-container::-webkit-scrollbar {
+.aside-container::-webkit-scrollbar {
   display: none;
 }
 
-.VPDoc .container .aside .aside-curtain {
+.aside-curtain {
   position: fixed;
   bottom: 0;
   z-index: 10;
@@ -95,7 +95,7 @@
   pointer-events: none;
 }
 
-.VPDoc .container .aside .aside-container .aside-content {
+.aside-content {
   display: flex;
   flex-direction: column;
   min-height: calc(
@@ -104,30 +104,30 @@
   padding-bottom: 32px;
 }
 
-.VPDoc .container .content {
+.content {
   position: relative;
   margin: 0 auto;
   width: 100%;
 }
 
 @media (min-width: 960px) {
-  .VPDoc .container .content {
+  .content {
     padding: 0 32px 128px;
   }
 }
 
 @media (min-width: 1280px) {
-  .VPDoc .container .content {
+  .content {
     order: 1;
     margin: 0;
     min-width: 640px;
   }
 }
 
-.VPDoc .container .content .content-container {
+.content-container {
   margin: 0 auto;
 }
 
-.VPDoc.has-aside .container .content .content-container {
+.VPDoc.has-aside .content-container {
   max-width: 688px;
 }

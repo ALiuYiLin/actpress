@@ -1,3 +1,4 @@
+import '../styles/components/VPNavBarHamburger.css?scoped'
 export interface VPNavBarHamburgerProps {
   active?: boolean
   onclick?: () => void

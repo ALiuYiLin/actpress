@@ -1,3 +1,4 @@
+import '../styles/components/VPTeamPage.css?scoped'
 export interface VPTeamPageProps {
   children?: any
 }

@@ -40,22 +40,22 @@
   }
 }
 
-.VPNavScreen .container {
+.container {
   margin: 0 auto;
   padding: 24px 0 96px;
   max-width: 288px;
 }
 
-.VPNavScreen .container .menu + .translations,
-.VPNavScreen .container .menu + .appearance,
-.VPNavScreen .container .translations + .appearance {
+.menu + .translations,
+.menu + .appearance,
+.translations + .appearance {
   margin-top: 24px;
 }
 
-.VPNavScreen .container .menu + .social-links {
+.menu + .social-links {
   margin-top: 16px;
 }
 
-.VPNavScreen .container .appearance + .social-links {
+.appearance + .social-links {
   margin-top: 16px;
 }

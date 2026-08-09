@@ -1,3 +1,4 @@
+import '../styles/components/VPHomeSponsors.css?scoped'
 import { VPSponsors } from './VPSponsors'
 import { VPButton } from './VPButton'
 

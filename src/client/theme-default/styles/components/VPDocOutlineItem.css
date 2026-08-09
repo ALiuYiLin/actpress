@@ -1,14 +1,14 @@
-.VPDocOutlineItem .root {
+.root {
   position: relative;
   z-index: 1;
 }
 
-.VPDocOutlineItem .nested {
+.nested {
   padding-right: 16px;
   padding-left: 16px;
 }
 
-.VPDocOutlineItem .outline-link {
+.outline-link {
   display: block;
   line-height: 32px;
   font-size: 14px;
@@ -20,12 +20,12 @@
   transition: color 0.5s;
 }
 
-.VPDocOutlineItem .outline-link:hover,
-.VPDocOutlineItem .outline-link.active {
+.outline-link:hover,
+.outline-link.active {
   color: var(--vp-c-text-1);
   transition: color 0.25s;
 }
 
-.VPDocOutlineItem .outline-link.nested {
+.outline-link.nested {
   padding-left: 13px;
 }

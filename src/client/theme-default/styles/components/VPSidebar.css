@@ -59,7 +59,7 @@
 }
 
 @media (min-width: 960px) {
-  .VPSidebar .curtain {
+  .curtain {
     position: sticky;
     top: calc(var(--vp-nav-height) * -1);
     left: 0;
@@ -72,6 +72,6 @@
   }
 }
 
-.VPSidebar .nav {
+.nav {
   outline: 0;
 }

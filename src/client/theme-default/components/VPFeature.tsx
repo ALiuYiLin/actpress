@@ -1,3 +1,4 @@
+import '../styles/components/VPFeature.css?scoped'
 import type { DefaultTheme } from '@actview/press/theme'
 import { VPImage } from './VPImage'
 import { VPLink } from './VPLink'

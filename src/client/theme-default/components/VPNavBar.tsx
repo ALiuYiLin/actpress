@@ -1,3 +1,4 @@
+import '../styles/components/VPNavBar.css?scoped'
 import { ref } from 'actview'
 import { inBrowser } from '@actview/press'
 import { useLayout } from '../composables/layout'

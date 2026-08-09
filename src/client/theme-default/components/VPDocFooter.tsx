@@ -1,3 +1,4 @@
+import '../styles/components/VPDocFooter.css?scoped'
 import { computed } from 'actview'
 import { useData } from '../composables/data'
 import { useEditLink } from '../composables/edit-link'

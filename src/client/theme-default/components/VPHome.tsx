@@ -1,3 +1,4 @@
+import '../styles/components/VPHome.css?scoped'
 import { useData } from '../composables/data'
 import { Content } from '../../app/components/Content'
 import { VPHomeContent } from './VPHomeContent'

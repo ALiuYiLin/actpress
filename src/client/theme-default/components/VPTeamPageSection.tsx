@@ -1,3 +1,4 @@
+import '../styles/components/VPTeamPageSection.css?scoped'
 export interface VPTeamPageSectionProps {
   title?: any
   lead?: any

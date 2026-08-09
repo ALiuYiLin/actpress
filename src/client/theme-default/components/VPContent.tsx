@@ -1,3 +1,4 @@
+import '../styles/components/VPContent.css?scoped'
 import { useData } from '../composables/data'
 import { useLayout } from '../composables/layout'
 import { NotFound } from '../NotFound'

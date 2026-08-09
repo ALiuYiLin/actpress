@@ -1,3 +1,4 @@
+import '../styles/components/VPNav.css?scoped'
 import { computed, watchEffect } from 'actview'
 import { inBrowser } from '@actview/press'
 import { useData } from '../composables/data'

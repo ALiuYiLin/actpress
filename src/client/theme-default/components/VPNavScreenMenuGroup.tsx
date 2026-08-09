@@ -1,3 +1,4 @@
+import '../styles/components/VPNavScreenMenuGroup.css?scoped'
 import { computed, ref } from 'actview'
 import { VPNavScreenMenuGroupLink } from './VPNavScreenMenuGroupLink'
 import { VPNavScreenMenuGroupSection } from './VPNavScreenMenuGroupSection'

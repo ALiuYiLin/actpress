@@ -29,23 +29,23 @@
   }
 }
 
-.VPHomeSponsors .container {
+.container {
   margin: 0 auto;
   max-width: 1152px;
 }
 
-.VPHomeSponsors .container .header .love {
+.love {
   margin: 0 auto;
   width: fit-content;
   font-size: 28px;
   color: var(--vp-c-text-3);
 }
 
-.VPHomeSponsors .container .header .love .icon {
+.icon {
   display: inline-block;
 }
 
-.VPHomeSponsors .container .header .message {
+.message {
   margin: 0 auto;
   padding-top: 10px;
   max-width: 320px;
@@ -56,11 +56,11 @@
   color: var(--vp-c-text-2);
 }
 
-.VPHomeSponsors .container .sponsors {
+.sponsors {
   padding-top: 32px;
 }
 
-.VPHomeSponsors .container .action {
+.action {
   padding-top: 40px;
   text-align: center;
 }

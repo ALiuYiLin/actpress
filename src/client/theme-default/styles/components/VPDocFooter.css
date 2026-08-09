@@ -2,12 +2,12 @@
   margin-top: 64px;
 }
 
-.VPDocFooter .edit-info {
+.edit-info {
   padding-bottom: 18px;
 }
 
 @media (min-width: 640px) {
-  .VPDocFooter .edit-info {
+  .edit-info {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -15,7 +15,7 @@
   }
 }
 
-.VPDocFooter .edit-info .edit-link .edit-link-button {
+.edit-link-button {
   display: flex;
   align-items: center;
   border: 0;
@@ -26,15 +26,15 @@
   transition: color 0.25s;
 }
 
-.VPDocFooter .edit-info .edit-link .edit-link-button:hover {
+.edit-link-button:hover {
   color: var(--vp-c-brand-2);
 }
 
-.VPDocFooter .edit-info .edit-link .edit-link-button .edit-link-icon {
+.edit-link-icon {
   margin-right: 8px;
 }
 
-.VPDocFooter .prev-next {
+.prev-next {
   border-top: 1px solid var(--vp-c-divider);
   padding-top: 24px;
   display: grid;
@@ -42,13 +42,13 @@
 }
 
 @media (min-width: 640px) {
-  .VPDocFooter .prev-next {
+  .prev-next {
     grid-template-columns: repeat(2, 1fr);
     grid-column-gap: 16px;
   }
 }
 
-.VPDocFooter .prev-next .pager .pager-link {
+.pager-link {
   display: block;
   border: 1px solid var(--vp-c-divider);
   border-radius: 8px;
@@ -58,16 +58,16 @@
   transition: border-color 0.25s;
 }
 
-.VPDocFooter .prev-next .pager .pager-link:hover {
+.pager-link:hover {
   border-color: var(--vp-c-brand-1);
 }
 
-.VPDocFooter .prev-next .pager .pager-link.next {
+.pager-link.next {
   margin-left: auto;
   text-align: right;
 }
 
-.VPDocFooter .prev-next .pager .pager-link .desc {
+.desc {
   display: block;
   line-height: 20px;
   font-size: 12px;
@@ -75,7 +75,7 @@
   color: var(--vp-c-text-2);
 }
 
-.VPDocFooter .prev-next .pager .pager-link .title {
+.title {
   display: block;
   line-height: 20px;
   font-size: 14px;

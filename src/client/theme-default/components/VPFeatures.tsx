@@ -1,3 +1,4 @@
+import '../styles/components/VPFeatures.css?scoped'
 import { VPFeature } from './VPFeature'
 
 export interface VPFeaturesProps {

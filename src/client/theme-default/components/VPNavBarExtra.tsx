@@ -1,3 +1,4 @@
+import '../styles/components/VPNavBarExtra.css?scoped'
 import { computed } from 'actview'
 import { useData } from '../composables/data'
 import { useLangs } from '../composables/langs'

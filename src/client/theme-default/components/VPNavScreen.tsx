@@ -1,3 +1,4 @@
+import '../styles/components/VPNavScreen.css?scoped'
 import { ref, watch } from 'actview'
 import { inBrowser } from '@actview/press'
 import { VPNavScreenAppearance } from './VPNavScreenAppearance'

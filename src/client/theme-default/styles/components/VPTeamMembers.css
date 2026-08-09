@@ -29,7 +29,7 @@
   max-width: calc(368px * 2 + 24px);
 }
 
-.VPTeamMembers .container {
+.container {
   display: grid;
   gap: 24px;
   margin: 0 auto;

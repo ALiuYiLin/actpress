@@ -4,7 +4,7 @@
   padding: 12px 12px 0;
 }
 
-.VPMenuLink .link {
+.link {
   display: block;
   border-radius: 6px;
   padding: 0 12px;
@@ -19,11 +19,11 @@
     color 0.25s;
 }
 
-.VPMenuLink .link:hover {
+.link:hover {
   color: var(--vp-c-brand-1);
   background-color: var(--vp-c-default-soft);
 }
 
-.VPMenuLink .link.active {
+.link.active {
   color: var(--vp-c-brand-1);
 }

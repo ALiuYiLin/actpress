@@ -4,15 +4,15 @@
   flex-grow: 1;
 }
 
-.VPDocAside .spacer {
+.spacer {
   flex-grow: 1;
 }
 
-.VPDocAside .spacer + .VPDocAsideSponsors,
-.VPDocAside .spacer + .VPDocAsideCarbonAds {
+.VPDocAside :deep(.spacer + .VPDocAsideSponsors),
+.VPDocAside :deep(.spacer + .VPDocAsideCarbonAds) {
   margin-top: 24px;
 }
 
-.VPDocAside .VPDocAsideSponsors + .VPDocAsideCarbonAds {
+.VPDocAside :deep(.VPDocAsideSponsors + .VPDocAsideCarbonAds) {
   margin-top: 16px;
 }

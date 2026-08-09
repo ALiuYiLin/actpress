@@ -1,3 +1,4 @@
+import '../styles/components/VPDocAside.css?scoped'
 import { useData } from '../composables/data'
 import { VPDocAsideCarbonAds } from './VPDocAsideCarbonAds'
 import { VPDocAsideOutline } from './VPDocAsideOutline'

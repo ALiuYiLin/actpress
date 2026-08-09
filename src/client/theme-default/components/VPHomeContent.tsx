@@ -1,3 +1,4 @@
+import '../styles/components/VPHomeContent.css?scoped'
 import { ref } from 'actview'
 import { inBrowser } from '@actview/press'
 

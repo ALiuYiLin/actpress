@@ -14,7 +14,7 @@
   border-color: var(--vp-c-brand-1);
 }
 
-.VPSwitch .check {
+.check {
   position: absolute;
   top: 1px;
   /*rtl:ignore*/
@@ -27,7 +27,7 @@
   transition: transform 0.25s !important;
 }
 
-.VPSwitch .check .icon {
+.icon {
   position: relative;
   display: block;
   width: 18px;
@@ -36,7 +36,7 @@
   overflow: hidden;
 }
 
-.VPSwitch .check .icon [class^='vpi-'] {
+.icon :deep([class^='vpi-']) {
   position: absolute;
   top: 3px;
   left: 3px;
@@ -45,7 +45,7 @@
   color: var(--vp-c-text-2);
 }
 
-.dark .VPSwitch .check .icon [class^='vpi-'] {
+.dark .icon :deep([class^='vpi-']) {
   color: var(--vp-c-text-1);
   transition: opacity 0.25s !important;
 }

@@ -1,3 +1,4 @@
+import '../styles/components/VPTeamMembers.css?scoped'
 import type { DefaultTheme } from '@actview/press/theme'
 import { VPTeamMembersItem } from './VPTeamMembersItem'
 

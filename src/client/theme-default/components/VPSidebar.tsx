@@ -1,3 +1,4 @@
+import '../styles/components/VPSidebar.css?scoped'
 import { ref, watch } from 'actview'
 import { inBrowser } from '@actview/press'
 import { useLayout } from '../composables/layout'

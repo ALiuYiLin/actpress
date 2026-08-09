@@ -1,4 +1,4 @@
-.vp-doc.container {
+.container {
   margin: auto;
   width: 100%;
   max-width: 1280px;
@@ -6,30 +6,30 @@
 }
 
 @media (min-width: 640px) {
-  .vp-doc.container {
+  .container {
     padding: 0 48px;
   }
 }
 
 @media (min-width: 960px) {
-  .vp-doc.container {
+  .container {
     width: 100%;
     padding: 0 64px;
   }
 }
 
-.vp-doc .VPHomeSponsors,
-.vp-doc .VPTeamPage {
+.vp-doc :deep(.VPHomeSponsors),
+.vp-doc :deep(.VPTeamPage) {
   margin-left: var(--vp-offset, calc(50% - 50vw));
   margin-right: var(--vp-offset, calc(50% - 50vw));
 }
 
-.vp-doc .VPHomeSponsors h2 {
+.vp-doc :deep(.VPHomeSponsors h2) {
   border-top: none;
   letter-spacing: normal;
 }
 
-.vp-doc .VPHomeSponsors a,
-.vp-doc .VPTeamPage a {
+.vp-doc :deep(.VPHomeSponsors a),
+.vp-doc :deep(.VPTeamPage a) {
   text-decoration: none;
 }

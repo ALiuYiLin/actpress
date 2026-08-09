@@ -1,3 +1,4 @@
+import '../styles/components/VPBadge.css'
 export interface VPBadgeProps {
   text?: string
   type?: 'info' | 'tip' | 'warning' | 'danger'

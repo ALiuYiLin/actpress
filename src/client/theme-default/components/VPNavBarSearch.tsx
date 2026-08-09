@@ -1,3 +1,4 @@
+import '../styles/components/VPNavBarSearch.css?scoped'
 // 导航搜索入口（ActView 版）
 // 逻辑对齐 Vue 原版：algolia / local 两个 provider 分支 + 键盘快捷键
 // （Ctrl/Cmd+K、Ctrl/Cmd+I(askAi)、'/'）；lazy 加载搜索框本体

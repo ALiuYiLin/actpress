@@ -10,13 +10,13 @@
   display: none;
 }
 
-.VPFooter a {
+.VPFooter :deep(a) {
   text-decoration-line: underline;
   text-underline-offset: 2px;
   transition: color 0.25s;
 }
 
-.VPFooter a:hover {
+.VPFooter :deep(a:hover) {
   color: var(--vp-c-text-1);
 }
 
@@ -26,14 +26,14 @@
   }
 }
 
-.VPFooter .container {
+.container {
   margin: 0 auto;
   max-width: var(--vp-layout-max-width);
   text-align: center;
 }
 
-.VPFooter .container .message,
-.VPFooter .container .copyright {
+.message,
+.copyright {
   line-height: 24px;
   font-size: 14px;
   font-weight: 500;

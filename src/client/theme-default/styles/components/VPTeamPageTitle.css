@@ -15,7 +15,7 @@
   }
 }
 
-.VPTeamPageTitle .title {
+.title {
   letter-spacing: 0;
   line-height: 44px;
   font-size: 36px;
@@ -23,14 +23,14 @@
 }
 
 @media (min-width: 768px) {
-  .VPTeamPageTitle .title {
+  .title {
     letter-spacing: -0.5px;
     line-height: 56px;
     font-size: 48px;
   }
 }
 
-.VPTeamPageTitle .lead {
+.lead {
   margin: 0 auto;
   max-width: 512px;
   padding-top: 12px;
@@ -41,7 +41,7 @@
 }
 
 @media (min-width: 768px) {
-  .VPTeamPageTitle .lead {
+  .lead {
     max-width: 592px;
     letter-spacing: 0.15px;
     line-height: 28px;

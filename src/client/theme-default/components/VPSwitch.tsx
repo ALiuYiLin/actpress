@@ -1,3 +1,4 @@
+import '../styles/components/VPSwitch.css?scoped'
 export interface VPSwitchProps {
   children?: any
   [key: string]: any

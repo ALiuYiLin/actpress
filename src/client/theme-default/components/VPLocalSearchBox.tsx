@@ -1,3 +1,4 @@
+import '../styles/components/VPLocalSearchBox.css?scoped'
 // 本地搜索框（ActView 最小可用版）
 //
 // 相对 Vue 原版（~900 行）的取舍：

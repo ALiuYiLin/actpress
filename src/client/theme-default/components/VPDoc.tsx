@@ -1,3 +1,4 @@
+import '../styles/components/VPDoc.css?scoped'
 import { computed } from 'actview'
 import { useRoute } from '@actview/press'
 import { useData } from '../composables/data'

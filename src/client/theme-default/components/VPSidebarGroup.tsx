@@ -1,3 +1,4 @@
+import '../styles/components/VPSidebarGroup.css?scoped'
 import { onBeforeUnmount, onMounted, ref } from 'actview'
 import type { DefaultTheme } from '@actview/press/theme'
 import { VPSidebarItem } from './VPSidebarItem'

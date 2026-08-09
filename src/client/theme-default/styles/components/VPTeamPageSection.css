@@ -14,7 +14,7 @@
   }
 }
 
-.VPTeamPageSection .title {
+.title {
   position: relative;
   margin: 0 auto;
   max-width: 1152px;
@@ -22,7 +22,7 @@
   color: var(--vp-c-text-2);
 }
 
-.VPTeamPageSection .title .title-line {
+.title-line {
   position: absolute;
   top: 16px;
   left: 0;
@@ -31,7 +31,7 @@
   background-color: var(--vp-c-divider);
 }
 
-.VPTeamPageSection .title .title-text {
+.title-text {
   position: relative;
   display: inline-block;
   padding: 0 24px;
@@ -42,7 +42,7 @@
   background-color: var(--vp-c-bg);
 }
 
-.VPTeamPageSection .lead {
+.lead {
   margin: 0 auto;
   max-width: 480px;
   padding-top: 12px;
@@ -53,6 +53,6 @@
   color: var(--vp-c-text-2);
 }
 
-.VPTeamPageSection .members {
+.members {
   padding-top: 40px;
 }
