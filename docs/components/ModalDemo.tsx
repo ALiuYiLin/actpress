@@ -1,5 +1,5 @@
 import { defineComponent, ref } from 'actview'
-import './modal-demo.css'
+import './modal-demo.css?scoped'
 
 export const ModalDemo = defineComponent(function () {
   const showModal = ref(false)
