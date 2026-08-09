@@ -25,50 +25,46 @@ export function VPNavBarExtra(props: any) {
     return !!a && a !== 'force-dark' && a !== 'force-auto'
   })
 
-  return (
-    <>
-      {hasExtraContent.value ? (
-        <VPFlyout class="VPNavBarExtra" label="extra navigation">
-          {localeLinks.value.length > 0 && !!currentLang.value.label ? (
-            <div class="group translations">
-              <p class="trans-title">{currentLang.value.label}</p>
-              {localeLinks.value.map((locale) => (
-                <VPMenuLink
-                  key={locale.link}
-                  item={locale}
-                  external={false}
-                  lang={locale.lang}
-                  hreflang={locale.lang}
-                  rel="alternate"
-                  dir={locale.dir}
-                />
-              ))}
-            </div>
-          ) : null}
-          {showAppearance.value ? (
-            <div class="group">
-              <div class="item appearance">
-                <p class="label">
-                  {theme.value.darkModeSwitchLabel || 'Appearance'}
-                </p>
-                <div class="appearance-action">
-                  <VPSwitchAppearance />
-                </div>
-              </div>
-            </div>
-          ) : null}
-          {theme.value.socialLinks ? (
-            <div class="group">
-              <div class="item social-links">
-                <VPSocialLinks
-                  class="social-links-list"
-                  links={theme.value.socialLinks}
-                />
-              </div>
-            </div>
-          ) : null}
-        </VPFlyout>
+  return hasExtraContent.value ? (
+    <VPFlyout class="VPNavBarExtra" label="extra navigation">
+      {localeLinks.value.length > 0 && !!currentLang.value.label ? (
+        <div class="group translations">
+          <p class="trans-title">{currentLang.value.label}</p>
+          {localeLinks.value.map((locale) => (
+            <VPMenuLink
+              key={locale.link}
+              item={locale}
+              external={false}
+              lang={locale.lang}
+              hreflang={locale.lang}
+              rel="alternate"
+              dir={locale.dir}
+            />
+          ))}
+        </div>
       ) : null}
-    </>
-  )
+      {showAppearance.value ? (
+        <div class="group">
+          <div class="item appearance">
+            <p class="label">
+              {theme.value.darkModeSwitchLabel || 'Appearance'}
+            </p>
+            <div class="appearance-action">
+              <VPSwitchAppearance />
+            </div>
+          </div>
+        </div>
+      ) : null}
+      {theme.value.socialLinks ? (
+        <div class="group">
+          <div class="item social-links">
+            <VPSocialLinks
+              class="social-links-list"
+              links={theme.value.socialLinks}
+            />
+          </div>
+        </div>
+      ) : null}
+    </VPFlyout>
+  ) : null
 }

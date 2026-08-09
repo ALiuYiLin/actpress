@@ -9,42 +9,37 @@ export function VPNavScreenMenu() {
 
   const nav = computed(() => theme.value.nav)
 
-  return (
-    <>
-      {nav.value ? (
-        <nav class="VPNavScreenMenu">
-          {nav.value.map((item) => {
-            const key = JSON.stringify(item)
-            if ('link' in item) {
-              return (
-                <VPNavScreenMenuLink
-                  key={key}
-                  item={item as DefaultTheme.NavItemWithLink}
-                />
-              )
-            }
-            if ('component' in item) {
-              const Comp: any = (item as DefaultTheme.NavItemComponent)
-                .component
-              return (
-                <Comp
-                  key={key}
-                  {...(item as DefaultTheme.NavItemComponent).props}
-                  screen-menu
-                />
-              )
-            }
-            const group = item as DefaultTheme.NavItemChildren
-            return (
-              <VPNavScreenMenuGroup
-                key={key}
-                text={group.text || ''}
-                items={group.items}
-              />
-            )
-          })}
-        </nav>
-      ) : null}
-    </>
-  )
+  return nav.value ? (
+    <nav class="VPNavScreenMenu">
+      {nav.value.map((item) => {
+        const key = JSON.stringify(item)
+        if ('link' in item) {
+          return (
+            <VPNavScreenMenuLink
+              key={key}
+              item={item as DefaultTheme.NavItemWithLink}
+            />
+          )
+        }
+        if ('component' in item) {
+          const Comp: any = (item as DefaultTheme.NavItemComponent).component
+          return (
+            <Comp
+              key={key}
+              {...(item as DefaultTheme.NavItemComponent).props}
+              screen-menu
+            />
+          )
+        }
+        const group = item as DefaultTheme.NavItemChildren
+        return (
+          <VPNavScreenMenuGroup
+            key={key}
+            text={group.text || ''}
+            items={group.items}
+          />
+        )
+      })}
+    </nav>
+  ) : null
 }

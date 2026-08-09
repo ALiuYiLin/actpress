@@ -27,8 +27,8 @@ importers:
   .:
     dependencies:
       '@actview/core':
-        specifier: ^1.0.24
-        version: 1.0.24
+        specifier: ^1.0.25
+        version: 1.0.25
       '@actview/jsx':
         specifier: ^1.0.11
         version: 1.0.11
@@ -66,8 +66,8 @@ importers:
         specifier: ^14.1.2
         version: 14.1.2
       actview:
-        specifier: ^1.0.23
-        version: 1.0.23
+        specifier: ^1.0.24
+        version: 1.0.24
       focus-trap:
         specifier: ^8.2.2
         version: 8.2.2
@@ -82,8 +82,8 @@ importers:
         version: rolldown-vite@7.3.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@25.9.4)(esbuild@0.27.7)(jiti@1.21.7)(yaml@2.9.0)
     devDependencies:
       '@actview/plugin-vite':
-        specifier: ^1.0.11
-        version: 1.0.11
+        specifier: ^1.0.13
+        version: 1.0.13
       '@clack/prompts':
         specifier: ^1.6.0
         version: 1.6.0
@@ -351,11 +351,11 @@ importers:
 
 packages:
 
-  '@actview/babel-plugin-actview@0.1.0':
-    resolution: {integrity: sha512-oR8U8b3dHru43j5LkKWylywQ2P0ljegdXTRSd0bJfeVXRyJuIsR5x6RBhXCE+ABE918jNdBdDWZeRS+4CYnlBg==}
+  '@actview/babel-plugin-actview@0.1.2':
+    resolution: {integrity: sha512-w2eB6k7wz8SRbya4dDWuPUGz/Oh8Oau/1gePcJTbUJiST+nIphP+jJPwIzaseb8HJYKBWs5Rh1/UlhB/fGc2Vg==}
 
-  '@actview/core@1.0.24':
-    resolution: {integrity: sha512-bcB5n8NaZYeL0lSixpskwHuzzRdcbJTBCumu+aUDNO+w5fXnVom9/1NYtcLk4DutmbLC7lNW+NCCMoCjeEZgyA==}
+  '@actview/core@1.0.25':
+    resolution: {integrity: sha512-wCz31ijSGalVcGT5yvl5L4R/MNcOxhdMQlhAnye+GgdY2IcvsbjXpX3xv1pnspkKh4aNfnRXZ1vs8qW9g8ljTg==}
 
   '@actview/jsx@1.0.11':
     resolution: {integrity: sha512-eMBEs3mQE9yIg1F9qE2nlmPAALRunQ1mlWLJp/rJW7iR1Y3RBNFCBdA7eHFqgQCMHRa5Fcld0NjbADfZPNsS4A==}
@@ -365,8 +365,8 @@ packages:
     peerDependencies:
       vite: ^6.0.0 || ^7.0.0 || ^8.0.0
 
-  '@actview/plugin-vite@1.0.11':
-    resolution: {integrity: sha512-Au2BFk2GPDqNGiraXbFbti6rPbKDOXwWYMnVrxkXlbMwunk8A1qcn2P+QBwJ09W3lxRcPfDnoNaPMhQVzlvPXw==}
+  '@actview/plugin-vite@1.0.13':
+    resolution: {integrity: sha512-gTs03se8cDpMMJ2+/yw6Jr3qA2WrlKPnMfKGfAoW7FKkPLe3Q49QNyGQF8pM1ONAXQmTb+TQMDhVyuICo8FlYg==}
 
   '@actview/router@1.0.10':
     resolution: {integrity: sha512-Rms7eCJhWbu7B4bpPYkhmcd2q6j2zYO6B0qVlMNe0P2s4zVMd6igQdihftpxizTcU4iH7iQrnnk1aOwPGQKAYQ==}
@@ -1334,8 +1334,8 @@ packages:
     resolution: {integrity: sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==}
     engines: {node: '>=6.5'}
 
-  actview@1.0.23:
-    resolution: {integrity: sha512-vivUB+j3fJLXZ2XzRai3fr3eBpG9klSSRHCoNfjkGPYHa4yOmFUZaWyRAGAww4WLn4AkmDfwBYhC+dvgyAQRCw==}
+  actview@1.0.24:
+    resolution: {integrity: sha512-fmWr+Ey4RO/zUnCdVDxteFqAVNQAaFEtL7SgWYV40YOpmzEgfSfBDTV+MX/AYQFlssp+7ysOPwTm4+CuWzZcmA==}
 
   agent-base@6.0.2:
     resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==}
@@ -3130,11 +3130,11 @@ packages:
 
 snapshots:
 
-  '@actview/babel-plugin-actview@0.1.0':
+  '@actview/babel-plugin-actview@0.1.2':
     dependencies:
       '@babel/core': 8.0.1
 
-  '@actview/core@1.0.24':
+  '@actview/core@1.0.25':
     dependencies:
       '@actview/jsx': 1.0.11
 
@@ -3147,14 +3147,14 @@ snapshots:
       postcss-selector-parser: 7.1.4
       vite: rolldown-vite@7.3.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@25.9.4)(esbuild@0.27.7)(jiti@1.21.7)(yaml@2.9.0)
 
-  '@actview/plugin-vite@1.0.11':
+  '@actview/plugin-vite@1.0.13':
     dependencies:
-      '@actview/babel-plugin-actview': 0.1.0
+      '@actview/babel-plugin-actview': 0.1.2
       '@babel/core': 8.0.1
 
   '@actview/router@1.0.10':
     dependencies:
-      '@actview/core': 1.0.24
+      '@actview/core': 1.0.25
       '@actview/jsx': 1.0.11
 
   '@antfu/install-pkg@1.1.0':
@@ -3969,9 +3969,9 @@ snapshots:
     dependencies:
       event-target-shim: 5.0.1
 
-  actview@1.0.23:
+  actview@1.0.24:
     dependencies:
-      '@actview/core': 1.0.24
+      '@actview/core': 1.0.25
       '@actview/jsx': 1.0.11
 
   agent-base@6.0.2:

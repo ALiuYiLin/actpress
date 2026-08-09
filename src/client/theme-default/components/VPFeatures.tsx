@@ -20,34 +20,30 @@ export function VPFeatures(props: VPFeaturesProps) {
   // 直接 return jsx：setup 阶段的局部变量/条件会被快照（__setup 只执行一次，
   // 渲染函数闭包捕获旧值）。因此 props.features 必须在渲染函数内读取（JSX 表达式），
   // 多语言切换等 props 更新时（patchComponent 原地更新 instance.props）才能读到新值。
-  return (
-    <>
-      {props.features ? (
-        <div class="VPFeatures">
-          <div class="container">
-            <div class="items">
-              {props.features.map((feature) => (
-                <div
-                  key={feature.title}
-                  class={['item', getGrid(props.features!.length)]
-                    .filter(Boolean)
-                    .join(' ')}
-                >
-                  <VPFeature
-                    icon={feature.icon}
-                    title={feature.title}
-                    details={feature.details}
-                    link={feature.link}
-                    linkText={feature.linkText}
-                    rel={feature.rel}
-                    target={feature.target}
-                  />
-                </div>
-              ))}
+  return props.features ? (
+    <div class="VPFeatures">
+      <div class="container">
+        <div class="items">
+          {props.features.map((feature) => (
+            <div
+              key={feature.title}
+              class={['item', getGrid(props.features!.length)]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              <VPFeature
+                icon={feature.icon}
+                title={feature.title}
+                details={feature.details}
+                link={feature.link}
+                linkText={feature.linkText}
+                rel={feature.rel}
+                target={feature.target}
+              />
             </div>
-          </div>
+          ))}
         </div>
-      ) : null}
-    </>
-  )
+      </div>
+    </div>
+  ) : null
 }

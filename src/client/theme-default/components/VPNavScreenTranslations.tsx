@@ -10,38 +10,32 @@ export function VPNavScreenTranslations() {
     isOpen.value = !isOpen.value
   }
 
-  return (
-    <>
-      {localeLinks.value.length > 0 && !!currentLang.value.label ? (
-        <div
-          class={['VPNavScreenTranslations', isOpen.value ? 'open' : ''].join(
-            ' '
-          )}
-        >
-          <button class="title" onclick={toggle}>
-            <span class="vpi-languages icon lang" />
-            {currentLang.value.label}
-            <span class="vpi-chevron-down icon chevron" />
-          </button>
-          <ul class="list">
-            {localeLinks.value.map((locale) => (
-              <li key={locale.link} class="item">
-                <VPLink
-                  class="link"
-                  href={locale.link}
-                  external={false}
-                  lang={locale.lang}
-                  hreflang={locale.lang}
-                  rel="alternate"
-                  dir={locale.dir}
-                >
-                  {locale.text}
-                </VPLink>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : null}
-    </>
-  )
+  return localeLinks.value.length > 0 && !!currentLang.value.label ? (
+    <div
+      class={['VPNavScreenTranslations', isOpen.value ? 'open' : ''].join(' ')}
+    >
+      <button class="title" onclick={toggle}>
+        <span class="vpi-languages icon lang" />
+        {currentLang.value.label}
+        <span class="vpi-chevron-down icon chevron" />
+      </button>
+      <ul class="list">
+        {localeLinks.value.map((locale) => (
+          <li key={locale.link} class="item">
+            <VPLink
+              class="link"
+              href={locale.link}
+              external={false}
+              lang={locale.lang}
+              hreflang={locale.lang}
+              rel="alternate"
+              dir={locale.dir}
+            >
+              {locale.text}
+            </VPLink>
+          </li>
+        ))}
+      </ul>
+    </div>
+  ) : null
 }

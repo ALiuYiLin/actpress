@@ -9,11 +9,7 @@ export function VPHomeFeatures() {
   // 读一次被快照；computed 让 render 闭包每次重渲染都读最新值。
   // 条件用 Fragment 三元（插件原生支持），features.value 在渲染函数内读取 → 响应式
   const features = computed(() => fm.value.features)
-  return (
-    <>
-      {features.value ? (
-        <VPFeatures class="VPHomeFeatures" features={features.value} />
-      ) : null}
-    </>
-  )
+  return features.value ? (
+    <VPFeatures class="VPHomeFeatures" features={features.value} />
+  ) : null
 }

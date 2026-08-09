@@ -36,45 +36,41 @@ export function VPLocalNav(props: VPLocalNavProps = {}) {
     )
   })
 
-  return (
-    <>
-      {isHome.value &&
-      !(
-        hasLocalNav.value ||
-        hasSidebar.value ||
-        y.value >= navHeight.value
-      ) ? null : (
-        <div
-          class={[
-            'VPLocalNav',
-            hasSidebar.value ? 'has-sidebar' : '',
-            !hasLocalNav.value ? 'empty' : '',
-            !hasLocalNav.value && !hasSidebar.value ? 'fixed' : ''
-          ]
-            .filter(Boolean)
-            .join(' ')}
-        >
-          <div class="container">
-            {hasSidebar.value ? (
-              <button
-                class="menu"
-                aria-expanded={props.open}
-                aria-controls="VPSidebarNav"
-                onclick={props.onOpenMenu}
-              >
-                <span class="vpi-align-left menu-icon" />
-                <span class="menu-text">
-                  {theme.value.sidebarMenuLabel || 'Menu'}
-                </span>
-              </button>
-            ) : null}
-            <VPLocalNavOutlineDropdown
-              headers={headers.value}
-              navHeight={navHeight.value}
-            />
-          </div>
-        </div>
-      )}
-    </>
+  return isHome.value &&
+    !(
+      hasLocalNav.value ||
+      hasSidebar.value ||
+      y.value >= navHeight.value
+    ) ? null : (
+    <div
+      class={[
+        'VPLocalNav',
+        hasSidebar.value ? 'has-sidebar' : '',
+        !hasLocalNav.value ? 'empty' : '',
+        !hasLocalNav.value && !hasSidebar.value ? 'fixed' : ''
+      ]
+        .filter(Boolean)
+        .join(' ')}
+    >
+      <div class="container">
+        {hasSidebar.value ? (
+          <button
+            class="menu"
+            aria-expanded={props.open}
+            aria-controls="VPSidebarNav"
+            onclick={props.onOpenMenu}
+          >
+            <span class="vpi-align-left menu-icon" />
+            <span class="menu-text">
+              {theme.value.sidebarMenuLabel || 'Menu'}
+            </span>
+          </button>
+        ) : null}
+        <VPLocalNavOutlineDropdown
+          headers={headers.value}
+          navHeight={navHeight.value}
+        />
+      </div>
+    </div>
   )
 }

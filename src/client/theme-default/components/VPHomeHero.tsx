@@ -19,24 +19,20 @@ export function VPHomeHero(props: VPHomeHeroProps = {}) {
   const hero = computed(() => {
     return fm.value.hero
   })
-  return (
-    <>
-      {!!hero.value ? (
-        <VPHero
-          class="VPHomeHero"
-          name={hero.value.name}
-          text={hero.value.text}
-          tagline={hero.value.tagline}
-          image={hero.value.image}
-          actions={hero.value.actions}
-          homeHeroInfoBefore={props.homeHeroInfoBefore}
-          homeHeroInfo={props.homeHeroInfo}
-          homeHeroInfoAfter={props.homeHeroInfoAfter}
-          homeHeroActionsAfter={props.homeHeroActionsAfter}
-          homeHeroActionsBeforeActions={props.homeHeroActionsBeforeActions}
-          homeHeroImage={props.homeHeroImage}
-        />
-      ) : null}
-    </>
-  )
+  return !!hero.value ? (
+    <VPHero
+      class="VPHomeHero"
+      name={hero.value.name}
+      text={hero.value.text}
+      tagline={hero.value.tagline}
+      image={hero.value.image}
+      actions={hero.value.actions}
+      homeHeroInfoBefore={props.homeHeroInfoBefore}
+      homeHeroInfo={props.homeHeroInfo}
+      homeHeroInfoAfter={props.homeHeroInfoAfter}
+      homeHeroActionsAfter={props.homeHeroActionsAfter}
+      homeHeroActionsBeforeActions={props.homeHeroActionsBeforeActions}
+      homeHeroImage={props.homeHeroImage}
+    />
+  ) : null
 }

@@ -34,20 +34,16 @@ export function VPNavScreen(props: VPNavScreenProps = {}) {
     { immediate: true }
   )
 
-  return (
-    <>
-      {props.open ? (
-        <div class="VPNavScreen" id="VPNavScreen">
-          <div class="container">
-            {props.navScreenContentBefore}
-            <VPNavScreenMenu />
-            <VPNavScreenTranslations />
-            <VPNavScreenAppearance />
-            <VPNavScreenSocialLinks />
-            {props.navScreenContentAfter}
-          </div>
-        </div>
-      ) : null}
-    </>
-  )
+  return props.open ? (
+    <div class="VPNavScreen" id="VPNavScreen">
+      <div class="container">
+        {props.navScreenContentBefore}
+        <VPNavScreenMenu />
+        <VPNavScreenTranslations />
+        <VPNavScreenAppearance />
+        <VPNavScreenSocialLinks />
+        {props.navScreenContentAfter}
+      </div>
+    </div>
+  ) : null
 }
