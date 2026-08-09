@@ -32,9 +32,15 @@ importers:
       '@actview/jsx':
         specifier: ^1.0.11
         version: 1.0.11
+      '@actview/plugin-scoped':
+        specifier: ^0.2.0
+        version: 0.2.0(rolldown-vite@7.3.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@25.9.4)(esbuild@0.27.7)(jiti@1.21.7)(yaml@2.9.0))
       '@actview/router':
         specifier: ^1.0.10
         version: 1.0.10
+      '@babel/core':
+        specifier: ^8.0.1
+        version: 8.0.1
       '@docsearch/css':
         specifier: ^4.6.3
         version: 4.6.3
@@ -75,15 +81,9 @@ importers:
         specifier: npm:rolldown-vite@latest
         version: rolldown-vite@7.3.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@25.9.4)(esbuild@0.27.7)(jiti@1.21.7)(yaml@2.9.0)
     devDependencies:
-      '@actview/plugin-scoped':
-        specifier: ^0.2.0
-        version: 0.2.0(rolldown-vite@7.3.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@25.9.4)(esbuild@0.27.7)(jiti@1.21.7)(yaml@2.9.0))
       '@actview/plugin-vite':
         specifier: ^1.0.11
         version: 1.0.11
-      '@babel/core':
-        specifier: ^8.0.1
-        version: 8.0.1
       '@clack/prompts':
         specifier: ^1.6.0
         version: 1.6.0

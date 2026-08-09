@@ -1,5 +1,7 @@
 import path from 'node:path'
 import c from 'picocolors'
+import { transformSync } from '@babel/core'
+import { scopedBabelPlugin } from '@actview/plugin-scoped'
 import { transformWithEsbuild } from 'vite'
 import {
   mergeConfig,
@@ -102,12 +104,40 @@ export async function createVitePressPlugin(
    *    必须先于 esbuild：esbuild 把 JSX 转成 jsx() 调用后，Babel 的 walkJSX
    *    找不到 JSXElement，`<template slot>` 会原样保留、props.slots 恒为空
    *    （Bug #5）。
-   * 2. esbuild 转 JSX（automatic runtime @actview/jsx）
+   * 2. @actview/plugin-scoped（Babel）：若 md 内嵌组件 import 了 `?scoped` 的
+   *    css，给本文件内所有 JSX 元素注入 `data-v-<hash>`，与 vite 侧 css 插件的
+   *    选择器变换共用同一 hash（md5(css 绝对路径)）。
+   * 3. esbuild 转 JSX（automatic runtime @actview/jsx）
    */
-  const compileActViewSrc = async (src: string): Promise<string> => {
+  const compileActViewSrc = async (
+    src: string,
+    importerPath = 'page.md.tsx'
+  ): Promise<string> => {
     // @actview/plugin（enforce:'pre' 语义）先处理 JSX 源码
     const babeled = await rawActViewPlugin.transform(src, 'page.md.tsx')
-    const jsxSource = babeled?.code ?? src
+    let jsxSource = babeled?.code ?? src
+    // md 内嵌组件 scoped：存在 ?scoped css import 时注入 data-v-<hash>。
+    // resolveCssPath 以 md 文件为基准解析相对路径，保证与 vite css 插件
+    //（cleanId(id) 绝对路径 → md5）得到相同 hash。
+    if (jsxSource.includes('?scoped')) {
+      const scoped = transformSync(jsxSource, {
+        filename: importerPath,
+        plugins: [
+          scopedBabelPlugin({
+            resolveCssPath: (importSource: string) =>
+              path
+                .resolve(path.dirname(importerPath), importSource)
+                .split('?')[0]
+                .replace(/\\/g, '/')
+          })
+        ],
+        parserOpts: { plugins: ['jsx', 'typescript'] },
+        retainLines: true,
+        babelrc: false,
+        configFile: false
+      })
+      if (scoped?.code) jsxSource = scoped.code
+    }
     // 用 vite 的 transformWithEsbuild（内部处理 esbuild 的 ESM/__filename 问题；
     // 直接 import esbuild 会在 dist ESM 产物里崩）
     const { code: js } = await transformWithEsbuild(jsxSource, 'page.md.tsx', {
@@ -270,7 +300,7 @@ export async function createVitePressPlugin(
             data: payload
           })
         }
-        return processClientJS(await compileActViewSrc(actViewSrc), id)
+        return processClientJS(await compileActViewSrc(actViewSrc, cleanId), id)
       }
     },
 

@@ -115,12 +115,12 @@
     "focus-trap": "^8.2.2",
     "minisearch": "^7.2.0",
     "shiki": "^4.3.0",
-    "vite": "^7.3.6"
+    "vite": "^7.3.6",
+    "@actview/plugin-scoped": "^0.2.0",
+    "@babel/core": "^8.0.1"
   },
   "devDependencies": {
-    "@actview/plugin-scoped": "^0.2.0",
     "@actview/plugin-vite": "^1.0.11",
-    "@babel/core": "^8.0.1",
     "@clack/prompts": "^1.6.0",
     "@emnapi/core": "^1.11.1",
     "@emnapi/runtime": "^1.11.1",
