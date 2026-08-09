@@ -18,9 +18,11 @@ export function VPNavBarExtra(props: any) {
     )
   )
 
-  const appearance = site.value.appearance
-  const showAppearance =
-    appearance && appearance !== 'force-dark' && appearance !== 'force-auto'
+  const appearance = computed(() => site.value.appearance)
+  const showAppearance = computed(() => {
+    const a = appearance.value
+    return !!a && a !== 'force-dark' && a !== 'force-auto'
+  })
 
   return (
     <>
@@ -42,7 +44,7 @@ export function VPNavBarExtra(props: any) {
               ))}
             </div>
           ) : null}
-          {showAppearance ? (
+          {showAppearance.value ? (
             <div class="group">
               <div class="item appearance">
                 <p class="label">

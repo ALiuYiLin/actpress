@@ -4,11 +4,14 @@ import { VPSocialLinks } from './VPSocialLinks'
 export function VPNavBarSocialLinks(props: any = {}) {
   const { theme } = useData()
 
-  if (!theme.value.socialLinks) return null
   return (
-    <VPSocialLinks
-      class="VPNavBarSocialLinks"
-      links={theme.value.socialLinks}
-    />
+    <>
+      {theme.value.socialLinks ? (
+        <VPSocialLinks
+          class="VPNavBarSocialLinks"
+          links={theme.value.socialLinks}
+        />
+      ) : null}
+    </>
   )
 }

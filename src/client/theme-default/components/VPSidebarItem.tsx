@@ -24,17 +24,19 @@ export function VPSidebarItem(props: VPSidebarItemProps) {
   const LinkTag: any = isLink.value ? 'a' : 'div'
   const TextTag: any =
     !hasChildren.value || props.depth + 2 === 7 ? 'p' : `h${props.depth + 2}`
-  const itemRole = isLink.value ? undefined : 'button'
-  const classes = [
-    `level-${props.depth}`,
-    collapsible.value ? 'collapsible' : '',
-    collapsed.value ? 'collapsed' : '',
-    isLink.value ? 'is-link' : '',
-    isActiveLink.value ? 'is-active' : '',
-    hasActiveLink.value ? 'has-active' : ''
-  ]
-    .filter(Boolean)
-    .join(' ')
+  const itemRole = computed(() => (isLink.value ? undefined : 'button'))
+  const classes = computed(() =>
+    [
+      `level-${props.depth}`,
+      collapsible.value ? 'collapsible' : '',
+      collapsed.value ? 'collapsed' : '',
+      isLink.value ? 'is-link' : '',
+      isActiveLink.value ? 'is-active' : '',
+      hasActiveLink.value ? 'has-active' : ''
+    ]
+      .filter(Boolean)
+      .join(' ')
+  )
 
   const onItemInteraction = (e: MouseEvent | KeyboardEvent) => {
     if ('key' in e && e.key !== 'Enter') return
@@ -45,11 +47,11 @@ export function VPSidebarItem(props: VPSidebarItemProps) {
   }
 
   return (
-    <SectionTag class={['VPSidebarItem', classes].join(' ')}>
+    <SectionTag class={['VPSidebarItem', classes.value].join(' ')}>
       {props.item.text ? (
         <div
           class="item"
-          role={itemRole}
+          role={itemRole.value}
           {...(props.item.items
             ? {
                 onclick: onItemInteraction,

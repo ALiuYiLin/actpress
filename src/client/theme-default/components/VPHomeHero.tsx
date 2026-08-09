@@ -1,3 +1,4 @@
+import { computed } from 'actview'
 import { useData } from '../composables/data'
 import { VPHero } from './VPHero'
 
@@ -13,25 +14,29 @@ export interface VPHomeHeroProps {
 export function VPHomeHero(props: VPHomeHeroProps = {}) {
   const { frontmatter: fm } = useData()
 
-  // 必须在 render 内判断 hero 是否存在（setup 早退会导致路由切换后
-  // render 引用 fm.value.hero.name 时 hero 已是 undefined → 崩溃）
-  const hero = fm.value.hero
-  if (!hero) return null
-
+  // hero 用 computed 包装：body 读取会进 setup，直接 const hero = fm.value.hero
+  // 会被快照在挂载时；computed 让 render 闭包每次重渲染都读最新值
+  const hero = computed(() => {
+    return fm.value.hero
+  })
   return (
-    <VPHero
-      class="VPHomeHero"
-      name={hero.name}
-      text={hero.text}
-      tagline={hero.tagline}
-      image={hero.image}
-      actions={hero.actions}
-      homeHeroInfoBefore={props.homeHeroInfoBefore}
-      homeHeroInfo={props.homeHeroInfo}
-      homeHeroInfoAfter={props.homeHeroInfoAfter}
-      homeHeroActionsAfter={props.homeHeroActionsAfter}
-      homeHeroActionsBeforeActions={props.homeHeroActionsBeforeActions}
-      homeHeroImage={props.homeHeroImage}
-    />
+    <>
+      {!!hero.value ? (
+        <VPHero
+          class="VPHomeHero"
+          name={hero.value.name}
+          text={hero.value.text}
+          tagline={hero.value.tagline}
+          image={hero.value.image}
+          actions={hero.value.actions}
+          homeHeroInfoBefore={props.homeHeroInfoBefore}
+          homeHeroInfo={props.homeHeroInfo}
+          homeHeroInfoAfter={props.homeHeroInfoAfter}
+          homeHeroActionsAfter={props.homeHeroActionsAfter}
+          homeHeroActionsBeforeActions={props.homeHeroActionsBeforeActions}
+          homeHeroImage={props.homeHeroImage}
+        />
+      ) : null}
+    </>
   )
 }
