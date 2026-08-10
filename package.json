@@ -36,6 +36,10 @@
     "./theme-without-fonts": {
       "types": "./theme-without-fonts.d.ts",
       "default": "./dist/client/theme-default/without-fonts.js"
+    },
+    "./jsx-runtime": {
+      "types": "./jsx-runtime.d.ts",
+      "default": "./dist/client/jsx-runtime.js"
     }
   },
   "main": "dist/node/index.js",

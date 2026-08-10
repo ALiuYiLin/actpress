@@ -143,7 +143,9 @@ export async function createVitePressPlugin(
     const { code: js } = await transformWithEsbuild(jsxSource, 'page.md.tsx', {
       loader: 'tsx',
       jsx: 'automatic',
-      jsxImportSource: '@actview/jsx',
+      // jsx-runtime 指向 @actview/press(包内 re-export @actview/jsx/jsx-runtime):
+      // 用户只需依赖 @actview/press,pnpm 严格模式下无需直接 import @actview/jsx
+      jsxImportSource: '@actview/press',
       target: 'es2020'
     })
     return js
@@ -182,7 +184,8 @@ export async function createVitePressPlugin(
       const baseConfig: UserConfig = {
         esbuild: {
           jsx: 'automatic',
-          jsxImportSource: '@actview/jsx'
+          // jsx-runtime 统一走 @actview/press(见 compileActViewSrc)
+          jsxImportSource: '@actview/press'
         },
         resolve: {
           alias: resolveAliases(siteConfig.root, ssr)
@@ -203,13 +206,15 @@ export async function createVitePressPlugin(
           // 批次，组件能渲染但事件/响应式链路失效，点击无响应——见 bug#1）。
           // include 让依赖在启动阶段一次性预构建，运行时不再 re-optimize。
           // 需覆盖完整运行时依赖链（actview → @actview/core → @actview/jsx，
-          // 以及 esbuild automatic JSX runtime 引用的 jsx-runtime 子路径），
-          // 否则漏掉的依赖仍会在首次页面加载时触发 re-optimize。
+          // 以及 esbuild automatic JSX runtime 引用的 jsx-runtime 子路径——
+          // 现统一为 @actview/press/jsx-runtime），否则漏掉的依赖仍会在
+          // 首次页面加载时触发 re-optimize。
           include: [
             'actview',
             '@actview/core',
             '@actview/jsx',
-            '@actview/jsx/jsx-runtime'
+            '@actview/jsx/jsx-runtime',
+            '@actview/press/jsx-runtime'
           ],
           exclude: [
             '@docsearch/js',
