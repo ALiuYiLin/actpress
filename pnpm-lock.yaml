@@ -33,8 +33,11 @@ importers:
         specifier: ^1.0.11
         version: 1.0.11
       '@actview/plugin-scoped':
-        specifier: ^0.2.0
-        version: 0.2.0(rolldown-vite@7.3.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@25.9.4)(esbuild@0.27.7)(jiti@1.21.7)(yaml@2.9.0))
+        specifier: ^0.2.1
+        version: 0.2.1(rolldown-vite@7.3.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@25.9.4)(esbuild@0.27.7)(jiti@1.21.7)(yaml@2.9.0))
+      '@actview/plugin-vite':
+        specifier: ^1.0.13
+        version: 1.0.13
       '@actview/router':
         specifier: ^1.0.10
         version: 1.0.10
@@ -81,9 +84,6 @@ importers:
         specifier: npm:rolldown-vite@latest
         version: rolldown-vite@7.3.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@25.9.4)(esbuild@0.27.7)(jiti@1.21.7)(yaml@2.9.0)
     devDependencies:
-      '@actview/plugin-vite':
-        specifier: ^1.0.13
-        version: 1.0.13
       '@clack/prompts':
         specifier: ^1.6.0
         version: 1.6.0
@@ -360,8 +360,8 @@ packages:
   '@actview/jsx@1.0.11':
     resolution: {integrity: sha512-eMBEs3mQE9yIg1F9qE2nlmPAALRunQ1mlWLJp/rJW7iR1Y3RBNFCBdA7eHFqgQCMHRa5Fcld0NjbADfZPNsS4A==}
 
-  '@actview/plugin-scoped@0.2.0':
-    resolution: {integrity: sha512-tE1eayQ6jIyYA0tnRZ3kQk5qZSxBiGZpHkFFs4J/ZwmFaDfscmgRfsS0TgXZIBDWwS1s5sOrWh5oaqZdL2B1Rw==}
+  '@actview/plugin-scoped@0.2.1':
+    resolution: {integrity: sha512-cWeJueXB6E4dXVUMqERMIzXJ1gDzvgkoDObqYQBTgobSs1aJ1Kg6LRnFRpspeoqNyFWN2pd3ahp19xf3nbh5Bg==}
     peerDependencies:
       vite: ^6.0.0 || ^7.0.0 || ^8.0.0
 
@@ -3140,7 +3140,7 @@ snapshots:
 
   '@actview/jsx@1.0.11': {}
 
-  '@actview/plugin-scoped@0.2.0(rolldown-vite@7.3.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@25.9.4)(esbuild@0.27.7)(jiti@1.21.7)(yaml@2.9.0))':
+  '@actview/plugin-scoped@0.2.1(rolldown-vite@7.3.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@25.9.4)(esbuild@0.27.7)(jiti@1.21.7)(yaml@2.9.0))':
     dependencies:
       '@babel/core': 8.0.1
       postcss: 8.5.15
