@@ -113,7 +113,10 @@ async function main() {
   // Commit changes to the Git and create a tag.
   step('\nCommitting changes...')
   await run('git', ['add', 'CHANGELOG.md', 'package.json'])
-  await run('git', ['commit', '-m', `release: v${targetVersion}`])
+  // 注意:message 不能含空格——Windows 下 spawn(shell:true) 会把含空格的
+  // 参数拆成多个词,`-m "release: v1.0.15"` 变成 `-m release:` + pathspec
+  // 'v1.0.15',报 "pathspec 'v1.0.15' did not match any file(s)"。
+  await run('git', ['commit', '-m', `release:v${targetVersion}`])
   await run('git', ['tag', `v${targetVersion}`])
 
   // Publish the package.

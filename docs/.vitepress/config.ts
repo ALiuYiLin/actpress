@@ -9,7 +9,6 @@ import {
   localIconLoader
 } from 'vitepress-plugin-group-icons'
 import llmstxt from 'vitepress-plugin-llms'
-import actviewScopedPlugin from '@actview/plugin-scoped'
 
 const prod = !!process.env.NETLIFY
 const siteUrl = 'https://vitepress.dev'
@@ -119,9 +118,7 @@ export default defineConfig({
           firebase: 'logos:firebase'
         }
       }),
-      prod && llmstxt({ workDir: 'en', ignoreFiles: ['index.md'] }),
-      // 样式隔离：启用 @actview/plugin-scoped（.css?scoped import 即开启文件级 scoped）
-      ...actviewScopedPlugin()
+      prod && llmstxt({ workDir: 'en', ignoreFiles: ['index.md'] })
     ],
     experimental: {
       enableNativePlugin: true
