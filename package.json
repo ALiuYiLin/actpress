@@ -1,6 +1,6 @@
 {
   "name": "@actview/press",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "publishConfig": {
     "access": "public"
   },
@@ -100,9 +100,6 @@
     "*": "prettier --experimental-cli --ignore-unknown --write"
   },
   "dependencies": {
-    "@actview/core": "^1.0.25",
-    "@actview/jsx": "^1.0.11",
-    "@actview/router": "^1.0.10",
     "@docsearch/css": "^4.6.3",
     "@docsearch/js": "^4.6.3",
     "@docsearch/sidepanel-js": "^4.6.3",
@@ -111,16 +108,19 @@
     "@shikijs/transformers": "^4.3.0",
     "@shikijs/types": "^4.3.0",
     "@types/markdown-it": "^14.1.2",
+    "@actview/core": "^1.0.25",
+    "@actview/jsx": "^1.0.11",
+    "@actview/router": "^1.0.10",
+    "@actview/plugin-vite": "^1.0.13",
+    "@actview/plugin-scoped": "^0.2.0",
     "actview": "^1.0.24",
     "focus-trap": "^8.2.2",
     "minisearch": "^7.2.0",
     "shiki": "^4.3.0",
     "vite": "^7.3.6",
-    "@actview/plugin-scoped": "^0.2.0",
     "@babel/core": "^8.0.1"
   },
   "devDependencies": {
-    "@actview/plugin-vite": "^1.0.13",
     "@clack/prompts": "^1.6.0",
     "@emnapi/core": "^1.11.1",
     "@emnapi/runtime": "^1.11.1",

@@ -1,7 +1,7 @@
 import path from 'node:path'
 import c from 'picocolors'
 import { transformSync } from '@babel/core'
-import { scopedBabelPlugin } from '@actview/plugin-scoped'
+import actviewScopedPlugin, { scopedBabelPlugin } from '@actview/plugin-scoped'
 import { transformWithEsbuild } from 'vite'
 import {
   mergeConfig,
@@ -491,6 +491,9 @@ export async function createVitePressPlugin(
 
   return [
     actViewPlugin,
+    // 样式隔离:内置 @actview/plugin-scoped,用户项目无需手动接入,
+    // ?scoped css import 即开启文件级 scoped(css 选择器 + JSX data-v 注入)
+    ...actviewScopedPlugin(),
     vitePressPlugin,
     rewritesPlugin(siteConfig),
     hmrFix,
