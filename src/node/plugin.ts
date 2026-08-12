@@ -214,7 +214,17 @@ export async function createVitePressPlugin(
             '@actview/core',
             '@actview/jsx',
             '@actview/jsx/jsx-runtime',
-            '@actview/press/jsx-runtime'
+            '@actview/press/jsx-runtime',
+            // dev 模式 vite esbuild 用 jsxDEV,md/自定义 tsx 组件产物动态
+            // import '@actview/press/jsx-dev-runtime';缺了它,首次进入含
+            // 自定义组件的页面(如 using-actview)会触发 re-optimize + 自动
+            // reload(full reload 一次,之后不再出现)
+            '@actview/press/jsx-dev-runtime',
+            // 本地搜索:VPLocalSearchBox 动态 import('minisearch')(路由懒加载
+            // 页面首次挂载搜索组件时才请求);localSearchPlugin 的
+            // '@actview/press > minisearch' 依赖表达式在 rolldown-vite 下未生效,
+            // 首次进入含搜索框的页面仍触发 re-optimize + full reload
+            'minisearch'
           ],
           exclude: [
             '@docsearch/js',
