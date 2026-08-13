@@ -1,6 +1,6 @@
 {
   "name": "@actview/press",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "publishConfig": {
     "access": "public"
   },
@@ -116,12 +116,12 @@
     "@shikijs/transformers": "^4.3.0",
     "@shikijs/types": "^4.3.0",
     "@types/markdown-it": "^14.1.2",
-    "@actview/core": "^1.0.27",
-    "@actview/jsx": "^1.0.13",
+    "@actview/core": "^1.0.28",
+    "@actview/jsx": "^1.0.14",
     "@actview/router": "^1.0.12",
-    "@actview/plugin-vite": "^1.0.15",
+    "@actview/plugin-vite": "^1.0.16",
     "@actview/plugin-scoped": "^1.0.1",
-    "actview": "^1.0.26",
+    "actview": "^1.0.27",
     "focus-trap": "^8.2.2",
     "minisearch": "^7.2.0",
     "shiki": "^4.3.0",
