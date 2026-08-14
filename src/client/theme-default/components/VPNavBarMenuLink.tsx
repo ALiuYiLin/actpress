@@ -20,17 +20,19 @@ export function VPNavBarMenuLink(props: VPNavBarMenuLinkProps) {
       ? props.item.link(page.value)
       : props.item.link
   )
-  const isActiveLink = computed(() =>
-    isActive(
+  const isActiveLink = computed(() => {
+    return isActive(
       page.value.relativePath,
       props.item.activeMatch || href.value,
       !!props.item.activeMatch
     )
-  )
-
+  })
+  function getCls() {
+    return ['VPNavBarMenuLink', isActiveLink.value ? 'active' : ''].join(' ')
+  }
   return (
     <VPLink
-      class={['VPNavBarMenuLink', isActiveLink.value ? 'active' : ''].join(' ')}
+      class={getCls()}
       href={href.value}
       target={props.item.target}
       rel={props.item.rel}

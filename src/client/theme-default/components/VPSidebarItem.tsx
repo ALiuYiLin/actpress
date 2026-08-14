@@ -10,7 +10,9 @@ export interface VPSidebarItemProps {
   depth: number
 }
 
-// defineComponent + JSX：动态 tag（section/h/a/div/p）用大写变量，递归渲染
+// defineComponent + JSX：动态 tag（section/h/a/div/p）在 render 期经
+// <component is> 解析（函数体=setup 只跑一次，Tag 常量会被渲染闭包快照，
+// props 变化后不更新——见 design/setup-snapshot.md）
 export function VPSidebarItem(props: VPSidebarItemProps) {
   const {
     collapsed,
@@ -22,11 +24,14 @@ export function VPSidebarItem(props: VPSidebarItemProps) {
     toggle
   } = useSidebarItemControl(computed(() => props.item))
 
-  const SectionTag: any = hasChildren.value ? 'section' : 'div'
-  const LinkTag: any = isLink.value ? 'a' : 'div'
-  const TextTag: any =
-    !hasChildren.value || props.depth + 2 === 7 ? 'p' : `h${props.depth + 2}`
   const itemRole = computed(() => (isLink.value ? undefined : 'button'))
+  // render 期求值（JSX 内调用）：函数体=setup 只跑一次，派生值必须每次重渲染重新计算
+  const textTagAttrs = () => ({
+    is:
+      !hasChildren.value || props.depth + 2 === 7 ? 'p' : `h${props.depth + 2}`,
+    class: 'text',
+    dangerouslySetInnerHTML: { __html: decode(props.item.text ?? '') }
+  })
   const classes = computed(() =>
     [
       `level-${props.depth}`,
@@ -49,7 +54,10 @@ export function VPSidebarItem(props: VPSidebarItemProps) {
   }
 
   return (
-    <SectionTag class={['VPSidebarItem', classes.value].join(' ')}>
+    <component
+      is={hasChildren.value ? 'section' : 'div'}
+      class={['VPSidebarItem', classes.value].join(' ')}
+    >
       {props.item.text ? (
         <div
           class="item"
@@ -65,27 +73,17 @@ export function VPSidebarItem(props: VPSidebarItemProps) {
           <div class="indicator" />
           {props.item.link ? (
             <VPLink
-              tag={LinkTag}
+              tag={isLink.value ? 'a' : 'div'}
               class="link"
               href={props.item.link}
               rel={props.item.rel}
               target={props.item.target}
             >
               {/* 原 v-html：配置文本可含 HTML 实体/标签，解码后按 innerHTML 渲染 */}
-              <TextTag
-                class="text"
-                dangerouslySetInnerHTML={{
-                  __html: decode(props.item.text ?? '')
-                }}
-              />
+              <component {...(textTagAttrs() as any)} />
             </VPLink>
           ) : (
-            <TextTag
-              class="text"
-              dangerouslySetInnerHTML={{
-                __html: decode(props.item.text ?? '')
-              }}
-            />
+            <component {...(textTagAttrs() as any)} />
           )}
           {props.item.collapsed != null &&
           props.item.items &&
@@ -110,6 +108,6 @@ export function VPSidebarItem(props: VPSidebarItemProps) {
           ))}
         </div>
       ) : null}
-    </SectionTag>
+    </component>
   )
 }
