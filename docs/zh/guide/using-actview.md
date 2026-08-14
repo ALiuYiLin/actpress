@@ -47,7 +47,7 @@ export function Counter() {
 
 点击上面的按钮试试——它就是当前页面里真实运行的 ActView 组件。它由两个 `<script>` 块和一个 `<style>` 块共同构成：
 
-````md
+````tsx
 <script lang="ts" setup>
 import { ref } from 'actview'
 const count = ref(0)
@@ -114,7 +114,7 @@ export function Counter2() {
 
 <Counter2 />
 
-````md
+````tsx
 <script lang="ts" setup>
 import { ref } from 'actview'
 const count2 = ref(0)
@@ -149,7 +149,7 @@ export function MyButton(props: any) {
 
 <MyButton size="lg" />
 
-````md
+````tsx
 <script lang="tsx">
 export function MyButton(props: any) {
   return <button className="mybutton" {...props}>Click</button>
@@ -177,7 +177,7 @@ export const Greeting = defineComponent(function () {
 
 <Greeting />
 
-````md
+````tsx
 <script lang="tsx" setup>
 import { defineComponent } from 'actview'
 const greeting = <strong>Hello</strong>
@@ -203,7 +203,7 @@ import { ModalDemo } from '../../components/ModalDemo'
 
 <ModalDemo />
 
-````md
+````tsx
 <script lang="tsx">
 import { ModalDemo } from '../../components/ModalDemo'
 </script>
@@ -223,7 +223,7 @@ Vue 模板特性**不会**在 Markdown 中被编译——它们会作为字面�
 
 请把这些逻辑放进 `<script lang="tsx">` 组件内部：
 
-````md
+````tsx
 <script lang="tsx">
 import { ref } from 'actview'
 const items = ref(['a', 'b', 'c'])
