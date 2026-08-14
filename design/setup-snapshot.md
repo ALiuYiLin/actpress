@@ -102,9 +102,31 @@ return <component is={props.tag ?? (props.href ? 'a' : 'button')} class={...}>..
 // ✓ computed 正确用法：源是响应式（路由变化 → computed 重算 → 重渲染）
 const isActiveLink = computed(() => isActive(page.value.relativePath, href.value))
 
-// ✗ 无效：props 是普通对象，computed 没有依赖可追踪，求值一次后永远缓存旧值
+// ✗ 无效（仅 ActView）：props 是普通对象，computed 没有依赖可追踪，求值一次后永远缓存旧值
 const cls = computed(() => props.active ? 'on' : 'off')   // 之后 props.active 变了也不重算
 ```
+
+> **注意：✗ 仅限 ActView**。Vue 3 中 props 本身就是响应式（`shallowReactive`
+> 代理），`computed(() => props.active)` 能正常追踪并重算——这是 Vue 官方推荐的
+> 派生写法；Vue 2（`defineReactive`）同理。React 无 computed（函数体每次渲染
+> 重跑）；Solid 的 props 是 getter 代理，`createMemo(() => props.active)` 有效。
+> ActView 故意把 props 设计为**普通对象 + 父组件显式调度**（见 core
+> `patchComponent` 注释：「props 用普通对象 + 显式调度，避免响应式 track/set
+> 引发的 effect 递归重入」），因此 props 派生只能在 render 期求值。
+
+> **各框架对比**：
+
+> | 框架 | props 是否响应式 | `computed(() => props.x)` | 派生值最佳写法 |
+> |---|---|---|---|
+> | Vue 3 | ✅ shallowReactive 代理 | ✅ 有效（官方推荐） | computed / 模板表达式 |
+> | Vue 2 | ✅ defineReactive | ✅ 有效 | computed |
+> | Solid | ✅ getter 代理 | ✅ 有效（`createMemo`） | createMemo |
+> | React | ❌ 普通对象 | 无 computed（每次渲染重跑） | 直接算 / useMemo+deps |
+> | **ActView** | ❌ 普通对象 + 显式调度 | ❌ 无效 | **render 期内联 / helper** |
+
+> **同源坑（Vue）**：解构 props 会丢失响应式——`const { active } = props`
+> 之后 `active` 永远是旧值（Vue 社区「不要解构 props」）。这与 ActView 的
+> setup 快照是同一个错误模式：「把新鲜值抽成一次性常量」。
 
 ## 5. 自查清单（代码 Review 时扫一眼）
 
