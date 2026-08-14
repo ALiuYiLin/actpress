@@ -177,4 +177,51 @@ describe('node/markdownToActView', () => {
     const img = children.find((c: any) => c.type === 'img')
     expect(img.props).toMatchObject({ src: '/a.png', alt: 'a' })
   }, 30000)
+
+  test('script placeholder: fenced code stays literal, real block extracted', async () => {
+    root = await mkdtemp(path.join(tmpdir(), 'vitepress-script-mask-'))
+
+    const file = path.join(root, 'index.md')
+    const src = `# Components
+
+\`\`\`\`md
+<script lang="tsx">
+export function Demo() {
+  return <pre>x</pre>
+}
+</script>
+\`\`\`\`
+
+<script lang="tsx">
+import { ref } from 'actview'
+export function ItemList() {
+  return <ul>{null}</ul>
+}
+</script>
+
+<ItemList />
+`
+    await writeFile(file, src)
+
+    const siteConfig = await resolveConfig(root, 'build', 'production')
+    const render = await createMarkdownToActViewRenderFn(
+      siteConfig.srcDir,
+      { cache: false },
+      '/',
+      false,
+      false,
+      siteConfig
+    )
+
+    const result = await render(src, file, 'public')
+    const code = result.actViewSrc
+
+    // 真实 script 块：组件提升顶层 + 正文组件引用
+    expect(code).toContain('function ItemList()')
+    expect(code).toContain('<ItemList />')
+
+    // fenced code 内的示例：保持原样（无占位符泄漏）
+    expect(code).not.toContain('__AV_SCRIPT_BLOCK_')
+    expect(code).toContain('export function Demo()')
+  }, 30000)
 })

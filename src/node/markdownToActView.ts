@@ -144,15 +144,11 @@ export async function createMarkdownToActViewRenderFn(
     // 终止（@mdit-vue/plugin-component 的 htmlBlockRule 同样如此），script 块
     // 内组件 JSX 含 `</pre>` 等闭合标签时会被提前截断。占位内容无截断标签，
     // tsxSfcPlugin 提取后经 env.__avScriptBlocks 还原为原始内容。
+    // 逐行扫描并跳过 fenced code block：文档示例代码（```md 包裹的
+    // <script lang="tsx">）渲染为代码，不走 html_block 提取路径，占位符
+    // 会原样显示，必须排除。
     const avScriptBlocks: { key: string; content: string }[] = []
-    src = src.replace(
-      /^<script\b[^>]*(?:\blang=["']tsx["']|\bsetup\b)[^>]*>[\s\S]*?<\/script>[ \t]*$/gim,
-      (match) => {
-        const key = `__AV_SCRIPT_BLOCK_${avScriptBlocks.length}__`
-        avScriptBlocks.push({ key, content: match })
-        return `<script setup>\n${key}\n</script>`
-      }
-    )
+    src = maskScriptBlocks(src, avScriptBlocks)
 
     const localeIndex = getLocaleForPath(siteConfig?.site, relativePath)
 
@@ -275,6 +271,70 @@ export async function createMarkdownToActViewRenderFn(
     if (options.cache !== false) cache.set(cacheKey, result)
     return result
   }
+}
+
+/**
+ * 把正文中顶格的 `<script setup>` / `<script lang="tsx">` 块替换为占位
+ * （规避 markdown-it html_block type 7 的任意闭合标签截断），并**跳过
+ * fenced code block 内的示例代码**——```md 包裹的 <script lang="tsx"> 渲染
+ * 为代码展示，不走 html_block 提取路径，占位符会原样显示，必须排除。
+ */
+function maskScriptBlocks(
+  src: string,
+  blocks: { key: string; content: string }[]
+): string {
+  const lines = src.split('\n')
+  const out: string[] = []
+  let fenceChar: string | null = null
+  let i = 0
+  while (i < lines.length) {
+    const line = lines[i]
+    // fenced code block 检测（CommonMark：最多 3 空格缩进 + ≥3 个 ` 或 ~）
+    const fence = /^\s{0,3}(`{3,}|~{3,})/.exec(line)
+    if (fence) {
+      const ch = fence[1][0]
+      if (fenceChar === null) {
+        fenceChar = ch
+      } else if (ch === fenceChar && /^\s{0,3}[`~]{3,}\s*$/.test(line)) {
+        fenceChar = null
+      }
+      out.push(line)
+      i++
+      continue
+    }
+    if (fenceChar === null) {
+      const open = /^<script\b[^>]*(?:\blang=["']tsx["']|\bsetup\b)[^>]*>/.exec(
+        line
+      )
+      if (open) {
+        const block: string[] = [line]
+        let j = i + 1
+        let closed = false
+        while (j < lines.length) {
+          block.push(lines[j])
+          if (/<\/script>\s*$/.test(lines[j])) {
+            closed = true
+            break
+          }
+          j++
+        }
+        if (closed) {
+          const key = `__AV_SCRIPT_BLOCK_${blocks.length}__`
+          blocks.push({ key, content: block.join('\n') })
+          out.push('<script setup>', key, '</script>')
+          i = j + 1
+          continue
+        }
+        // 未闭合：原样输出，交给 markdown-it 处理
+        out.push(...block)
+        i = j + 1
+        continue
+      }
+    }
+    out.push(line)
+    i++
+  }
+  return out.join('\n')
 }
 
 // ============================================================
