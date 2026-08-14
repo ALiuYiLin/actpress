@@ -361,10 +361,27 @@ export function createActViewSrc(
   }
 
   // 正文 → JSX（组件标签解析为顶层标识符引用，属性透传）
-  const body = serializeHtmlToJsx(html, componentNames)
+  // 动态路由：{{ $params }} → params JSON 文本（对齐 Vue 版模板语法，
+  // 在 pageData.params 注入后按字面替换为 JSON.stringify 的文本形式）
+  let bodyHtml = html
+  if (pageData.params) {
+    bodyHtml = html.replace(
+      /\{\{\s*\$params\s*\}\}/g,
+      JSON.stringify(pageData.params, null, 2)
+    )
+  }
+  const body = serializeHtmlToJsx(bodyHtml, componentNames)
   if (body.warnings.length) {
     parts.push(`// NOTE (markdownToActView):`)
     for (const w of body.warnings) parts.push(`//   - ${w}`)
+  }
+
+  // 正文含 {{ expr }} 插值 → 注入 __vpDisplay（对象/数组 → 带缩进 JSON，
+  // 对齐 Vue toDisplayString；字符串原样、null/undefined 空串）
+  if (body.code.includes('__vpDisplay(')) {
+    parts.push(
+      `const __vpDisplay = (v) => v == null ? '' : typeof v === 'string' ? v : typeof v === 'object' ? JSON.stringify(v, null, 2) : String(v)`
+    )
   }
 
   // 页面组件：defineComponent 包裹（渲染正文）。不用裸函数——@actview/plugin
@@ -853,12 +870,21 @@ export function serializeHtmlToJsx(
 
   // 序列化
   const lines: string[] = []
-  // 文本一律渲染为字面（JSX 字符串表达式）。不支持正文 {expr} 求值——
-  // 需要动态内容时，在 <script lang="tsx"> 里定义组件，正文用组件引用。
+  // 正文文本：普通文本渲染为 JSX 字符串表达式；`{{ expr }}` 为模板插值
+  // （对齐 Vue 版 md 模板语法），拆分为 JSX 表达式并经 __vpDisplay 序列化
+  // （对象/数组 → 带缩进 JSON，对齐 Vue toDisplayString）。
   const renderText = (raw: string, pad: string): string => {
     const decoded = decodeEntities(raw)
     if (!decoded) return ''
-    return `${pad}{${JSON.stringify(decoded)}}`
+    const parts = decoded.split(/(\{\{[\s\S]+?\}\})/g)
+    if (parts.length === 1) return `${pad}{${JSON.stringify(decoded)}}`
+    const exprs = parts
+      .filter((p) => p !== '')
+      .map((p) => {
+        const m = /^\{\{([\s\S]+?)\}\}$/.exec(p.trim())
+        return m ? `__vpDisplay(${m[1].trim()})` : JSON.stringify(p)
+      })
+    return exprs.map((e) => `${pad}{${e}}`).join('\n')
   }
   const renderChildren = (children: (JsxNode | string)[], depth: number) => {
     for (const child of children) {
@@ -921,6 +947,10 @@ export function serializeHtmlToJsx(
       const decoded = decodeEntities(node.children[0])
       if (decoded.trim() === '') {
         lines.push(`${pad}<${tag}${attrStr} />`)
+      } else if (decoded.includes('{{')) {
+        // 含模板插值 → 走 renderText 拆分（折叠为单行）
+        const l = renderText(node.children[0], pad).replace(/\n\s*/g, '')
+        lines.push(`${pad}<${tag}${attrStr}>${l}</${tag}>`)
       } else if (/[{}<>'"]/.test(decoded)) {
         lines.push(
           `${pad}<${tag}${attrStr}>{${JSON.stringify(decoded)}}</${tag}>`

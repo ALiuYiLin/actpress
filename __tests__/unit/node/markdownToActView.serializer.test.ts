@@ -472,12 +472,15 @@ describe('serializeHtmlToJsx — Vue syntax tolerance', () => {
 
   test('{...} in text stays literal (no {expr} evaluation)', () => {
     const r = serializeHtmlToJsx('<p>当前计数: {count.value}</p>')
-    // 正文 {expr} 不求值——整段作为字面文本
+    // 单大括号不求值——整段作为字面文本
     expect(r.code).toContain(`{"当前计数: {count.value}"}`)
   })
 
-  test('double-brace {{...}} also stays literal', () => {
+  test('double-brace {{...}} compiles to __vpDisplay interpolation', () => {
+    // {{ expr }} 为模板插值（对齐 Vue 版 md）：拆分为 __vpDisplay 表达式
     const r = serializeHtmlToJsx('<p>value: {{count.value}}</p>')
-    expect(r.code).toContain(`{"value: {{count.value}}"}`)
+    expect(r.code).toContain(`{"value: "}{__vpDisplay(count.value)}`)
+    const r2 = serializeHtmlToJsx('<pre>{{ data }}</pre>')
+    expect(r2.code).toContain(`{__vpDisplay(data)}`)
   })
 })

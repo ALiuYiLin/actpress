@@ -14,6 +14,7 @@ import { usePrefetch } from './composables/preFetch'
 import { initData, siteDataRef, useData } from './data'
 import { createRouter, scrollTo, type Router } from './router'
 import { inBrowser, pathToFile } from './utils'
+import { contentUpdatedCallbacks } from './utils'
 
 function resolveThemeExtends(theme: typeof RawTheme): typeof RawTheme {
   if (theme.extends) {
@@ -128,6 +129,10 @@ if (inBrowser) {
       // dynamically update head tags
       useUpdateHead(router.route, data.site)
       app.mount('#app')
+      // ActView 挂载为「先建树、根最后插入」：组件 mounted 钩子早于 DOM 树
+      // 进入 document，此时 getHeaders（outline）查不到标题。mount 完成后
+      // 手动触发一次 onContentUpdated，补齐首次渲染的 outline/sidebar 等。
+      contentUpdatedCallbacks.forEach((fn) => fn())
 
       // scroll to hash on new tab during dev
       if (import.meta.env.DEV && location.hash) {

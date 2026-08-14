@@ -2,6 +2,7 @@ import '../styles/components/VPSidebarItem.css?scoped'
 import { computed } from 'actview'
 import type { DefaultTheme } from '@actview/press/theme'
 import { useSidebarItemControl } from '../composables/sidebar'
+import { decode } from '../support/sidebar'
 import { VPLink } from './VPLink'
 
 export interface VPSidebarItemProps {
@@ -70,11 +71,21 @@ export function VPSidebarItem(props: VPSidebarItemProps) {
               rel={props.item.rel}
               target={props.item.target}
             >
-              {/* 原 v-html：ActView 无 innerHTML，文本渲染 */}
-              <TextTag class="text">{props.item.text ?? ''}</TextTag>
+              {/* 原 v-html：配置文本可含 HTML 实体/标签，解码后按 innerHTML 渲染 */}
+              <TextTag
+                class="text"
+                dangerouslySetInnerHTML={{
+                  __html: decode(props.item.text ?? '')
+                }}
+              />
             </VPLink>
           ) : (
-            <TextTag class="text">{props.item.text ?? ''}</TextTag>
+            <TextTag
+              class="text"
+              dangerouslySetInnerHTML={{
+                __html: decode(props.item.text ?? '')
+              }}
+            />
           )}
           {props.item.collapsed != null &&
           props.item.items &&

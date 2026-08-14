@@ -93,12 +93,15 @@ export function VPLocalSearchBox(props: VPLocalSearchBoxProps) {
 
   const selectPreviousResult = (event: KeyboardEvent) => {
     event.preventDefault()
-    selectedIndex.value--
+    selectedIndex.value = Math.max(0, selectedIndex.value - 1)
     scrollToSelectedResult()
   }
   const selectNextResult = (event: KeyboardEvent) => {
     event.preventDefault()
-    selectedIndex.value++
+    selectedIndex.value = Math.min(
+      Math.max(results.value.length - 1, 0),
+      selectedIndex.value + 1
+    )
     scrollToSelectedResult()
   }
   const goToSelectedResult = (event: KeyboardEvent) => {
@@ -115,6 +118,12 @@ export function VPLocalSearchBox(props: VPLocalSearchBoxProps) {
   })
 
   const onKeydown = (event: KeyboardEvent) => {
+    // '/' 快捷键聚焦搜索（手写，替代 @vueuse/core onKeyStroke）
+    if (event.key === '/' && !isEditingContent(event)) {
+      event.preventDefault()
+      searchInput.value?.focus()
+      return
+    }
     switch (event.key) {
       case 'ArrowDown':
         selectNextResult(event)
@@ -129,21 +138,25 @@ export function VPLocalSearchBox(props: VPLocalSearchBoxProps) {
         event.preventDefault()
         close()
         break
+      case 'n':
+      case 'p':
+        // macOS 风格：Ctrl/Cmd+n 下一个、Ctrl/Cmd+p 上一个（对齐 Vue 版）
+        if (event.ctrlKey || event.metaKey) {
+          event.preventDefault()
+          event.key === 'n'
+            ? selectNextResult(event)
+            : selectPreviousResult(event)
+        }
+        break
     }
   }
 
   onMounted(() => {
     loadIndex()
     searchInput.value?.focus()
-    // '/' 快捷键聚焦搜索（手写，替代 @vueuse/core onKeyStroke）
-    const onKeydown = (event: KeyboardEvent) => {
-      if (event.key === '/' && !isEditingContent(event)) {
-        event.preventDefault()
-        searchInput.value?.focus()
-      }
-    }
-    document.addEventListener('keydown', onKeydown)
-    return () => document.removeEventListener('keydown', onKeydown)
+    // 键盘导航挂 window（对齐 Vue 版）：ctrl+n/p 在任何焦点下均可触发
+    window.addEventListener('keydown', onKeydown)
+    return () => window.removeEventListener('keydown', onKeydown)
   })
 
   // ---- 高亮（原版 mark.js → 手写拆分）----
@@ -192,7 +205,6 @@ export function VPLocalSearchBox(props: VPLocalSearchBoxProps) {
               oninput={(e: Event) => {
                 filterText.value = (e.target as HTMLInputElement).value
               }}
-              onkeydown={onKeydown}
               aria-activedescendant={
                 selectedIndex.value > -1
                   ? `localsearch-item-${selectedIndex.value}`

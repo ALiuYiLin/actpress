@@ -8,6 +8,19 @@ export interface SidebarLink {
   docFooterText?: string
 }
 
+/**
+ * HTML 实体解码（对齐 Vue 版 vitepress support/sidebar 的 decode）：
+ * sidebar/nav 配置里的 `&lt;`/`&#60;` 等实体还原为字符。
+ */
+export function decode(text: string): string {
+  return text
+    .replace(/&#39;/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/&gt;/g, '>')
+    .replace(/&lt;/g, '<')
+    .replace(/&amp;/g, '&')
+}
+
 type SidebarItem = DefaultTheme.SidebarItem
 
 /**

@@ -1,8 +1,10 @@
+import { readFile, unlink, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 import pm from 'picomatch'
 import {
-  loadConfigFromFile,
   normalizePath,
+  transformWithEsbuild,
   type EnvironmentModuleNode,
   type Plugin,
   type ViteDevServer
@@ -32,6 +34,37 @@ const idToLoaderModulesMap: Record<
   string,
   (Required<Omit<LoaderModule, 'watch'>> & { watch: string[] }) | undefined
 > = Object.create(null)
+
+/**
+ * 加载并执行 data loader 模块（返回其 default 导出的 LoaderModule）。
+ *
+ * 替代 vite 的 loadConfigFromFile：后者通过 config bundle 解析 import，
+ * 无法处理 `import { defineLoader } from 'vitepress'`（Vue 版 vitepress 的
+ * 写法，actpress 环境无该包）。这里直接读取源文件、把 `vitepress` 导入
+ * 重写为 `@actview/press`、esbuild 转译后写入同目录临时文件再 import——
+ * 同目录保证相对导入与 node_modules 包解析（@actview/press）均可解析。
+ */
+async function loadLoaderModule(id: string): Promise<LoaderModule> {
+  const cleanId = id.replace(/\?.*$/, '')
+  let code = await readFile(cleanId, 'utf-8')
+  code = code.replace(
+    /from\s*['"]vitepress['"]/g,
+    `from ${JSON.stringify('@actview/press')}`
+  )
+  const { code: js } = await transformWithEsbuild(code, cleanId, {
+    loader: 'ts',
+    format: 'esm',
+    target: 'node18'
+  })
+  const tmp = `${cleanId}.__actview_loader__.mjs`
+  await writeFile(tmp, js)
+  try {
+    const mod = await import(`${pathToFileURL(tmp).href}?t=${Date.now()}`)
+    return (mod.default ?? mod) as LoaderModule
+  } finally {
+    await unlink(tmp).catch(() => {})
+  }
+}
 
 // Map from dependency file to a set of loader module ids
 const depToLoaderModuleIdsMap: Record<string, Set<string>> = Object.create(null)
@@ -75,22 +108,8 @@ export const staticDataPlugin: Plugin = {
       if (existing) {
         ;({ watch, load, options } = existing)
       } else {
-        // use vite's load config util as a way to load Node.js file with
-        // TS & native ESM support
-        const res = await loadConfigFromFile({} as any, id.replace(/\?.*$/, ''))
+        const loaderModule = await loadLoaderModule(id)
 
-        // record deps for hmr
-        if (server && res) {
-          for (const dep of res.dependencies) {
-            const depPath = normalizePath(path.resolve(dep))
-            if (!depToLoaderModuleIdsMap[depPath]) {
-              depToLoaderModuleIdsMap[depPath] = new Set()
-            }
-            depToLoaderModuleIdsMap[depPath].add(id)
-          }
-        }
-
-        const loaderModule = res?.config as LoaderModule
         watch = normalizeGlob(loaderModule.watch, base)
         load = loaderModule.load
         options = loaderModule.options || {}

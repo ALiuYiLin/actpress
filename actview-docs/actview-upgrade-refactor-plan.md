@@ -196,5 +196,11 @@ git add -A && git commit
 ### 7.3 待办
 
 - [x] e2e 遗留 `.vue` 组件清理：Vue 版 vitepress 的 `ApiPreference/NavVersion/HomeHeroCopy/CustomLayout`（.vue + `app.component` 全局注册，ActView 均不支持）已移除；`theme/index.ts` 恢复默认主题、`config.ts` nav 移除字符串组件项。**字符串 nav 组件解析（`NavItemComponent.component`）列为 actpress 后续增强项**
-- [ ] e2e 验收（需 playwright 环境）：`pnpm test:e2e`（已含 `.vp-doc` / `.VPNavBarSearchButton` 断言），另按 §四 清单做 dev 冒烟
-- [ ] 发布 `@actview/press@1.0.18`（含本次重构），供 `actview-docs` 等下游升级
+- [x] **e2e 全绿（dev + build 双模式）**：8 个历史缺口全部修复——
+  1. **outline 为空**（home/frontmatter）：ActView 挂载为「先建树、根最后插入」，组件 mounted 早于 DOM 树就位，`getHeaders` 查不到标题 → `Content` 补 `onUpdated(runCbs)` + `app.mount` 完成后触发一次 `onContentUpdated`
+  2. **`{{ $params }}` / 正文模板插值**：`serializeHtmlToJsx` 支持 `{{ expr }}` → `__vpDisplay(expr)`（对象/数组 → 带缩进 JSON，对齐 Vue toDisplayString），页面模块自动注入 `__vpDisplay`；修复单文本 fast-path 绕过插值拆分的问题
+  3. **data-loading**：`staticDataPlugin` 弃用 `loadConfigFromFile`（无法解析 `import 'vitepress'`），改为直接读源文件 + 重写 `vitepress` → `@actview/press` + esbuild 转译 + 同目录临时文件 import（HMR 经 watch glob 生效）
+  4. **local-search 键盘导航**：`VPLocalSearchBox` 补 Ctrl/Cmd+n/p（对齐 Vue 版）+ 索引 clamp；键盘监听挂 window（测试按 Vue 语义 dispatch 到 window）
+  5. **multi-sidebar 实体解码**：新增 `support/sidebar.decode`，`VPSidebarItem` 文本改 `dangerouslySetInnerHTML` 渲染（对齐 Vue 版 v-html）
+  6. **e2e 测试基建**：`fileParallelism: false`——所有文件共享 page 与 dev server，并发下 data-loading 的 HMR full reload 会打断其它文件
+- [ ] 发布 `@actview/press@1.0.18`（含本次全部修复），供 `actview-docs` 等下游升级
