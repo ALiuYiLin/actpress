@@ -191,10 +191,10 @@ git add -A && git commit
 **处置**：
 - 根修已提交 actview 仓库：`9ad6dc4`（`packages/jsx/src/types.ts`）
 - actpress 侧以 **pnpm patch** 临时应用（`patches/@actview__jsx@1.0.15.patch` + `pnpm-workspace.yaml` patchedDependencies），本地类型校验立即通过
-- **待办**：actview 发布 `@actview/jsx@1.0.16` 后，`pnpm patch-remove @actview/jsx@1.0.15` 移除补丁并升级
+- **已完成**：`@actview/jsx@1.0.16` 发布后已 `pnpm patch-remove` 并升级（package.json `^1.0.16`），补丁文件与 workspace 配置已清除
 
 ### 7.3 待办
 
+- [x] e2e 遗留 `.vue` 组件清理：Vue 版 vitepress 的 `ApiPreference/NavVersion/HomeHeroCopy/CustomLayout`（.vue + `app.component` 全局注册，ActView 均不支持）已移除；`theme/index.ts` 恢复默认主题、`config.ts` nav 移除字符串组件项。**字符串 nav 组件解析（`NavItemComponent.component`）列为 actpress 后续增强项**
 - [ ] e2e 验收（需 playwright 环境）：`pnpm test:e2e`（已含 `.vp-doc` / `.VPNavBarSearchButton` 断言），另按 §四 清单做 dev 冒烟
-- [ ] 发布 `@actview/jsx@1.0.16`（含类型修复）后移除 §7.2 的 pnpm patch
 - [ ] 发布 `@actview/press@1.0.18`（含本次重构），供 `actview-docs` 等下游升级
