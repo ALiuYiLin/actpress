@@ -268,12 +268,33 @@ function tsxSfcPlugin(md: MarkdownRenderer) {
     env.sfcBlocks.scripts.push({
       type: 'script',
       content,
-      contentStripped: match[1],
+      // markdownToActView 预处理的 script 占位块（规避 html_block 截断）：
+      // 内容为占位 key 时，从 env.__avScriptBlocks 还原原始 script 块
+      contentStripped: restoreScriptPlaceholder(match[1], env),
       tagOpen: content.slice(0, content.indexOf('>') + 1),
       tagClose: '</script>'
     })
     return ''
   }
+}
+
+/**
+ * 还原 script 占位内容：markdownToActView 渲染前把 `<script setup>` 块替换为
+ * `<script setup>\n<KEY>\n</script>`（markdown-it 的 html_block type 7 以任意
+ * `</(script|pre|style|textarea)>` 终止，script 块内组件 JSX 含 `</pre>` 等
+ * 闭合标签会被提前截断）。这里把占位 key 还原为原始 script 块内容。
+ */
+function restoreScriptPlaceholder(stripped: string, env: any): string {
+  const blocks: { key: string; content: string }[] | undefined =
+    env?.__avScriptBlocks
+  if (!blocks) return stripped
+  const key = stripped.trim()
+  for (const block of blocks) {
+    if (block.key !== key) continue
+    const m = /^<script\b[^>]*>([\s\S]*)<\/script>\s*$/is.exec(block.content)
+    return m ? m[1] : stripped
+  }
+  return stripped
 }
 
 // highlight is marked as any to avoid type conflicts with plugins expecting

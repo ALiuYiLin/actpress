@@ -476,11 +476,10 @@ describe('serializeHtmlToJsx — Vue syntax tolerance', () => {
     expect(r.code).toContain(`{"当前计数: {count.value}"}`)
   })
 
-  test('double-brace {{...}} compiles to __vpDisplay interpolation', () => {
-    // {{ expr }} 为模板插值（对齐 Vue 版 md）：拆分为 __vpDisplay 表达式
+  test('double-brace {{...}} also stays literal', () => {
+    // ActView 正文不做表达式求值：{{ expr }} 保持字面文本
+    // （动态内容用 <script lang="tsx"> 组件 + 正文组件引用）
     const r = serializeHtmlToJsx('<p>value: {{count.value}}</p>')
-    expect(r.code).toContain(`{"value: "}{__vpDisplay(count.value)}`)
-    const r2 = serializeHtmlToJsx('<pre>{{ data }}</pre>')
-    expect(r2.code).toContain(`{__vpDisplay(data)}`)
+    expect(r.code).toContain(`{"value: {{count.value}}"}`)
   })
 })
