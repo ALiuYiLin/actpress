@@ -107,7 +107,7 @@ export function VPNavBarSearch(props: any = {}) {
   if (provider === 'algolia') {
     const searchOptions = algoliaOptions.value as any
     return (
-      <div class="VPNavBarSearch">
+      <div class={['VPNavBarSearch', props.class].filter(Boolean).join(' ')}>
         {resolvedMode.value.showKeywordSearch ? (
           <VPNavBarSearchButton
             text={searchOptions.translations?.button?.buttonText || 'Search'}
@@ -130,7 +130,7 @@ export function VPNavBarSearch(props: any = {}) {
 
   if (provider === 'local') {
     return (
-      <div class="VPNavBarSearch">
+      <div class={['VPNavBarSearch', props.class].filter(Boolean).join(' ')}>
         <VPNavBarSearchButton
           text="Search"
           onclick={() => {
@@ -148,7 +148,9 @@ export function VPNavBarSearch(props: any = {}) {
     )
   }
 
-  return <div class="VPNavBarSearch" />
+  return (
+    <div class={['VPNavBarSearch', props.class].filter(Boolean).join(' ')} />
+  )
 }
 
 function isEditingContent(event: KeyboardEvent): boolean {

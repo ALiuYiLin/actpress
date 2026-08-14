@@ -9,7 +9,9 @@ export function VPNavBarHamburger(props: VPNavBarHamburgerProps = {}) {
   return (
     <button
       type="button"
-      class={['VPNavBarHamburger', props.active ? 'active' : ''].join(' ')}
+      class={['VPNavBarHamburger', props.active ? 'active' : '', props.class]
+        .filter(Boolean)
+        .join(' ')}
       aria-label="mobile navigation"
       aria-expanded={props.active}
       aria-controls="VPNavScreen"

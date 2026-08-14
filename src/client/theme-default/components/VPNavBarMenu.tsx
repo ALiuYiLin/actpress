@@ -11,7 +11,10 @@ export function VPNavBarMenu(props: any) {
   const nav = computed(() => theme.value.nav ?? [])
 
   return nav.value.length ? (
-    <nav aria-labelledby="main-nav-aria-label" class="VPNavBarMenu">
+    <nav
+      aria-labelledby="main-nav-aria-label"
+      class={['VPNavBarMenu', props.class].filter(Boolean).join(' ')}
+    >
       <span id="main-nav-aria-label" class="visually-hidden">
         Main Navigation
       </span>

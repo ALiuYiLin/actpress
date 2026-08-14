@@ -31,6 +31,10 @@ export function VPMenuLink(props: VPMenuLinkProps) {
         target={props.item.target}
         rel={props.rel ?? props.item.rel}
         noIcon={props.item.noIcon}
+        hreflang={props.hreflang}
+        dir={props.dir}
+        lang={props.lang}
+        external={props.external}
       >
         {/* 原 v-html：ActView 无 innerHTML，文本渲染（item.text 通常为纯文本） */}
         <span>{props.item.text ?? ''}</span>

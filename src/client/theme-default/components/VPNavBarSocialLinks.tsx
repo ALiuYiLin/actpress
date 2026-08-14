@@ -7,7 +7,7 @@ export function VPNavBarSocialLinks(props: any = {}, ctx?: any) {
 
   return theme.value.socialLinks ? (
     <VPSocialLinks
-      class="VPNavBarSocialLinks"
+      class={['VPNavBarSocialLinks', props.class].filter(Boolean).join(' ')}
       links={theme.value.socialLinks}
     />
   ) : null

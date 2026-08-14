@@ -16,7 +16,7 @@ export function VPNavBarTranslations(props: any = {}) {
 
   return localeLinks.value.length > 0 && !!currentLang.value.label ? (
     <VPFlyout
-      class="VPNavBarTranslations"
+      class={['VPNavBarTranslations', props.class].filter(Boolean).join(' ')}
       icon="vpi-languages"
       label={theme.value.langMenuLabel || 'Change language'}
     >

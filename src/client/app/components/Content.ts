@@ -27,7 +27,10 @@ export const Content = defineComponent(function (props: any) {
     }
     return createElement(
       as,
-      contentProps,
+      {
+        ...contentProps,
+        class: [contentProps.class, props.class].filter(Boolean).join(' ')
+      },
       route.component
         ? createElement(route.component, null)
         : '404 Page Not Found'

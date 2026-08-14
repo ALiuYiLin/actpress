@@ -23,7 +23,11 @@ export function VPHero(props: VPHeroProps = {}) {
   const hasImage = !!(props.image || heroImageSlotExists)
 
   return (
-    <div class={['VPHero', hasImage ? 'has-image' : ''].join(' ')}>
+    <div
+      class={['VPHero', hasImage ? 'has-image' : '', props.class]
+        .filter(Boolean)
+        .join(' ')}
+    >
       <div class="container">
         <div class="main">
           {props.homeHeroInfoBefore}

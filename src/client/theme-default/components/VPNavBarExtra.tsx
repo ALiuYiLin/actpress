@@ -26,7 +26,10 @@ export function VPNavBarExtra(props: any) {
   })
 
   return hasExtraContent.value ? (
-    <VPFlyout class="VPNavBarExtra" label="extra navigation">
+    <VPFlyout
+      class={['VPNavBarExtra', props.class].filter(Boolean).join(' ')}
+      label="extra navigation"
+    >
       {localeLinks.value.length > 0 && !!currentLang.value.label ? (
         <div class="group translations">
           <p class="trans-title">{currentLang.value.label}</p>

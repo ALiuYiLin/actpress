@@ -10,13 +10,20 @@ export interface VPImageProps {
 
 // defineComponent + JSX：render 内允许条件 return（VPImage 有递归与早退）
 export function VPImage(props: VPImageProps) {
-  const { image, alt, ...rest } = props
+  const { image, alt, class: cls, ...rest } = props
   if (!image) return null
 
   if (typeof image === 'string' || 'src' in image) {
     const src = typeof image === 'string' ? image : image.src
     const altText = alt ?? (typeof image === 'string' ? '' : image.alt || '')
-    return <img class="VPImage" src={withBase(src)} alt={altText} {...rest} />
+    return (
+      <img
+        class={['VPImage', cls].filter(Boolean).join(' ')}
+        src={withBase(src)}
+        alt={altText}
+        {...rest}
+      />
+    )
   }
 
   // 双主题图（light/dark）

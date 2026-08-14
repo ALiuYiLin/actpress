@@ -15,7 +15,7 @@ export function VPNavBarAppearance(props: any) {
     return null
   }
   return (
-    <div class="VPNavBarAppearance">
+    <div class={['VPNavBarAppearance', props.class].filter(Boolean).join(' ')}>
       <VPSwitchAppearance />
     </div>
   )
