@@ -102,17 +102,22 @@ return <component is={props.tag ?? (props.href ? 'a' : 'button')} class={...}>..
 // ✓ computed 正确用法：源是响应式（路由变化 → computed 重算 → 重渲染）
 const isActiveLink = computed(() => isActive(page.value.relativePath, href.value))
 
-// ✗ 无效（仅 ActView）：props 是普通对象，computed 没有依赖可追踪，求值一次后永远缓存旧值
-const cls = computed(() => props.active ? 'on' : 'off')   // 之后 props.active 变了也不重算
+// ⚠️ 历史限制（@actview/core ≤ 1.0.29）：props 是普通对象，computed 没有依赖
+//    可追踪，求值一次后永远缓存旧值 → 只能在 render 期求值。
+// ✅ @actview/core ≥ 1.0.30 起 props 为 shallowReactive 代理（Vue 语义），
+//    此写法有效（computed(() => props.x) / watch(() => props.x) 均可追踪）；
+//    升级发布版后优先用 computed，未升级前仍按 render 期求值。
+const cls = computed(() => props.active ? 'on' : 'off')
 ```
 
-> **注意：✗ 仅限 ActView**。Vue 3 中 props 本身就是响应式（`shallowReactive`
-> 代理），`computed(() => props.active)` 能正常追踪并重算——这是 Vue 官方推荐的
-> 派生写法；Vue 2（`defineReactive`）同理。React 无 computed（函数体每次渲染
-> 重跑）；Solid 的 props 是 getter 代理，`createMemo(() => props.active)` 有效。
-> ActView 故意把 props 设计为**普通对象 + 父组件显式调度**（见 core
-> `patchComponent` 注释：「props 用普通对象 + 显式调度，避免响应式 track/set
-> 引发的 effect 递归重入」），因此 props 派生只能在 render 期求值。
+> **注意：✗ 仅限旧版 ActView（core ≤ 1.0.29）**。Vue 3 中 props 本身就是响应式
+> （`shallowReactive` 代理），`computed(() => props.active)` 能正常追踪并重算——这是
+> Vue 官方推荐的派生写法；Vue 2（`defineReactive`）同理。React 无 computed（函数体
+> 每次渲染重跑）；Solid 的 props 是 getter 代理，`createMemo(() => props.active)`
+> 有效。ActView 曾在 core 1.0.29 把 props 设计为**普通对象 + 父组件显式调度**（见
+> `patchComponent` 注释），因此 props 派生只能在 render 期求值；**core ≥ 1.0.30 已
+> 改为 shallowReactive 代理（对齐 Vue），并同步修复了 updateProps/setup 期间的
+> 父 effect 污染问题**（详见 actview 仓库 commit c1e7879）。
 
 > **各框架对比**：
 
@@ -122,7 +127,7 @@ const cls = computed(() => props.active ? 'on' : 'off')   // 之后 props.active
 > | Vue 2 | ✅ defineReactive | ✅ 有效 | computed |
 > | Solid | ✅ getter 代理 | ✅ 有效（`createMemo`） | createMemo |
 > | React | ❌ 普通对象 | 无 computed（每次渲染重跑） | 直接算 / useMemo+deps |
-> | **ActView** | ❌ 普通对象 + 显式调度 | ❌ 无效 | **render 期内联 / helper** |
+> | **ActView** | ⚠️ ≤1.0.29 普通对象 / ≥1.0.30 shallowReactive | ⚠️ ≤1.0.29 无效 / ≥1.0.30 有效 | render 期内联 / helper（或 computed） |
 
 > **同源坑（Vue）**：解构 props 会丢失响应式——`const { active } = props`
 > 之后 `active` 永远是旧值（Vue 社区「不要解构 props」）。这与 ActView 的
