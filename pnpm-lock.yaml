@@ -7,6 +7,7 @@ settings:
 overrides:
   ora>string-width: ^5
   vite: npm:rolldown-vite@latest
+  markdown-it-anchor: 9.2.0
 
 patchedDependencies:
   '@types/markdown-it-attrs':
@@ -27,8 +28,8 @@ importers:
   .:
     dependencies:
       '@actview/core':
-        specifier: ^1.0.29
-        version: 1.0.29
+        specifier: ^1.0.30
+        version: 1.0.30
       '@actview/jsx':
         specifier: ^1.0.16
         version: 1.0.16
@@ -208,7 +209,7 @@ importers:
         specifier: ^14.2.0
         version: 14.2.0
       markdown-it-anchor:
-        specifier: ^9.2.0
+        specifier: 9.2.0
         version: 9.2.0(patch_hash=cdc28e7c329be30688ad192126ba505446611fbe526ad51483e4b1287aa35cf9)(@types/markdown-it@14.1.2)(markdown-it@14.2.0)
       markdown-it-async:
         specifier: ^2.2.0
@@ -353,6 +354,9 @@ packages:
 
   '@actview/core@1.0.29':
     resolution: {integrity: sha512-NNyaf3re5vwX3UjNp2af0x/Pknx96WymwxmDTw+UqPprJzowBheZ2LZWFLzT8R9kuVKCE00W5rXaigqcegppHQ==}
+
+  '@actview/core@1.0.30':
+    resolution: {integrity: sha512-gLkTZWVtwOef1jyWfolEtwAEx3krGurJwm8xAUO6CvFOwdDNb6T5jcuVg+72fJJ1cBpboyl+PFecU5NpJnVF9g==}
 
   '@actview/jsx@1.0.15':
     resolution: {integrity: sha512-l84evVjeggZwTzZQ260xPQSIpnCCjhW/jg4TT+X+bgGx9jy70UiQg6F0Mgdqm+3lp923Ao7hbkaxhuBx1FbLTw==}
@@ -3136,6 +3140,8 @@ packages:
 snapshots:
 
   '@actview/core@1.0.29': {}
+
+  '@actview/core@1.0.30': {}
 
   '@actview/jsx@1.0.15': {}
 
