@@ -3,8 +3,9 @@
 # 前置要求（仓库 Settings → Pages）：
 #   Source 选择 "GitHub Actions"（不要选 branch 部署）。
 # 产物：docs/.vitepress/dist → https://<owner>.github.io/<repo>/
-# base 路径取自 actions/configure-pages 的 base_path（项目页为 /<repo>/，
-# 用户/组织页为 /），无需手改。
+# base 路径取自 actions/configure-pages 的 base_path（项目页为 /<repo>，
+# 用户/组织页为 /；注意该值没有尾部斜杠，由 build 内部 normalizeBase 补齐），
+# 无需手改。
 
 name: Deploy to GitHub Pages
 

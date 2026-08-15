@@ -9,7 +9,12 @@ import * as vite from 'vite'
 import type { BuildOptions, Rollup } from 'vite'
 import { resolveConfig, type SiteConfig } from '../config'
 import { clearCache } from '../markdownToActView'
-import { slash, type Awaitable, type HeadConfig } from '../shared'
+import {
+  normalizeBase,
+  slash,
+  type Awaitable,
+  type HeadConfig
+} from '../shared'
 import { deserializeFunctions, serializeFunctions } from '../utils/fnSerialize'
 import { task } from '../utils/task'
 import { bundle } from './bundle'
@@ -47,7 +52,10 @@ export async function build(
   delete buildOptions.onAfterConfigResolve
 
   if (buildOptions.base) {
-    siteConfig.site.base = buildOptions.base
+    // `--base` from the CLI (e.g. GitHub Pages `base_path`) may lack a
+    // trailing slash; normalize it or naive `base + fileName` concatenation
+    // below would produce broken URLs like `/repoassets/app.js`.
+    siteConfig.site.base = normalizeBase(buildOptions.base)
     delete buildOptions.base
   }
 

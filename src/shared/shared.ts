@@ -228,6 +228,16 @@ export function slash(p: string): string {
   return p.replace(/\\/g, '/')
 }
 
+/**
+ * Ensure a base URL ends with a slash, e.g. `/foo` -> `/foo/`.
+ * Bases without a trailing slash (e.g. GitHub Pages' `base_path` output
+ * passed via `--base`) break naive `base + assetPath` concatenation,
+ * producing URLs like `/fooassets/app.js`.
+ */
+export function normalizeBase(base: string): string {
+  return base.replace(/([^/])$/, '$1/')
+}
+
 const KNOWN_EXTENSIONS = new Set()
 
 export function treatAsHtml(filename: string): boolean {

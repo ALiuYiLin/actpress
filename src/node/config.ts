@@ -17,6 +17,7 @@ import {
   APPEARANCE_KEY,
   VP_SOURCE_KEY,
   isObject,
+  normalizeBase,
   slash,
   type AdditionalConfig,
   type Awaitable,
@@ -347,7 +348,7 @@ export async function resolveSiteData(
     title: userConfig.title || 'VitePress',
     titleTemplate: userConfig.titleTemplate,
     description: userConfig.description || 'A VitePress site',
-    base: userConfig.base ? userConfig.base.replace(/([^/])$/, '$1/') : '/',
+    base: userConfig.base ? normalizeBase(userConfig.base) : '/',
     head: resolveSiteDataHead(userConfig),
     router: {
       prefetchLinks: userConfig.router?.prefetchLinks ?? true
