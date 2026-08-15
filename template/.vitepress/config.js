@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitepress'
+import { defineConfig } from '@actview/press'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({<% if (srcDir) { %>

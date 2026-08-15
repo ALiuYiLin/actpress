@@ -593,7 +593,7 @@ export default {
 
 ## Build Hooks
 
-VitePress build hooks allow you to add new functionality and behaviors to your website:
+ActPress build hooks allow you to add new functionality and behaviors to your website:
 
 - Sitemap
 - Search Indexing

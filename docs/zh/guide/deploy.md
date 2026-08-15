@@ -14,8 +14,8 @@ description: 将 VitePress 站点部署到 Netlify、Vercel、GitHub Pages 等�
   ```json [package.json]
   {
     "scripts": {
-      "docs:build": "vitepress build docs",
-      "docs:preview": "vitepress preview docs"
+      "docs:build": "actview-press build docs",
+      "docs:preview": "actview-press preview docs"
     }
   }
   ```
@@ -41,7 +41,7 @@ description: 将 VitePress 站点部署到 Netlify、Vercel、GitHub Pages 等�
    ```json
    {
      "scripts": {
-       "docs:preview": "vitepress preview docs --port 8080"
+       "docs:preview": "actview-press preview docs --port 8080"
      }
    }
    ```

@@ -1,21 +1,21 @@
 ---
-description: Reference of VitePress CLI commands including dev, build, preview, and init.
+description: Reference of ActPress CLI commands including dev, build, preview, and init.
 ---
 
 # Command Line Interface
 
-## `vitepress dev`
+## `actview-press dev`
 
-Start VitePress dev server using designated directory as root. Defaults to current directory. The `dev` command can also be omitted when running in current directory.
+Start ActPress dev server using designated directory as root. Defaults to current directory. The `dev` command can also be omitted when running in current directory.
 
 ### Usage
 
 ```sh
 # start in current directory, omitting `dev`
-vitepress
+actview-press
 
 # start in sub directory
-vitepress dev [root]
+actview-press dev [root]
 ```
 
 ### Options
@@ -29,14 +29,14 @@ vitepress dev [root]
 | `--strictPort`  | Exit if specified port is already in use (`boolean`)              |
 | `--force`       | Force the optimizer to ignore the cache and re-bundle (`boolean`) |
 
-## `vitepress build`
+## `actview-press build`
 
-Build the VitePress site for production.
+Build the ActPress site for production.
 
 ### Usage
 
 ```sh
-vitepress build [root]
+actview-press build [root]
 ```
 
 ### Options
@@ -49,14 +49,14 @@ vitepress build [root]
 | `--outDir <dir>`               | Output directory relative to **cwd** (default: `<root>/.vitepress/dist`) (`string`)                                 |
 | `--assetsInlineLimit <number>` | Static asset base64 inline threshold in bytes (default: `4096`) (`number`)                                          |
 
-## `vitepress preview`
+## `actview-press preview`
 
 Locally preview the production build.
 
 ### Usage
 
 ```sh
-vitepress preview [root]
+actview-press preview [root]
 ```
 
 ### Options
@@ -66,12 +66,12 @@ vitepress preview [root]
 | `--base <path>` | Public base path (default: `/`) (`string`) |
 | `--port <port>` | Specify port (`number`)                    |
 
-## `vitepress init`
+## `actview-press init`
 
 Start the [Setup Wizard](../guide/getting-started#setup-wizard) in current directory.
 
 ### Usage
 
 ```sh
-vitepress init
+actview-press init
 ```

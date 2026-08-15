@@ -38,7 +38,7 @@ const getPackageManger = () => {
 }
 
 export async function init(root?: string) {
-  intro(c.bold(c.cyan('Welcome to VitePress!')))
+  intro(c.bold(c.cyan('Welcome to ActPress!')))
 
   const options = await group(
     {
@@ -46,7 +46,7 @@ export async function init(root?: string) {
         if (root) return root
 
         return text({
-          message: 'Where should VitePress initialize the config?',
+          message: 'Where should ActPress initialize the config?',
           initialValue: './',
           defaultValue: './',
           validate() {
@@ -58,7 +58,7 @@ export async function init(root?: string) {
 
       srcDir: async ({ results }: any) => {
         return text({
-          message: 'Where should VitePress look for your markdown files?',
+          message: 'Where should ActPress look for your markdown files?',
           initialValue: results.root,
           defaultValue: results.root
         })
@@ -75,8 +75,8 @@ export async function init(root?: string) {
       description: async () => {
         return text({
           message: 'Site description:',
-          placeholder: 'A VitePress Site',
-          defaultValue: 'A VitePress Site'
+          placeholder: 'An ActPress Site',
+          defaultValue: 'An ActPress Site'
         })
       },
 
@@ -111,7 +111,7 @@ export async function init(root?: string) {
 
       injectNpmScripts: async () => {
         return confirm({
-          message: 'Add VitePress npm scripts to package.json?'
+          message: 'Add ActPress npm scripts to package.json?'
         })
       },
 
@@ -119,7 +119,7 @@ export async function init(root?: string) {
         if (!results.injectNpmScripts) return false
 
         return confirm({
-          message: 'Add a prefix for VitePress npm scripts?'
+          message: 'Add a prefix for ActPress npm scripts?'
         })
       },
 
@@ -127,7 +127,7 @@ export async function init(root?: string) {
         if (!results.addNpmScriptsPrefix) return 'docs'
 
         return text({
-          message: 'Prefix for VitePress npm scripts:',
+          message: 'Prefix for ActPress npm scripts:',
           placeholder: 'docs',
           defaultValue: 'docs'
         })
@@ -148,7 +148,7 @@ export function scaffold({
   root: root_ = './',
   srcDir: srcDir_ = root_,
   title = 'My Awesome Project',
-  description = 'A VitePress Site',
+  description = 'An ActPress Site',
   theme = ScaffoldThemeType.Default,
   useTs = true,
   injectNpmScripts = true,

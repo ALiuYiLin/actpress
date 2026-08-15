@@ -52,19 +52,19 @@ VitePress 附带一个命令行设置向导，可以帮助你构建一个基本�
 ::: code-group
 
 ```sh [npm]
-$ npx vitepress init
+$ npx actview-press init
 ```
 
 ```sh [pnpm]
-$ pnpm vitepress init
+$ pnpm actview-press init
 ```
 
 ```sh [yarn]
-$ yarn vitepress init
+$ yarn actview-press init
 ```
 
 ```sh [bun]
-$ bun vitepress init
+$ bun actview-press init
 ```
 
 :::
@@ -134,9 +134,9 @@ VitePress 还提供了生成简洁 URL、重写路径和动态生成页面的能
 {
   ...
   "scripts": {
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:dev": "actview-press dev docs",
+    "docs:build": "actview-press build docs",
+    "docs:preview": "actview-press preview docs"
   },
   ...
 }
@@ -169,19 +169,19 @@ $ bun run docs:dev
 ::: code-group
 
 ```sh [npm]
-$ npx vitepress dev docs
+$ npx actview-press dev docs
 ```
 
 ```sh [pnpm]
-$ pnpm vitepress dev docs
+$ pnpm actview-press dev docs
 ```
 
 ```sh [yarn]
-$ yarn vitepress dev docs
+$ yarn actview-press dev docs
 ```
 
 ```sh [bun]
-$ bun vitepress dev docs
+$ bun actview-press dev docs
 ```
 
 :::

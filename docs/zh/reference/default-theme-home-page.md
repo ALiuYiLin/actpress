@@ -186,11 +186,11 @@ hero:
 
 ## Getting Started
 
-You can get started using VitePress right away using `npx`!
+You can get started using ActPress right away using `npx`!
 
 ```sh
 npm init
-npx vitepress init
+npx actview-press init
 ```
 ````
 

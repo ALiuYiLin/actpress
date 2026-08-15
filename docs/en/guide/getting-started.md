@@ -56,19 +56,19 @@ VitePress ships with a command line setup wizard that will help you scaffold a b
 ::: code-group
 
 ```sh [npm]
-$ npx vitepress init
+$ npx actview-press init
 ```
 
 ```sh [pnpm]
-$ pnpm vitepress init
+$ pnpm actview-press init
 ```
 
 ```sh [yarn]
-$ yarn vitepress init
+$ yarn actview-press init
 ```
 
 ```sh [bun]
-$ bun vitepress init
+$ bun actview-press init
 ```
 
 :::
@@ -138,9 +138,9 @@ The tool should have also injected the following npm scripts to your `package.js
 {
   ...
   "scripts": {
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:dev": "actview-press dev docs",
+    "docs:build": "actview-press build docs",
+    "docs:preview": "actview-press preview docs"
   },
   ...
 }
@@ -173,19 +173,19 @@ Instead of npm scripts, you can also invoke VitePress directly with:
 ::: code-group
 
 ```sh [npm]
-$ npx vitepress dev docs
+$ npx actview-press dev docs
 ```
 
 ```sh [pnpm]
-$ pnpm vitepress dev docs
+$ pnpm actview-press dev docs
 ```
 
 ```sh [yarn]
-$ yarn vitepress dev docs
+$ yarn actview-press dev docs
 ```
 
 ```sh [bun]
-$ bun vitepress dev docs
+$ bun actview-press dev docs
 ```
 
 :::

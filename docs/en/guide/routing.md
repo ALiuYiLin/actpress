@@ -37,7 +37,7 @@ There are two important concepts in the file structure of a VitePress project: t
 
 Project root is where VitePress will try to look for the `.vitepress` special directory. The `.vitepress` directory is a reserved location for VitePress' config file, dev server cache, build output, and optional theme customization code.
 
-When you run `vitepress dev` or `vitepress build` from the command line, VitePress will use the current working directory as project root. To specify a sub-directory as root, you will need to pass the relative path to the command. For example, if your VitePress project is located in `./docs`, you should run `vitepress dev docs`:
+When you run `actview-press dev` or `actview-press build` from the command line, VitePress will use the current working directory as project root. To specify a sub-directory as root, you will need to pass the relative path to the command. For example, if your VitePress project is located in `./docs`, you should run `actview-press dev docs`:
 
 ```
 .
@@ -49,7 +49,7 @@ When you run `vitepress dev` or `vitepress build` from the command line, VitePre
 ```
 
 ```sh
-vitepress dev docs
+actview-press dev docs
 ```
 
 This is going to result in the following source-to-HTML mapping:
