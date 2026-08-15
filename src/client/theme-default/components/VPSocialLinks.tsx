@@ -12,7 +12,10 @@ export function VPSocialLinks(props: VPSocialLinksProps) {
   const me = props.me ?? true
 
   return (
-    <div class={['VPSocialLinks', props.class].filter(Boolean).join(' ')}>
+    <div
+      class={['VPSocialLinks', props.class].filter(Boolean).join(' ')}
+      scopedId={props.scopedId}
+    >
       {props.links.map(({ link, icon, ariaLabel }) => (
         <VPSocialLink
           key={link}

@@ -28,14 +28,14 @@ importers:
   .:
     dependencies:
       '@actview/core':
-        specifier: ^1.0.32
-        version: 1.0.32
+        specifier: ^1.0.33
+        version: 1.0.33
       '@actview/jsx':
         specifier: ^1.0.17
         version: 1.0.17
       '@actview/plugin-scoped':
-        specifier: ^1.0.3
-        version: 1.0.3(rolldown-vite@7.3.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@25.9.4)(esbuild@0.27.7)(jiti@1.21.7)(yaml@2.9.0))
+        specifier: ^1.0.4
+        version: 1.0.4(rolldown-vite@7.3.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@25.9.4)(esbuild@0.27.7)(jiti@1.21.7)(yaml@2.9.0))
       '@actview/plugin-vite':
         specifier: ^1.0.18
         version: 1.0.18(rolldown-vite@7.3.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@25.9.4)(esbuild@0.27.7)(jiti@1.21.7)(yaml@2.9.0))
@@ -352,8 +352,8 @@ importers:
 
 packages:
 
-  '@actview/core@1.0.32':
-    resolution: {integrity: sha512-5Updswy5gaZ2lTPHvrwC5uizuYA7u5dl7oA2iqhAIUG/1qhZ6XfEVYPD01B+VmWhYWSR6BXbLEeEChfHX0QSjA==}
+  '@actview/core@1.0.33':
+    resolution: {integrity: sha512-8LoNtwq2goiI4YuFlrxe5KHCOZ8v2c9QKmGbcYT7S6AnIOp1O1Axj++blwcd4CqTikLwP020bsWy/bXA70jq4A==}
 
   '@actview/jsx@1.0.17':
     resolution: {integrity: sha512-nWpGnJJDWdnyerE0jNpll78/5xxWL2e70TJ7AG2dgHvsgdadFn4+YY6IzmD4LLrMdcAts4+XnwwgDQpzA9B1KQ==}
@@ -361,8 +361,11 @@ packages:
   '@actview/plugin-babel@1.0.4':
     resolution: {integrity: sha512-ibBr3G6Py053rj5nGAKBMVWkDBON72Cbhrl0wCLsX7JAc2l4zN1ZcdWtWSlP344zy99JGxN3fIVvfj/0c4Ra7g==}
 
-  '@actview/plugin-scoped@1.0.3':
-    resolution: {integrity: sha512-jOSneU7VjUCP5OCq7W70W/MvKumfDVNN30mGrrpCFwvE1fuMvhINv1sNh60ja1eTJgxFixH4yhCnABjouosWoA==}
+  '@actview/plugin-babel@1.0.5':
+    resolution: {integrity: sha512-5JOOtTiIsPEpCRi1DTmW7bB3O3az/NLStdCvRwu9NnXgyfHktLmKFY5zT2NreVPx+MVpe6wQRdXJpQ8o0H502Q==}
+
+  '@actview/plugin-scoped@1.0.4':
+    resolution: {integrity: sha512-KhO6DyAVCH2YlxNuzEvg1s2i7JSM5CfivmOvyaC5idYgVJCC9uRVew6aJ0Rpcw8Q2wCodcLjPpGobdthSPsaxw==}
     peerDependencies:
       vite: ^6.0.0 || ^7.0.0 || ^8.0.0
 
@@ -3133,7 +3136,7 @@ packages:
 
 snapshots:
 
-  '@actview/core@1.0.32': {}
+  '@actview/core@1.0.33': {}
 
   '@actview/jsx@1.0.17': {}
 
@@ -3142,9 +3145,14 @@ snapshots:
       '@babel/core': 8.0.1
       '@babel/generator': 8.0.0
 
-  '@actview/plugin-scoped@1.0.3(rolldown-vite@7.3.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@25.9.4)(esbuild@0.27.7)(jiti@1.21.7)(yaml@2.9.0))':
+  '@actview/plugin-babel@1.0.5':
     dependencies:
-      '@actview/plugin-babel': 1.0.4
+      '@babel/core': 8.0.1
+      '@babel/generator': 8.0.0
+
+  '@actview/plugin-scoped@1.0.4(rolldown-vite@7.3.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@25.9.4)(esbuild@0.27.7)(jiti@1.21.7)(yaml@2.9.0))':
+    dependencies:
+      '@actview/plugin-babel': 1.0.5
       '@babel/core': 8.0.1
       postcss: 8.5.15
       postcss-selector-parser: 7.1.4
@@ -3158,7 +3166,7 @@ snapshots:
 
   '@actview/router@1.0.14':
     dependencies:
-      '@actview/core': 1.0.32
+      '@actview/core': 1.0.33
       '@actview/jsx': 1.0.17
 
   '@antfu/install-pkg@1.1.0':
@@ -3975,7 +3983,7 @@ snapshots:
 
   actview@1.0.29:
     dependencies:
-      '@actview/core': 1.0.32
+      '@actview/core': 1.0.33
       '@actview/jsx': 1.0.17
 
   agent-base@6.0.2:

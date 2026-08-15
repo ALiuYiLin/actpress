@@ -27,6 +27,7 @@ export function VPFlyout(props: VPFlyoutProps = {}) {
   return (
     <div
       class={['VPFlyout', props.class].filter(Boolean).join(' ')}
+      scopedId={props.scopedId}
       ref={el}
       onmouseenter={() => (open.value = true)}
       onmouseleave={() => (open.value = false)}
