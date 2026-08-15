@@ -21,7 +21,7 @@ const localeToOgLocaleMap: Record<string, string> = {
 }
 
 export default defineConfig({
-  title: 'VitePress',
+  title: 'ActPress',
 
   rewrites: {
     'en/:rest*': ':rest*'

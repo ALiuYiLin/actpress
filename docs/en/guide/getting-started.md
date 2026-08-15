@@ -22,23 +22,23 @@ VitePress can be used on its own, or be installed into an existing project. In b
 ::: code-group
 
 ```sh [npm]
-$ npm add -D vitepress@next
+$ npm add -D @actview/press
 ```
 
 ```sh [pnpm]
-$ pnpm add -D vitepress@next
+$ pnpm add -D @actview/press
 ```
 
 ```sh [yarn]
-$ yarn add -D vitepress@next vue
+$ yarn add -D @actview/press
 ```
 
 ```sh [bun]
-$ bun add -D vitepress@next
+$ bun add -D @actview/press
 ```
 
 ```sh [deno]
-$ deno add -D vitepress@next
+$ deno add -D @actview/press
 ```
 
 :::
@@ -77,8 +77,8 @@ You will be greeted with a few simple questions:
 
 <<< @/snippets/init.ansi
 
-::: tip Vue as Peer Dependency
-If you intend to perform customization that uses Vue components or APIs, you should also explicitly install `vue` as a dependency.
+::: tip ActView Built-in
+If you intend to perform customization that uses ActView components or APIs, no extra installation is needed — the ActView runtime is installed together with `@actview/press`.
 :::
 
 ## File Structure

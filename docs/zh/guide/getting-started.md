@@ -22,26 +22,26 @@ VitePress 可以单独使用，也可以安装到现有项目中。在这两种�
 ::: code-group
 
 ```sh [npm]
-$ npm add -D vitepress@next
+$ npm add -D @actview/press
 ```
 
 ```sh [pnpm]
-$ pnpm add -D vitepress@next
+$ pnpm add -D @actview/press
 ```
 
 ```sh [yarn]
-$ yarn add -D vitepress@next vue
+$ yarn add -D @actview/press
 ```
 
 ```sh [bun]
-$ bun add -D vitepress@next
+$ bun add -D @actview/press
 ```
 
 :::
 
 ::: tip 注意
 
-VitePress 是仅 ESM 的软件包。不要使用 `require()` 导入它，并确保最新的 `package.json` 包含 `"type": "module"`，或者更改相关文件的文件扩展名，例如 `.vitepress/config.js` 到 `.mjs`/`.mts`。更多详情请参考 [Vite 故障排除指南](http://vitejs.dev/guide/troubleshooting.html#this-package-is-esm-only)。此外，在异步 CJS 上下文中，可以使用 `await import('@actview/press')` 代替。
+ActPress 是仅 ESM 的软件包。不要使用 `require()` 导入它，并确保最新的 `package.json` 包含 `"type": "module"`，或者更改相关文件的文件扩展名，例如 `.vitepress/config.js` 到 `.mjs`/`.mts`。更多详情请参考 [Vite 故障排除指南](http://vitejs.dev/guide/troubleshooting.html#this-package-is-esm-only)。此外，在异步 CJS 上下文中，可以使用 `await import('@actview/press')` 代替。
 
 :::
 
@@ -73,8 +73,8 @@ $ bun vitepress init
 
 <<< @/snippets/init.ansi
 
-::: tip Vue 作为 peer dependency
-如果打算使用 Vue 组件或 API 进行自定义，还应该明确地将 `vue` 安装为 dependency。
+::: tip ActView 已内置
+如果打算使用 ActView 组件或 API 进行自定义，无需额外安装——ActView 运行时已随 `@actview/press` 一并安装。
 :::
 
 ## 文件结构 {#file-structure}
