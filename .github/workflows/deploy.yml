@@ -1,0 +1,81 @@
+# 构建 docs 站点并部署到 GitHub Pages
+#
+# 前置要求（仓库 Settings → Pages）：
+#   Source 选择 "GitHub Actions"（不要选 branch 部署）。
+# 产物：docs/.vitepress/dist → https://<owner>.github.io/<repo>/
+# base 路径取自 actions/configure-pages 的 base_path（项目页为 /<repo>/，
+# 用户/组织页为 /），无需手改。
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'src/**'
+      - 'scripts/**'
+      - 'template/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set node version
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install deps
+        run: pnpm install
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+
+      # 构建 @actview/press 本体：build:prepare(clean+copyShared) +
+      # build:client(tsc src/client + copyClient) + build:node(tsc+rollup)
+      # → dist/node（dev 服务器/构建 CLI）+ dist/client（主题组件）
+      - name: Build actview/press (node + client)
+        run: pnpm build
+
+      - name: Configure Pages
+        id: pages
+        uses: actions/configure-pages@v6
+
+      - name: Build docs site
+        run: pnpm -F docs exec actview-press build --base "${{ steps.pages.outputs.base_path }}"
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/.vitepress/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
