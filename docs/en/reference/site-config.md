@@ -19,8 +19,8 @@ It is recommended to use ES modules syntax in config files. The config file shou
 export default {
   // app level config options
   lang: 'en-US',
-  title: 'VitePress',
-  description: 'Vite & Vue powered static site generator.',
+  title: 'ActPress',
+  description: 'ActView & Vite powered static site generator.',
   ...
 }
 ```
@@ -64,8 +64,8 @@ const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
 export default defineConfig({
   // app level config options
   lang: 'en-US',
-  title: 'VitePress',
-  description: 'Vite & Vue powered static site generator.',
+  title: 'ActPress',
+  description: 'ActView & Vite powered static site generator.',
 
   // theme level config options
   themeConfig: {

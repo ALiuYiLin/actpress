@@ -213,7 +213,7 @@ export default {
 
 ### 路径加载文件 {#paths-loader-file}
 
-由于 VitePress 是静态站点生成器，因此**必须**在构建时确定可能的页面路径。因此，动态路由页面必须伴随**路径加载文件**。对于 `packages/[pkg].md`，我们需要 `packages/[pkg].paths.js` (也支持 `.ts`)：
+由于 ActPress 是静态站点生成器，因此**必须**在构建时确定可能的页面路径。因此，动态路由页面必须伴随**路径加载文件**。对于 `packages/[pkg].md`，我们需要 `packages/[pkg].paths.js` (也支持 `.ts`)：
 
 ```
 .

@@ -9,8 +9,8 @@ Theme config lets you customize your theme. You can define theme config via the 
 ```ts
 export default {
   lang: 'en-US',
-  title: 'VitePress',
-  description: 'Vite & Vue powered static site generator.',
+  title: 'ActPress',
+  description: 'ActView & Vite powered static site generator.',
 
   // Theme related configurations.
   themeConfig: {

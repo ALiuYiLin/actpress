@@ -19,8 +19,8 @@ description: VitePress 站点配置选项的完整参考，包括应用级设置
 export default {
   // 应用级配置选项
   lang: 'en-US',
-  title: 'VitePress',
-  description: 'Vite & Vue powered static site generator.',
+  title: 'ActPress',
+  description: 'ActView & Vite powered static site generator.',
   ...
 }
 ```
@@ -64,8 +64,8 @@ const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
 export default defineConfig({
   // 应用级配置选项
   lang: 'en-US',
-  title: 'VitePress',
-  description: 'Vite & Vue powered static site generator.',
+  title: 'ActPress',
+  description: 'ActView & Vite powered static site generator.',
 
   // 主题级别配置选项
   themeConfig: {

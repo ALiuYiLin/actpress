@@ -1,14 +1,14 @@
 ---
-description: VitePress is a Vite & Vue powered static site generator that lets you create beautiful documentation sites from Markdown.
+description: ActPress is a static site generator based on ActView and Vite that lets you create beautiful documentation sites from Markdown.
 layout: home
 
 hero:
-  name: VitePress
-  text: Vite & Vue Powered Static Site Generator
+  name: ActPress
+  text: ActView & Vite Powered Static Site Generator
   tagline: Markdown to beautiful docs in minutes
   actions:
     - theme: brand
-      text: What is VitePress?
+      text: What is ActPress?
       link: ./guide/what-is-vitepress
     - theme: alt
       text: Quickstart
@@ -18,7 +18,7 @@ hero:
       link: https://github.com/vuejs/vitepress
   image:
     src: /vitepress-logo-large.svg
-    alt: VitePress
+    alt: ActPress
 
 features:
   - icon: 📝
@@ -28,8 +28,8 @@ features:
     title: Enjoy the Vite DX
     details: Instant server start, lightning fast hot updates, and leverage Vite ecosystem plugins.
   - icon: <svg xmlns="http://www.w3.org/2000/svg" width="30" viewBox="0 0 256 220.8"><path fill="#41B883" d="M204.8 0H256L128 220.8 0 0h97.92L128 51.2 157.44 0h47.36Z"/><path fill="#41B883" d="m0 0 128 220.8L256 0h-51.2L128 132.48 50.56 0H0Z"/><path fill="#35495E" d="M50.56 0 128 133.12 204.8 0h-47.36L128 51.2 97.92 0H50.56Z"/></svg>
-    title: Customize with Vue
-    details: Use Vue syntax and components directly in markdown, or build custom themes with Vue.
+    title: Customize with ActView
+    details: Use ActView components directly in markdown, or build custom themes with ActView.
   - icon: 🚀
     title: Ship fast sites
     details: Fast initial load with static HTML, fast post-load navigation with client-side routing.

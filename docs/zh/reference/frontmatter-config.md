@@ -48,8 +48,8 @@ title: VitePress
 
 ```yaml
 ---
-title: VitePress
-titleTemplate: Vite & Vue powered static site generator
+title: ActPress
+titleTemplate: ActView & Vite powered static site generator
 ---
 ```
 

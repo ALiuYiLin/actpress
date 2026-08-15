@@ -5,7 +5,7 @@ const require = createRequire(import.meta.url)
 const pkg = require('@actview/press/package.json')
 
 export default defineAdditionalConfig({
-  description: 'Vite & Vue powered static site generator.',
+  description: 'ActPress is a static site generator based on ActView and Vite.',
 
   themeConfig: {
     nav: nav(),
@@ -65,7 +65,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       text: 'Introduction',
       collapsed: false,
       items: [
-        { text: 'What is VitePress?', link: 'what-is-vitepress' },
+        { text: 'What is ActPress?', link: 'what-is-vitepress' },
         { text: 'Getting Started', link: 'getting-started' },
         { text: 'Routing', link: 'routing' },
         { text: 'Deploy', link: 'deploy' }

@@ -5,7 +5,7 @@ const require = createRequire(import.meta.url)
 const pkg = require('@actview/press/package.json')
 
 export default defineAdditionalConfig({
-  description: '由 Vite 和 Vue 驱动的静态站点生成器',
+  description: 'ActPress 是基于 ActView 和 Vite 的静态站点生成器',
 
   themeConfig: {
     nav: nav(),
@@ -96,7 +96,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       text: '简介',
       collapsed: false,
       items: [
-        { text: '什么是 VitePress？', link: 'what-is-vitepress' },
+        { text: '什么是 ActPress？', link: 'what-is-vitepress' },
         { text: '快速开始', link: 'getting-started' },
         { text: '路由', link: 'routing' },
         { text: '部署', link: 'deploy' }

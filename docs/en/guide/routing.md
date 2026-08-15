@@ -227,7 +227,7 @@ You can generate many pages using a single Markdown file and dynamic data. For e
 
 ### Paths Loader File
 
-Since VitePress is a static site generator, the possible page paths must be determined at build time. Therefore, a dynamic route page **must** be accompanied by a **paths loader file**. For `packages/[pkg].md`, we will need `packages/[pkg].paths.js` (`.ts` is also supported):
+Since ActPress is a static site generator, the possible page paths must be determined at build time. Therefore, a dynamic route page **must** be accompanied by a **paths loader file**. For `packages/[pkg].md`, we will need `packages/[pkg].paths.js` (`.ts` is also supported):
 
 ```
 .

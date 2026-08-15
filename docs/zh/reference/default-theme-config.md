@@ -9,8 +9,8 @@ description: VitePress 默认主题所有可用配置选项的参考。
 ```ts
 export default {
   lang: 'en-US',
-  title: 'VitePress',
-  description: 'Vite & Vue powered static site generator.',
+  title: 'ActPress',
+  description: 'ActView & Vite powered static site generator.',
 
   // 主题相关配置
   themeConfig: {

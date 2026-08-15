@@ -23,8 +23,8 @@ The Hero section comes at the top of the homepage. Here's how you can configure 
 layout: home
 
 hero:
-  name: VitePress
-  text: Vite & Vue powered static site generator.
+  name: ActPress
+  text: ActView & Vite powered static site generator.
   tagline: Lorem ipsum...
   image:
     src: /logo.png
@@ -180,8 +180,8 @@ You can add additional content to your site's homepage just by adding Markdown b
 layout: home
 
 hero:
-  name: VitePress
-  text: Vite & Vue powered static site generator.
+  name: ActPress
+  text: ActView & Vite powered static site generator.
 ---
 
 ## Getting Started

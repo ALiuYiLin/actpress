@@ -23,8 +23,8 @@ Hero 部分位于主页顶部。以下是配置 Hero 的方法。
 layout: home
 
 hero:
-  name: VitePress
-  text: Vite & Vue powered static site generator.
+  name: ActPress
+  text: ActView & Vite powered static site generator.
   tagline: Lorem ipsum...
   image:
     src: /logo.png
@@ -180,8 +180,8 @@ type FeatureIcon =
 layout: home
 
 hero:
-  name: VitePress
-  text: Vite & Vue powered static site generator.
+  name: ActPress
+  text: ActView & Vite powered static site generator.
 ---
 
 ## Getting Started
